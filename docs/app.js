@@ -1,7 +1,13 @@
 const statusEl = document.getElementById('status');
 const outputEl = document.getElementById('output');
 const townInput = document.getElementById('townId');
+const tokenInput = document.getElementById('apiToken');
+const userInput = document.getElementById('apiUser');
+const saveCreds = document.getElementById('saveCreds');
 const loadBtn = document.getElementById('loadBtn');
+
+// Restore saved creds if present
+try{ if(localStorage){ const t = localStorage.getItem('merc_token'); const u = localStorage.getItem('merc_user'); if(t) tokenInput.value = t; if(u) userInput.value = u; } }catch(e){}
 
 let config = { apiBase: 'https://play.mercatorio.io/api', defaultTownId: '1' };
 
@@ -33,11 +39,16 @@ async function fetchMarketData(townId){
   const url = `${config.apiBase}/towns/${encodeURIComponent(townId)}/marketdata`;
   try{
     // Try direct fetch first (may fail in browser due to CORS)
-    const res = await fetch(url);
+    const headers = {};
+    if(tokenInput && tokenInput.value){ headers['Authorization'] = 'Bearer ' + tokenInput.value.trim(); }
+    if(userInput && userInput.value){ headers['X-Merc-User'] = userInput.value.trim(); }
+    const res = await fetch(url, { headers });
     if(!res.ok) throw new Error(`HTTP ${res.status}`);
     const json = await res.json();
     renderMarketOverview(json);
     setStatus('Loaded (direct).');
+    // Save creds if requested
+    try{ if(saveCreds && saveCreds.checked && localStorage){ localStorage.setItem('merc_token', tokenInput.value || ''); localStorage.setItem('merc_user', userInput.value || ''); } }catch(e){}
     return;
   }catch(err){
     console.warn('Direct fetch failed, attempting CORS proxy fallback', err);

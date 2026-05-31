@@ -11,6 +11,9 @@
     <h1>Mercatorio — Prestige Efficiency (MVP)</h1>
     <p>Enter a town ID to load market overview (uses play.mercatorio.io API).</p>
     <label>Town ID: <input id="townId" value="1"></label>
+    <label>API token (optional): <input id="apiToken" type="password" placeholder="paste token for testing"></label>
+    <label>Merc User (optional): <input id="apiUser" placeholder="email"></label>
+    <label><input id="saveCreds" type="checkbox"> Save credentials to this browser (localStorage)</label>
     <button id="loadBtn">Load Market Data</button>
     <div id="status" aria-live="polite"></div>
     <section id="output"></section>
