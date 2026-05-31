@@ -34,15 +34,36 @@ jobs:
             url="$API_BASE/towns/$id/marketdata"
             echo "Fetching $url"
             out="docs/cache/town_${id}.json"
+            # Use curl to capture HTTP status and log results for debugging
+            tmp_out="$out.tmp"
+            http_code="000"
             if [ -n "$TOKEN" ] && [ -n "$USER" ]; then
-              curl -sS -H "Authorization: Bearer $TOKEN" -H "X-Merc-User: $USER" "$url" -o "$out" || echo '{}' > "$out"
+              http_code=$(curl -sS -w "%{http_code}" -H "Authorization: Bearer $TOKEN" -H "X-Merc-User: $USER" "$url" -o "$tmp_out" 2>/dev/null || echo "000")
             elif [ -n "$TOKEN" ]; then
-              curl -sS -H "Authorization: Bearer $TOKEN" "$url" -o "$out" || echo '{}' > "$out"
+              http_code=$(curl -sS -w "%{http_code}" -H "Authorization: Bearer $TOKEN" "$url" -o "$tmp_out" 2>/dev/null || echo "000")
             elif [ -n "$USER" ]; then
-              curl -sS -H "X-Merc-User: $USER" "$url" -o "$out" || echo '{}' > "$out"
+              http_code=$(curl -sS -w "%{http_code}" -H "X-Merc-User: $USER" "$url" -o "$tmp_out" 2>/dev/null || echo "000")
             else
-              curl -sS "$url" -o "$out" || echo '{}' > "$out"
+              http_code=$(curl -sS -w "%{http_code}" "$url" -o "$tmp_out" 2>/dev/null || echo "000")
             fi
+            echo "Fetched HTTP code: $http_code" 
+            if [ "$http_code" = "000" ]; then
+              echo "curl failed for $url" >&2
+              echo '{}' > "$out"
+            else
+              # Accept 2xx as success
+              if [[ "$http_code" == 2* ]]; then
+                mv "$tmp_out" "$out"
+              else
+                echo "Non-2xx response ($http_code) for $url" >&2
+                echo '{}' > "$out"
+                # also dump response for debugging
+                echo "----- response body start -----" >&2
+                sed -n '1,200p' "$tmp_out" >&2 || true
+                echo "----- response body end -----" >&2
+              fi
+            fi
+            # Wrap/cache
             python .github/scripts/wrap_cache.py "${id}"
           done
 
