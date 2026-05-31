@@ -16,12 +16,8 @@ jobs:
 
       - name: Read config towns
         id: read
-        run: |
-          python - <<'PY'
-import json
-cfg=json.load(open('docs/config.json'))
-print('\n'.join(cfg.get('towns', [])))
-PY
+        run: python -c "import json,sys;cfg=json.load(open('docs/config.json'));print('\n'.join(cfg.get('towns', [])))"
+
 
       - name: Fetch market data
         env:
