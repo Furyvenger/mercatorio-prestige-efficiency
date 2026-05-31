@@ -1,5 +1,5 @@
 {
   "apiBase": "https://play.mercatorio.io/api",
-  "defaultTownId": "1",
-  "towns": ["1"]
+  "defaultTownId": "78000248",
+  "towns": ["78000248"]
 }
