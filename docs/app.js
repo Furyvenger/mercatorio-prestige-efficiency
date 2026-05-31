@@ -33,16 +33,21 @@ async function fetchMarketData(townId){
   setStatus('Fetching market overview...');
   outputEl.innerHTML = '';
   const cacheUrl = `cache/town_${encodeURIComponent(townId)}.json`;
-  // Try cached static file first (served by GitHub Pages when available)
-  try{
-    const cres = await fetch(cacheUrl);
-    if(cres.ok){
-      const cjson = await cres.json();
-      renderMarketOverview(cjson);
-      setStatus('Loaded (cache).');
-      return;
-    }
-  }catch(e){ /* ignore cache fetch errors */ }
+  // If credentials provided via UI or URL, prefer direct authenticated fetch (skip cache)
+  const urlParams = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : new URLSearchParams('');
+  const hasCreds = (tokenInput && tokenInput.value) || (userInput && userInput.value) || urlParams.get('token');
+  if(!hasCreds){
+    // Try cached static file first (served by GitHub Pages when available)
+    try{
+      const cres = await fetch(cacheUrl);
+      if(cres.ok){
+        const cjson = await cres.json();
+        renderMarketOverview(cjson);
+        setStatus('Loaded (cache).');
+        return;
+      }
+    }catch(e){ /* ignore cache fetch errors */ }
+  }
 
   const url = `${config.apiBase}/towns/${encodeURIComponent(townId)}/marketdata`;
   try{
