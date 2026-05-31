@@ -8,6 +8,14 @@ const loadBtn = document.getElementById('loadBtn');
 
 // Restore saved creds if present
 try{ if(localStorage){ const t = localStorage.getItem('merc_token'); const u = localStorage.getItem('merc_user'); if(t) tokenInput.value = t; if(u) userInput.value = u; } }catch(e){}
+// Also allow pre-filling via URL query params ?token=...&user=...
+try{
+  const params = new URLSearchParams(window.location.search);
+  const ut = params.get('token'); const uu = params.get('user'); const save = params.get('save');
+  if(ut) tokenInput.value = ut;
+  if(uu) userInput.value = uu;
+  if(save && save === '1' && localStorage){ saveCreds.checked = true; localStorage.setItem('merc_token', ut||''); localStorage.setItem('merc_user', uu||''); }
+}catch(e){}
 
 let config = { apiBase: 'https://play.mercatorio.io/api', defaultTownId: '1' };
 
@@ -81,6 +89,14 @@ async function fetchMarketData(townId){
 function renderMarketOverview(data){
   if(!data || !data.markets){
     outputEl.textContent = 'No market data in response.'; return;
+  }
+  // Show fetched_at if present (added by GH Action)
+  if(data.fetched_at){
+    const meta = document.createElement('div');
+    meta.style.fontSize = '0.9em';
+    meta.style.color = '#6b7280';
+    meta.textContent = 'Cached: ' + data.fetched_at;
+    outputEl.appendChild(meta);
   }
   const markets = data.markets;
   const table = document.createElement('table');

@@ -27,6 +27,7 @@ PY
         env:
           API_BASE: https://play.mercatorio.io/api
           TOKEN: ${{ secrets.MERCATORIO_API_TOKEN }}
+          USER: ${{ secrets.MERCATORIO_API_USER }}
         run: |
           mkdir -p docs/cache
           towns=$(python -c "import json;print(' '.join(json.load(open('docs/config.json')).get('towns',[])))")
@@ -34,11 +35,34 @@ PY
           for id in $towns; do
             url="$API_BASE/towns/$id/marketdata"
             echo "Fetching $url"
-            if [ -n "$TOKEN" ]; then
-              curl -sS -H "Authorization: Bearer $TOKEN" "$url" -o "docs/cache/town_${id}.json" || echo '{}' > "docs/cache/town_${id}.json"
+            out="docs/cache/town_${id}.json"
+            # Prefer both headers if available
+            if [ -n "$TOKEN" ] && [ -n "$USER" ]; then
+              curl -sS -H "Authorization: Bearer $TOKEN" -H "X-Merc-User: $USER" "$url" -o "$out" || echo '{}' > "$out"
+            elif [ -n "$TOKEN" ]; then
+              curl -sS -H "Authorization: Bearer $TOKEN" "$url" -o "$out" || echo '{}' > "$out"
+            elif [ -n "$USER" ]; then
+              curl -sS -H "X-Merc-User: $USER" "$url" -o "$out" || echo '{}' > "$out"
             else
-              curl -sS "$url" -o "docs/cache/town_${id}.json" || echo '{}' > "docs/cache/town_${id}.json"
+              curl -sS "$url" -o "$out" || echo '{}' > "$out"
             fi
+            # Wrap with fetched_at timestamp and ensure markets key exists
+            python - <<'PY'
+import json,datetime,sys
+p='docs/cache/town_%s.json' % ("${id}")
+try:
+    with open(p,'r') as f:
+        data=json.load(f)
+    # If data already contains markets key, keep as-is; else assume data is markets
+    if isinstance(data, dict) and 'markets' in data:
+        out={'fetched_at': datetime.datetime.utcnow().isoformat()+'Z', **data}
+    else:
+        out={'fetched_at': datetime.datetime.utcnow().isoformat()+'Z', 'markets': data}
+except Exception as e:
+    out={'fetched_at': datetime.datetime.utcnow().isoformat()+'Z', 'markets': {}}
+with open(p,'w') as f:
+    json.dump(out, f)
+PY
           done
 
       - name: Commit cache
