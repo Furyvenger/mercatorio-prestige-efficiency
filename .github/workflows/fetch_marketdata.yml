@@ -43,22 +43,19 @@ jobs:
               curl -sS "$url" -o "$out" || echo '{}' > "$out"
             fi
             # Wrap with fetched_at timestamp and ensure markets key exists
-            python - <<'PY'
-import json,datetime,sys
-p='docs/cache/town_%s.json' % ("${id}")
+            python -c "import json,datetime; p='docs/cache/town_%s.json' % ('${id}');
 try:
     with open(p,'r') as f:
         data=json.load(f)
-    # If data already contains markets key, keep as-is; else assume data is markets
     if isinstance(data, dict) and 'markets' in data:
         out={'fetched_at': datetime.datetime.utcnow().isoformat()+'Z', **data}
     else:
         out={'fetched_at': datetime.datetime.utcnow().isoformat()+'Z', 'markets': data}
-except Exception as e:
+except Exception:
     out={'fetched_at': datetime.datetime.utcnow().isoformat()+'Z', 'markets': {}}
 with open(p,'w') as f:
     json.dump(out, f)
-PY
+"
           done
 
       - name: Commit cache
