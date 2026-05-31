@@ -16,8 +16,7 @@ jobs:
 
       - name: Read config towns
         id: read
-        run: python -c "import json,sys;cfg=json.load(open('docs/config.json'));print('\n'.join(cfg.get('towns', [])))"
-
+        run: python -c "import json,sys;cfg=json.load(open('docs/config.json'));print('\\n'.join(cfg.get('towns', [])))"
 
       - name: Fetch market data
         env:
@@ -32,7 +31,6 @@ jobs:
             url="$API_BASE/towns/$id/marketdata"
             echo "Fetching $url"
             out="docs/cache/town_${id}.json"
-            # Prefer both headers if available
             if [ -n "$TOKEN" ] && [ -n "$USER" ]; then
               curl -sS -H "Authorization: Bearer $TOKEN" -H "X-Merc-User: $USER" "$url" -o "$out" || echo '{}' > "$out"
             elif [ -n "$TOKEN" ]; then
@@ -42,20 +40,7 @@ jobs:
             else
               curl -sS "$url" -o "$out" || echo '{}' > "$out"
             fi
-            # Wrap with fetched_at timestamp and ensure markets key exists
-            python -c "import json,datetime; p='docs/cache/town_%s.json' % ('${id}');
-try:
-    with open(p,'r') as f:
-        data=json.load(f)
-    if isinstance(data, dict) and 'markets' in data:
-        out={'fetched_at': datetime.datetime.utcnow().isoformat()+'Z', **data}
-    else:
-        out={'fetched_at': datetime.datetime.utcnow().isoformat()+'Z', 'markets': data}
-except Exception:
-    out={'fetched_at': datetime.datetime.utcnow().isoformat()+'Z', 'markets': {}}
-with open(p,'w') as f:
-    json.dump(out, f)
-"
+            python .github/scripts/wrap_cache.py "${id}"
           done
 
       - name: Commit cache
@@ -63,4 +48,4 @@ with open(p,'w') as f:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add docs/cache || true
-          if git diff --staged --quiet; then echo "No changes to commit"; else git commit -m "Update market cache (GH Action)\\n\\nCo-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>" && git push; fi
+          if git diff --staged --quiet; then echo "No changes to commit"; else git commit -m "Update market cache (GH Action)\n\nCo-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>" && git push; fi
