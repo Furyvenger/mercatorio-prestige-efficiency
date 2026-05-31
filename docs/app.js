@@ -65,6 +65,23 @@ async function fetchMarketData(townId){
     return;
   }catch(err){
     console.warn('Direct fetch failed, attempting CORS proxy fallback', err);
+    // If it's a network/TypeError, it's frequently CORS or network related. Give specific instructions.
+    const isNetwork = err && (err.name === 'TypeError' || String(err).toLowerCase().includes('failed to fetch'));
+    if(isNetwork){
+      setStatus('Network/CORS error when attempting direct fetch.');
+      const host = window.location.origin + window.location.pathname;
+      const example = `${host}?token=<YOUR_TOKEN>&user=<YOUR_EMAIL>`;
+      outputEl.innerHTML = `
+        <p>Direct requests from your browser may be blocked by the API (CORS). To try a live fetch from this browser you can:</p>
+        <ol>
+          <li>Paste your API token and email into the input fields above and click "Load Market Data".</li>
+          <li>Or open this site with query parameters (insecure): <code>${escapeHtml(example)}</code></li>
+          <li>If CORS still blocks requests, use the cached data or deploy a server-side proxy (see docs/DEPLOY.md).</li>
+        </ol>
+        <p style="color:#b91c1c">Warning: putting tokens in URLs or the page is insecure. Only do this for testing.</p>
+      `;
+      return;
+    }
     // Fallback: use a public CORS proxy (for local testing). If this is undesirable for production, deploy a server-side proxy.
     try{
       setStatus('Direct fetch failed; trying CORS proxy...');
