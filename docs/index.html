@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Mercatorio — Prestige Efficiency</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main>
+    <h1>Mercatorio — Prestige Efficiency (MVP)</h1>
+    <p>Enter a town ID to load market overview (uses play.mercatorio.io API).</p>
+    <label>Town ID: <input id="townId" value="1"></label>
+    <button id="loadBtn">Load Market Data</button>
+    <div id="status" aria-live="polite"></div>
+    <section id="output"></section>
+    <footer>
+      <p>Note: If API requests are blocked due to CORS, use a proxy or deploy a server-side proxy.</p>
+    </footer>
+  </main>
+  <script src="app.js" type="module"></script>
+</body>
+</html>

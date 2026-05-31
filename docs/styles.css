@@ -1,0 +1,10 @@
+*{box-sizing:border-box;font-family:Inter,Segoe UI,system-ui,Arial,sans-serif}
+body{margin:24px;background:#f7f7fb;color:#1f2937}
+main{max-width:900px;margin:0 auto;background:#fff;padding:20px;border-radius:8px;box-shadow:0 2px 8px rgba(16,24,40,0.06)}
+h1{margin-top:0}
+label{display:inline-block;margin-right:8px}
+#output{margin-top:16px}
+.table{width:100%;border-collapse:collapse}
+.table th,.table td{padding:8px;border:1px solid #e6e9ef;text-align:left}
+#status{margin-top:8px;color:#444}
+footer{margin-top:16px;font-size:0.9em;color:#6b7280}
