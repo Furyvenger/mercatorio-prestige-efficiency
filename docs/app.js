@@ -171,7 +171,7 @@ async function computePrestigeCosts(){
     recipesObj = await r.json();
   }catch(e){ setStatus('Failed to load recipes: '+(e.message||e)); return; }
 
-  const recipes = Object.values(recipesObj).filter(rcp => (rcp.prestige && Number(rcp.prestige) != 0) || (rcp.points && Number(rcp.points) != 0));
+  const recipes = Object.values(recipesObj).filter(rcp => rcp.prestige && Number(rcp.prestige) != 0);
   const results = [];
   for(const rec of recipes){
     const inputs = rec.inputs || [];
@@ -187,7 +187,7 @@ async function computePrestigeCosts(){
       breakdown.push({ product: prod, amount: amt, unitPrice: unitPrice, cost });
       totalCost += cost;
     }
-    let prestige = Number(rec.prestige || rec.points || 0);
+    let prestige = Number(rec.prestige || 0);
     // recipes have prestige values scaled down by 100; convert to in-game scale
     prestige = prestige * 100;
     let costPerPrestige = null;
