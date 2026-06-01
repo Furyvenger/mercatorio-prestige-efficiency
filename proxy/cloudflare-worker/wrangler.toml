@@ -2,6 +2,5 @@ name = "mercatorio-proxy"
 main = "index.js"
 compatibility_date = "2026-01-01"
 
-# Fill in your account_id and optionally a route or zone for a custom domain
-# account_id = "your-cloudflare-account-id"
-# workers_dev = true
+account_id = "644eb28096d7f1e99e95127e0cda7714"
+workers_dev = true
