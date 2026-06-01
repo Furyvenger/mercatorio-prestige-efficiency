@@ -14,11 +14,16 @@
     <label>API token (optional): <input id="apiToken" type="password" placeholder="paste token for testing"></label>
     <label>Merc User (optional): <input id="apiUser" placeholder="email"></label>
     <label><input id="saveCreds" type="checkbox"> Save credentials to this browser (localStorage)</label>
-    <button id="loadBtn">Load Market Data</button>
+    <label><input id="useCache" type="checkbox"> Use cached market data (prefer docs/cache)</label>
+    <div>
+      <button id="loadBtn">Load Market Data</button>
+      <button id="computeBtn">Compute Prestige Efficiency (recipes season 7)</button>
+    </div>
     <div id="status" aria-live="polite"></div>
     <section id="output"></section>
+    <section id="prestigeResults"></section>
     <footer>
-      <p>Note: If API requests are blocked due to CORS, use a proxy or deploy a server-side proxy.</p>
+      <p>Note: If API requests are blocked due to CORS, use a proxy or deploy a server-side proxy or Cloudflare Worker proxy as documented.</p>
     </footer>
   </main>
   <script src="app.js" type="module"></script>

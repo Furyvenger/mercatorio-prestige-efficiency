@@ -29,14 +29,16 @@ async function loadConfig(){
 
 function setStatus(msg){ statusEl.textContent = msg }
 
-async function fetchMarketData(townId){
+async function fetchMarketData(townId, options = { forceCache: false }){
   setStatus('Fetching market overview...');
   outputEl.innerHTML = '';
   const cacheUrl = `cache/town_${encodeURIComponent(townId)}.json`;
-  // If credentials provided via UI or URL, prefer direct authenticated fetch (skip cache)
+  // If credentials provided via UI or URL, prefer direct authenticated fetch (skip cache) unless forceCache is set
   const urlParams = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : new URLSearchParams('');
   const hasCreds = (tokenInput && tokenInput.value) || (userInput && userInput.value) || urlParams.get('token');
-  if(!hasCreds){
+  const preferCache = options.forceCache || (document.getElementById('useCache') && document.getElementById('useCache').checked);
+
+  if(preferCache || !hasCreds){
     // Try cached static file first (served by GitHub Pages when available)
     try{
       const cres = await fetch(cacheUrl);
@@ -44,7 +46,7 @@ async function fetchMarketData(townId){
         const cjson = await cres.json();
         renderMarketOverview(cjson);
         setStatus('Loaded (cache).');
-        return;
+        return cjson;
       }
     }catch(e){ /* ignore cache fetch errors */ }
   }
@@ -62,7 +64,7 @@ async function fetchMarketData(townId){
     setStatus('Loaded (direct).');
     // Save creds if requested
     try{ if(saveCreds && saveCreds.checked && localStorage){ localStorage.setItem('merc_token', tokenInput.value || ''); localStorage.setItem('merc_user', userInput.value || ''); } }catch(e){}
-    return;
+    return json;
   }catch(err){
     console.warn('Direct fetch failed, attempting CORS proxy fallback', err);
     // If it's a network/TypeError, it's frequently CORS or network related. Give specific instructions.
@@ -80,7 +82,7 @@ async function fetchMarketData(townId){
         </ol>
         <p style="color:#b91c1c">Warning: putting tokens in URLs or the page is insecure. Only do this for testing.</p>
       `;
-      return;
+      return null;
     }
     // Fallback: use a public CORS proxy (for local testing). If this is undesirable for production, deploy a server-side proxy.
     try{
@@ -97,13 +99,13 @@ async function fetchMarketData(townId){
       }
       renderMarketOverview(json);
       setStatus('Loaded (via proxy).');
-      return;
+      return json;
     }catch(proxyErr){
       console.error('Proxy fetch failed', proxyErr);
       setStatus('Error fetching API: '+(proxyErr.message||proxyErr)+'. See console for details.');
       outputEl.innerHTML = `<pre>${proxyErr.stack||proxyErr}</pre>`;
       // Fallback to local mock data so the UI remains usable during development
-      try{ await loadMockData(); }catch(e){ console.warn('Mock load failed', e); }
+      try{ const mock = await loadMockData(); return mock; }catch(e){ console.warn('Mock load failed', e); return null; }
     }
   }
 }
@@ -149,16 +151,113 @@ async function loadMockData(){
     const j = await r.json();
     renderMarketOverview(j);
     setStatus('Loaded (mock).');
+    return j;
   }catch(e){
     console.error('Mock data load failed', e);
     setStatus('No mock data available: '+(e.message||e));
     outputEl.innerHTML = `<pre>${e.stack||e}</pre>`;
-    throw e;
+    return null;
   }
+}
+
+// Helper: determine unit price for a product from markets map
+function getUnitPrice(markets, product){
+  if(!markets || !product) return null;
+  const m = markets[product];
+  if(!m) return null;
+  if(m.last_price != null) return Number(m.last_price);
+  if(m.highest_bid != null && m.lowest_ask != null) return (Number(m.highest_bid) + Number(m.lowest_ask)) / 2;
+  return null;
+}
+
+// Compute prestige costs using recipes_season_7.json from this repo (raw github URL)
+async function computePrestigeCosts(){
+  setStatus('Computing prestige costs...');
+  const townId = townInput.value;
+  const preferCache = document.getElementById('useCache') && document.getElementById('useCache').checked;
+  const data = await fetchMarketData(townId, { forceCache: preferCache });
+  if(!data){ setStatus('No market data available'); return; }
+  const markets = data.markets || {};
+
+  let recipesObj;
+  try{
+    const r = await fetch('https://raw.githubusercontent.com/Furyvenger/mercatorio-prestige-efficiency/main/recipes_season_7.json');
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    recipesObj = await r.json();
+  }catch(e){ setStatus('Failed to load recipes: '+(e.message||e)); return; }
+
+  const recipes = Object.values(recipesObj).filter(rcp => rcp.prestige && Number(rcp.prestige) > 0);
+  const results = [];
+  for(const rec of recipes){
+    const inputs = rec.inputs || [];
+    let totalCost = 0;
+    const missing = [];
+    const breakdown = [];
+    for(const inp of inputs){
+      const amt = Number(inp.amount || 0);
+      const prod = inp.product;
+      const unitPrice = getUnitPrice(markets, prod);
+      if(unitPrice == null) missing.push(prod);
+      const cost = (unitPrice == null ? 0 : unitPrice * amt);
+      breakdown.push({ product: prod, amount: amt, unitPrice: unitPrice, cost });
+      totalCost += cost;
+    }
+    const prestige = Number(rec.prestige || rec.points || 0);
+    const costPerPrestige = prestige > 0 ? (totalCost / prestige) : null;
+    results.push({ name: rec.name || rec.product || '', prestige, totalCost, costPerPrestige, missing, breakdown, recipe: rec });
+  }
+
+  results.sort((a,b)=>{
+    if(a.costPerPrestige == null) return 1;
+    if(b.costPerPrestige == null) return -1;
+    return a.costPerPrestige - b.costPerPrestige;
+  });
+
+  renderPrestigeResults(results, data);
+  setStatus('Computed '+results.length+' recipes.');
+}
+
+function renderPrestigeResults(results, data){
+  const container = document.getElementById('prestigeResults');
+  container.innerHTML = '';
+  const table = document.createElement('table'); table.className = 'table';
+  const thead = document.createElement('thead'); thead.innerHTML = '<tr><th>Recipe</th><th>Prestige</th><th>Cost</th><th>Cost / prestige</th><th>Missing</th><th>Details</th></tr>';
+  table.appendChild(thead);
+  const tbody = document.createElement('tbody');
+  results.forEach((r, idx)=>{
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${escapeHtml(r.name)}</td><td>${r.prestige}</td><td>${r.totalCost.toFixed(2)}</td><td>${r.costPerPrestige==null?'-':r.costPerPrestige.toFixed(4)}</td><td>${r.missing.length}</td><td><button data-idx="${idx}" class="detailsBtn">Details</button></td>`;
+    tbody.appendChild(tr);
+  });
+  table.appendChild(tbody);
+  container.appendChild(table);
+
+  container.addEventListener('click', (e)=>{
+    if(e.target && e.target.classList.contains('detailsBtn')){
+      const i = Number(e.target.getAttribute('data-idx'));
+      const r = results[i];
+      const detailDiv = document.createElement('div');
+      detailDiv.className = 'detail';
+      detailDiv.innerHTML = `<h3>${escapeHtml(r.name)}</h3><p>Prestige: ${r.prestige}</p><p>Total cost: ${r.totalCost.toFixed(2)}</p><p>Cost per prestige: ${r.costPerPrestige==null? 'N/A' : r.costPerPrestige.toFixed(4)}</p>`;
+      const list = document.createElement('ul');
+      r.breakdown.forEach(b=>{
+        list.innerHTML += `<li>${escapeHtml(b.product)} — amount: ${b.amount}, unitPrice: ${b.unitPrice==null?'-':b.unitPrice}, cost: ${b.cost.toFixed(2)}</li>`;
+      });
+      detailDiv.appendChild(list);
+      const src = data.fetched_at ? 'cache' : 'live';
+      detailDiv.appendChild(document.createElement('hr'));
+      const meta = document.createElement('div'); meta.style.fontSize='0.9em'; meta.style.color='#6b7280'; meta.textContent = 'Prices source: '+src; detailDiv.appendChild(meta);
+      const existing = container.querySelector('.detail');
+      if(existing) existing.remove();
+      container.appendChild(detailDiv);
+    }
+  });
 }
 
 loadConfig();
 loadBtn.addEventListener('click', ()=>fetchMarketData(townInput.value));
+const computeBtn = document.getElementById('computeBtn');
+if(computeBtn) computeBtn.addEventListener('click', ()=>computePrestigeCosts());
 
 // Auto-load once on start
 window.addEventListener('load', ()=>fetchMarketData(townInput.value));
