@@ -27,11 +27,13 @@ async function loadConfig(){
   townInput.value = config.defaultTownId || townInput.value;
 }
 
-function setStatus(msg){ statusEl.textContent = msg }
+function setStatus(msg){ if(statusEl) statusEl.textContent = msg }
+
+function clearOutput(){ if(outputEl) outputEl.innerHTML = ''; } 
 
 async function fetchMarketData(townId, options = { forceCache: false }){
   setStatus('Fetching market overview...');
-  outputEl.innerHTML = '';
+  clearOutput();
   const cacheUrl = `cache/town_${encodeURIComponent(townId)}.json`;
   // If credentials provided via UI or URL, prefer direct authenticated fetch (skip cache) unless forceCache is set
   const urlParams = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : new URLSearchParams('');
@@ -103,7 +105,7 @@ async function fetchMarketData(townId, options = { forceCache: false }){
     }catch(proxyErr){
       console.error('Proxy fetch failed', proxyErr);
       setStatus('Error fetching API: '+(proxyErr.message||proxyErr)+'. See console for details.');
-      outputEl.innerHTML = `<pre>${proxyErr.stack||proxyErr}</pre>`;
+            if(outputEl) outputEl.innerHTML = `<pre>${proxyErr.stack||proxyErr}</pre>`;
       // Fallback to local mock data so the UI remains usable during development
       try{ const mock = await loadMockData(); return mock; }catch(e){ console.warn('Mock load failed', e); return null; }
     }
@@ -112,8 +114,8 @@ async function fetchMarketData(townId, options = { forceCache: false }){
 
 function renderMarketOverview(data){
   // Do not render the full market table — only keep minimal metadata for prestige computations.
-  outputEl.innerHTML = '';
-  if(data && data.fetched_at){
+  clearOutput();
+  if(data && data.fetched_at && outputEl){
     const meta = document.createElement('div');
     meta.style.fontSize = '0.9em';
     meta.style.color = '#6b7280';
@@ -127,7 +129,7 @@ function escapeHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt
 
 async function loadMockData(){
   setStatus('Loading mock data...');
-  outputEl.innerHTML = '';
+  clearOutput();
   try{
     const r = await fetch('sample_marketdata.json');
     if(!r.ok) throw new Error(`HTTP ${r.status}`);
@@ -138,7 +140,7 @@ async function loadMockData(){
   }catch(e){
     console.error('Mock data load failed', e);
     setStatus('No mock data available: '+(e.message||e));
-    outputEl.innerHTML = `<pre>${e.stack||e}</pre>`;
+    if(outputEl) outputEl.innerHTML = `<pre>${e.stack||e}</pre>`;
     return null;
   }
 }
