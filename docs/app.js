@@ -111,32 +111,15 @@ async function fetchMarketData(townId, options = { forceCache: false }){
 }
 
 function renderMarketOverview(data){
-  if(!data || !data.markets){
-    outputEl.textContent = 'No market data in response.'; return;
-  }
-  // Show fetched_at if present (added by GH Action)
-  if(data.fetched_at){
+  // Do not render the full market table — only keep minimal metadata for prestige computations.
+  outputEl.innerHTML = '';
+  if(data && data.fetched_at){
     const meta = document.createElement('div');
     meta.style.fontSize = '0.9em';
     meta.style.color = '#6b7280';
-    meta.textContent = 'Cached: ' + data.fetched_at;
+    meta.textContent = 'Prices cached: ' + data.fetched_at;
     outputEl.appendChild(meta);
   }
-  const markets = data.markets;
-  const table = document.createElement('table');
-  table.className = 'table';
-  const thead = document.createElement('thead');
-  thead.innerHTML = '<tr><th>Product</th><th>Last price</th><th>Highest bid</th><th>Lowest ask</th><th>Volume</th></tr>';
-  table.appendChild(thead);
-  const tbody = document.createElement('tbody');
-  Object.keys(markets).forEach(product => {
-    const m = markets[product];
-    const tr = document.createElement('tr');
-    tr.innerHTML = `<td>${escapeHtml(product)}</td><td>${fmt(m.last_price)}</td><td>${fmt(m.highest_bid)}</td><td>${fmt(m.lowest_ask)}</td><td>${fmt(m.volume)}</td>`;
-    tbody.appendChild(tr);
-  });
-  table.appendChild(tbody);
-  outputEl.appendChild(table);
 }
 
 function fmt(v){ return v==null?'-':String(v) }
@@ -186,7 +169,7 @@ async function computePrestigeCosts(){
     recipesObj = await r.json();
   }catch(e){ setStatus('Failed to load recipes: '+(e.message||e)); return; }
 
-  const recipes = Object.values(recipesObj).filter(rcp => rcp.prestige && Number(rcp.prestige) > 0);
+  const recipes = Object.values(recipesObj).filter(rcp => (rcp.prestige && Number(rcp.prestige) != 0) || (rcp.points && Number(rcp.points) != 0));
   const results = [];
   for(const rec of recipes){
     const inputs = rec.inputs || [];
@@ -202,12 +185,22 @@ async function computePrestigeCosts(){
       breakdown.push({ product: prod, amount: amt, unitPrice: unitPrice, cost });
       totalCost += cost;
     }
-    const prestige = Number(rec.prestige || rec.points || 0);
-    const costPerPrestige = prestige > 0 ? (totalCost / prestige) : null;
+    let prestige = Number(rec.prestige || rec.points || 0);
+    // recipes have prestige values scaled down by 100; convert to in-game scale
+    prestige = prestige * 100;
+    let costPerPrestige = null;
+    // If any input is missing a price, mark cost per prestige as unknown (null)
+    if(missing.length === 0 && prestige > 0){
+      costPerPrestige = totalCost / prestige;
+    }
     results.push({ name: rec.name || rec.product || '', prestige, totalCost, costPerPrestige, missing, breakdown, recipe: rec });
   }
 
+  // Sort: recipes without missing prices first (ascending cost), then recipes with missing prices
   results.sort((a,b)=>{
+    if(a.missing.length && !b.missing.length) return 1;
+    if(!a.missing.length && b.missing.length) return -1;
+    if(a.costPerPrestige == null && b.costPerPrestige == null) return a.name.localeCompare(b.name);
     if(a.costPerPrestige == null) return 1;
     if(b.costPerPrestige == null) return -1;
     return a.costPerPrestige - b.costPerPrestige;
@@ -225,8 +218,10 @@ function renderPrestigeResults(results, data){
   table.appendChild(thead);
   const tbody = document.createElement('tbody');
   results.forEach((r, idx)=>{
+    const costDisplay = r.missing.length ? '?' : r.totalCost.toFixed(2);
+    const cppDisplay = (r.costPerPrestige==null ? '?' : r.costPerPrestige.toFixed(4));
     const tr = document.createElement('tr');
-    tr.innerHTML = `<td>${escapeHtml(r.name)}</td><td>${r.prestige}</td><td>${r.totalCost.toFixed(2)}</td><td>${r.costPerPrestige==null?'-':r.costPerPrestige.toFixed(4)}</td><td>${r.missing.length}</td><td><button data-idx="${idx}" class="detailsBtn">Details</button></td>`;
+    tr.innerHTML = `<td>${escapeHtml(r.name)}</td><td>${r.prestige}</td><td>${costDisplay}</td><td>${cppDisplay}</td><td>${r.missing.length}</td><td><button data-idx="${idx}" class="detailsBtn">Details</button></td>`;
     tbody.appendChild(tr);
   });
   table.appendChild(tbody);
@@ -238,10 +233,12 @@ function renderPrestigeResults(results, data){
       const r = results[i];
       const detailDiv = document.createElement('div');
       detailDiv.className = 'detail';
-      detailDiv.innerHTML = `<h3>${escapeHtml(r.name)}</h3><p>Prestige: ${r.prestige}</p><p>Total cost: ${r.totalCost.toFixed(2)}</p><p>Cost per prestige: ${r.costPerPrestige==null? 'N/A' : r.costPerPrestige.toFixed(4)}</p>`;
+      detailDiv.innerHTML = `<h3>${escapeHtml(r.name)}</h3><p>Prestige: ${r.prestige}</p><p>Total cost: ${r.missing.length ? '?' : r.totalCost.toFixed(2)}</p><p>Cost per prestige: ${r.costPerPrestige==null? '?' : r.costPerPrestige.toFixed(4)}</p>`;
       const list = document.createElement('ul');
       r.breakdown.forEach(b=>{
-        list.innerHTML += `<li>${escapeHtml(b.product)} — amount: ${b.amount}, unitPrice: ${b.unitPrice==null?'-':b.unitPrice}, cost: ${b.cost.toFixed(2)}</li>`;
+        const up = b.unitPrice==null? '?' : b.unitPrice;
+        const cost = (b.unitPrice==null? '?' : b.cost.toFixed(2));
+        list.innerHTML += `<li>${escapeHtml(b.product)} — amount: ${b.amount}, unitPrice: ${up}, cost: ${cost}</li>`;
       });
       detailDiv.appendChild(list);
       const src = data.fetched_at ? 'cache' : 'live';
