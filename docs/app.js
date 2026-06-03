@@ -207,7 +207,7 @@ async function computePrestigeCosts(){
           householdEntries = parsed.map(h => ({
             name: (h.product || 'household') + ' (household)',
             inputs: [{ product: h.product, amount: Number(h.volume||0) }],
-            prestige: Number(h.prestige||0) * 100,
+            prestige: Number(h.prestige||0),
             source: 'household',
             raw: h
           }));
