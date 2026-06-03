@@ -36,13 +36,13 @@
   { "product": "plate armour", "volume": 0.2, "prestige": 5, "category": "gear" },
   { "product": "premium swords", "volume": 0.5, "prestige": 8, "category": "gear" },
   { "product": "premium armour", "volume": 0.1, "prestige": 10, "category": "gear" },
-  { "product": "donations", "volume": 40, "prestige": 1, "category": "other" },
-  { "product": "jewellery", "volume": 1, "prestige": 2, "category": "other" },
-  { "product": "paper", "volume": 5, "prestige": 2, "category": "other" },
-  { "product": "candles", "volume": 1.5, "prestige": 3, "category": "other" },
-  { "product": "soap", "volume": 2, "prestige": 3.5, "category": "other" },
-  { "product": "medicine", "volume": 1, "prestige": 3, "category": "other" },
-  { "product": "windows", "volume": 0.25, "prestige": 4, "category": "other" },
-  { "product": "tapestries", "volume": 0.25, "prestige": 4, "category": "other" },
-  { "product": "books", "volume": 0.35, "prestige": 5, "category": "other" }
+  { "product": "donations", "volume": 40, "prestige": 1, "category": "luxury" },
+  { "product": "jewellery", "volume": 1, "prestige": 2, "category": "luxury" },
+  { "product": "paper", "volume": 5, "prestige": 2, "category": "luxury" },
+  { "product": "candles", "volume": 1.5, "prestige": 3, "category": "luxury" },
+  { "product": "soap", "volume": 2, "prestige": 3.5, "category": "luxury" },
+  { "product": "medicine", "volume": 1, "prestige": 3, "category": "luxury" },
+  { "product": "windows", "volume": 0.25, "prestige": 4, "category": "luxury" },
+  { "product": "tapestries", "volume": 0.25, "prestige": 4, "category": "luxury" },
+  { "product": "books", "volume": 0.35, "prestige": 5, "category": "luxury" }
 ]
