@@ -191,11 +191,11 @@ async function computePrestigeCosts(){
 
   try{
     const candidates = [
-      'https://raw.githubusercontent.com/Furyvenger/mercatorio-prestige-efficiency/main/household.json',
+      'docs/household.json',
       'household.json',
       '../household.json',
       '/household.json',
-      'docs/household.json'
+      'https://raw.githubusercontent.com/Furyvenger/mercatorio-prestige-efficiency/main/household.json'
     ];
     for(const url of candidates){
       try{
