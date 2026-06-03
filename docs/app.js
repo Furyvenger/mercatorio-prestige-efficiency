@@ -172,8 +172,30 @@ async function computePrestigeCosts(){
   }catch(e){ setStatus('Failed to load recipes: '+(e.message||e)); return; }
 
   const recipes = Object.values(recipesObj).filter(rcp => rcp.prestige && Number(rcp.prestige) != 0);
+  // Load household entries (if present) and normalize
+  let householdEntries = [];
+  try{
+    const hres = await fetch('https://raw.githubusercontent.com/Furyvenger/mercatorio-prestige-efficiency/main/household.json');
+    if(hres.ok){
+      const hjson = await hres.json();
+      // Normalize: each household item becomes a pseudo-recipe with one input (the product) and a prestige value
+      householdEntries = hjson.map(h => ({
+        name: (h.product || 'household') + ' (household)',
+        inputs: [{ product: h.product, amount: Number(h.volume||0) }],
+        prestige: Number(h.prestige||0) * 100,
+        source: 'household',
+        raw: h
+      }));
+    }
+  }catch(e){ /* ignore household load errors, proceed without household */ }
+
   const results = [];
-  for(const rec of recipes){
+  // Combine recipe entries and household entries; mark source for recipes
+  const allEntries = [];
+  recipes.forEach(r=> allEntries.push(Object.assign({ source: 'recipe' }, r)));
+  householdEntries.forEach(h=> allEntries.push(h));
+
+  for(const rec of allEntries){
     const inputs = rec.inputs || [];
     let totalCost = 0;
     const missing = [];
@@ -188,17 +210,16 @@ async function computePrestigeCosts(){
       totalCost += cost;
     }
     let prestige = Number(rec.prestige || 0);
-    // recipes have prestige values scaled down by 100; convert to in-game scale
-    prestige = prestige * 100;
+    // If this came from the recipes file (which used small numbers), ensure scale (recipes already scaled earlier elsewhere)
+    if(rec.source === 'recipe') prestige = prestige * 100;
     let costPerPrestige = null;
-    // If any input is missing a price, mark cost per prestige as unknown (null)
     if(missing.length === 0 && prestige > 0){
       costPerPrestige = totalCost / prestige;
     }
-    results.push({ name: rec.name || rec.product || '', prestige, totalCost, costPerPrestige, missing, breakdown, recipe: rec });
+    results.push({ name: rec.name || rec.product || '', prestige, totalCost, costPerPrestige, missing, breakdown, recipe: rec, source: rec.source || 'recipe' });
   }
 
-  // Sort: recipes without missing prices first (ascending cost), then recipes with missing prices
+  // Sort: entries without missing prices first (ascending cost), then entries with missing prices
   results.sort((a,b)=>{
     if(a.missing.length && !b.missing.length) return 1;
     if(!a.missing.length && b.missing.length) return -1;
@@ -209,7 +230,7 @@ async function computePrestigeCosts(){
   });
 
   renderPrestigeResults(results, data);
-  setStatus('Computed '+results.length+' recipes.');
+  setStatus('Computed '+results.length+' methods.');
 }
 
 function renderPrestigeResults(results, data){
@@ -224,6 +245,10 @@ function renderPrestigeResults(results, data){
     const cppDisplay = (r.costPerPrestige==null ? '?' : r.costPerPrestige.toFixed(4));
     const tr = document.createElement('tr');
     tr.innerHTML = `<td>${escapeHtml(r.name)}</td><td>${r.prestige}</td><td>${costDisplay}</td><td>${cppDisplay}</td><td>${r.missing.length}</td><td><button data-idx="${idx}" class="detailsBtn">Details</button></td>`;
+    // Highlight household-derived methods
+    if(r.source === 'household'){
+      tr.style.background = '#fff7cc';
+    }
     tbody.appendChild(tr);
   });
   table.appendChild(tbody);

@@ -1,0 +1,185 @@
+[{
+	product: "grain",
+	volume: 2,
+	prestige: .1
+}, {
+	product: "flour",
+	volume: .5,
+	prestige: .2
+}, {
+	product: "bread",
+	volume: 3,
+	prestige: .3
+}, {
+	product: "pasties",
+	volume: 2,
+	prestige: 1.3
+}, {
+	product: "pies",
+	volume: 2,
+	prestige: 1.5
+}, {
+	product: "firewood",
+	volume: 2,
+	prestige: .1
+}, {
+	product: "charcoal",
+	volume: 2,
+	prestige: .1
+}, {
+	product: "wool",
+	volume: 1,
+	prestige: .2
+}, {
+	product: "cloth",
+	volume: 2,
+	prestige: .4
+}, {
+	product: "dyed cloth",
+	volume: 2,
+	prestige: .7
+}, {
+	product: "garments",
+	volume: 1.5,
+	prestige: 1.2
+}, {
+	product: "coats",
+	volume: 1,
+	prestige: 2
+}, {
+	product: "premium cloth",
+	volume: 1.5,
+	prestige: 2.5
+}, {
+	product: "premium garments",
+	volume: 1,
+	prestige: 5
+}, {
+	product: "milk",
+	volume: 2,
+	prestige: .1
+}, {
+	product: "beer",
+	volume: 3,
+	prestige: .4
+}, {
+	product: "wine",
+	volume: 3,
+	prestige: .7
+}, {
+	product: "hop beer",
+	volume: 3,
+	prestige: 1
+}, {
+	product: "furniture",
+	volume: 1,
+	prestige: .4
+}, {
+	product: "cookware",
+	volume: 1,
+	prestige: .6
+}, {
+	product: "glassware",
+	volume: .75,
+	prestige: 1
+}, {
+	product: "premium glassware",
+	volume: .75,
+	prestige: 4
+}, {
+	product: "meat",
+	volume: 5,
+	prestige: .3
+}, {
+	product: "fish",
+	volume: 5,
+	prestige: .3
+}, {
+	product: "cheese",
+	volume: 2,
+	prestige: .4
+}, {
+	product: "cured meat",
+	volume: 1,
+	prestige: .7
+}, {
+	product: "cured fish",
+	volume: 1,
+	prestige: .8
+}, {
+	product: "ham",
+	volume: 1,
+	prestige: 2
+}, {
+	product: "stockfish",
+	volume: 1,
+	prestige: 2.2
+}, {
+	product: "premium cheese",
+	volume: 2,
+	prestige: 2
+}, {
+	product: "premium ham",
+	volume: .5,
+	prestige: 4
+}, {
+	product: "arms",
+	volume: .5,
+	prestige: .4
+}, {
+	product: "swords",
+	volume: .5,
+	prestige: 2
+}, {
+	product: "light armour",
+	volume: .2,
+	prestige: .5
+}, {
+	product: "plate armour",
+	volume: .2,
+	prestige: 5
+}, {
+	product: "premium swords",
+	volume: .5,
+	prestige: 8
+}, {
+	product: "premium armour",
+	volume: .1,
+	prestige: 10
+}, {
+	product: "donations",
+	volume: 40,
+	prestige: 1
+}, {
+	product: "jewellery",
+	volume: 1,
+	prestige: 2
+}, {
+	product: "paper",
+	volume: 5,
+	prestige: 2
+}, {
+	product: "candles",
+	volume: 1.5,
+	prestige: 3
+}, {
+	product: "soap",
+	volume: 2,
+	prestige: 3.5
+}, {
+	product: "medicine",
+	volume: 1,
+	prestige: 3
+}, {
+	product: "windows",
+	volume: .25,
+	prestige: 4
+}, {
+	product: "tapestries",
+	volume: .25,
+	prestige: 4
+}, {
+	product: "books",
+	volume: .35,
+	prestige: 5
+}]
