@@ -204,15 +204,24 @@ async function computePrestigeCosts(){
         const txt = await res.text();
         const parsed = await tryParseHouseholdText(txt);
         if(parsed && Array.isArray(parsed)){
-          householdEntries = parsed.map(h => ({
-            name: (h.product || 'household') + (h.category ? ` (${h.category})` : ' (household)'),
-            inputs: [{ product: h.product, amount: Number(h.volume||0) }],
-            prestige: Number(h.prestige||0),
-            source: 'household',
-            category: h.category || null,
-            raw: h
-          }));
-          setStatus('Loaded '+householdEntries.length+' household entries from '+url);
+          const apprentices = Number(document.getElementById('apprentices')?.value || 0);
+          const factor = 1 + 0.25 * Math.max(0, apprentices);
+          householdEntries = parsed.map(h => {
+            let amt = Number(h.volume||0);
+            // apprentices increase household consumption excluding gear and luxury
+            if(!h.category || !['gear','luxury'].includes(h.category)){
+              amt = amt * factor;
+            }
+            return {
+              name: (h.product || 'household') + (h.category ? ` (${h.category})` : ' (household)'),
+              inputs: [{ product: h.product, amount: amt }],
+              prestige: Number(h.prestige||0),
+              source: 'household',
+              category: h.category || null,
+              raw: h
+            };
+          });
+          setStatus('Loaded '+householdEntries.length+' household entries from '+url+(apprentices?(' (apprentices x'+apprentices+', factor '+factor.toFixed(2)+')') : ''));
           break;
         }
       }catch(e){ /* try next */ }
