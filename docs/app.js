@@ -172,22 +172,51 @@ async function computePrestigeCosts(){
   }catch(e){ setStatus('Failed to load recipes: '+(e.message||e)); return; }
 
   const recipes = Object.values(recipesObj).filter(rcp => rcp.prestige && Number(rcp.prestige) != 0);
-  // Load household entries (if present) and normalize
+  // Load household entries (if present) and normalize (robust parser)
   let householdEntries = [];
-  try{
-    const hres = await fetch('https://raw.githubusercontent.com/Furyvenger/mercatorio-prestige-efficiency/main/household.json');
-    if(hres.ok){
-      const hjson = await hres.json();
-      // Normalize: each household item becomes a pseudo-recipe with one input (the product) and a prestige value
-      householdEntries = hjson.map(h => ({
-        name: (h.product || 'household') + ' (household)',
-        inputs: [{ product: h.product, amount: Number(h.volume||0) }],
-        prestige: Number(h.prestige||0) * 100,
-        source: 'household',
-        raw: h
-      }));
+  async function tryParseHouseholdText(text){
+    if(!text) return null;
+    try{ return JSON.parse(text); }catch(e){
+      // Attempt to convert JS-style object literal to JSON: quote unquoted keys and normalize quotes
+      try{
+        let t = text.replace(/([\{,\s])([a-zA-Z0-9_\-]+)\s*:/g, '$1"$2":');
+        t = t.replace(/\'/g, '"');
+        return JSON.parse(t);
+      }catch(e2){
+        console.warn('Household parse fallback failed', e2);
+        return null;
+      }
     }
-  }catch(e){ /* ignore household load errors, proceed without household */ }
+  }
+
+  try{
+    const candidates = [
+      'https://raw.githubusercontent.com/Furyvenger/mercatorio-prestige-efficiency/main/household.json',
+      'household.json',
+      '../household.json',
+      '/household.json',
+      'docs/household.json'
+    ];
+    for(const url of candidates){
+      try{
+        const res = await fetch(url);
+        if(!res.ok) continue;
+        const txt = await res.text();
+        const parsed = await tryParseHouseholdText(txt);
+        if(parsed && Array.isArray(parsed)){
+          householdEntries = parsed.map(h => ({
+            name: (h.product || 'household') + ' (household)',
+            inputs: [{ product: h.product, amount: Number(h.volume||0) }],
+            prestige: Number(h.prestige||0) * 100,
+            source: 'household',
+            raw: h
+          }));
+          setStatus('Loaded '+householdEntries.length+' household entries from '+url);
+          break;
+        }
+      }catch(e){ /* try next */ }
+    }
+  }catch(e){ /* ignore */ }
 
   const results = [];
   // Combine recipe entries and household entries; mark source for recipes
