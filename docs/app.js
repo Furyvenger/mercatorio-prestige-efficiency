@@ -205,10 +205,11 @@ async function computePrestigeCosts(){
         const parsed = await tryParseHouseholdText(txt);
         if(parsed && Array.isArray(parsed)){
           householdEntries = parsed.map(h => ({
-            name: (h.product || 'household') + ' (household)',
+            name: (h.product || 'household') + (h.category ? ` (${h.category})` : ' (household)'),
             inputs: [{ product: h.product, amount: Number(h.volume||0) }],
             prestige: Number(h.prestige||0),
             source: 'household',
+            category: h.category || null,
             raw: h
           }));
           setStatus('Loaded '+householdEntries.length+' household entries from '+url);
