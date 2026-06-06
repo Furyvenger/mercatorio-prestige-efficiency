@@ -238,15 +238,26 @@ async function computePrestigeCosts(){
         if(!res.ok) continue;
         const arr = await res.json();
         if(!Array.isArray(arr)) continue;
-        // Expect each building to have name, materials: [{product, amount}], prestige (optional)
-        buildingEntries = arr.filter(b => b.prestige && Number(b.prestige) != 0).map(b => ({
-          name: b.name || ('building'),
-          inputs: (b.materials || []).map(m => ({ product: m.product, amount: Number(m.amount||0) })),
+        // Expect each building to have type, construction.materials (object) or materials (object/array), prestige (optional)
+        buildingEntries = arr.filter(b => b.prestige && Number(b.prestige) != 0).map(b => {
+          // find materials object/array
+          const mats = b.materials || (b.construction && b.construction.materials) || {};
+          let inputs = [];
+          if(Array.isArray(mats)){
+            inputs = mats.map(m => ({ product: m.product, amount: Number(m.amount||0) }));
+          }else if(mats && typeof mats === 'object'){
+            inputs = Object.keys(mats).map(k => ({ product: k, amount: Number(mats[k]||0) }));
+          }
           // buildings prestige must be multiplied by 100
-          prestige: Number(b.prestige||0) * 100,
-          source: 'building',
-          raw: b
-        }));
+          const prestige = Number(b.prestige||0) * 100;
+          return {
+            name: b.type || b.name || 'building',
+            inputs,
+            prestige,
+            source: 'building',
+            raw: b
+          };
+        });
         if(buildingEntries.length) setStatus('Loaded '+buildingEntries.length+' building entries from '+url);
         break;
       }catch(e){ /* try next */ }
