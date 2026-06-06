@@ -314,6 +314,10 @@ function renderPrestigeResults(results, data){
     if(r.source === 'household'){
       tr.style.background = '#fff7cc';
     }
+    // Highlight building construction methods (light blue)
+    if(r.source === 'building'){
+      tr.style.background = '#e6f7ff';
+    }
     tbody.appendChild(tr);
   });
   table.appendChild(tbody);
