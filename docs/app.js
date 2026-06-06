@@ -228,11 +228,37 @@ async function computePrestigeCosts(){
     }
   }catch(e){ /* ignore */ }
 
+  // Load buildings (if present) and normalize into entries
+  let buildingEntries = [];
+  try{
+    const bCandidates = ['docs/buildings.json','buildings.json','https://raw.githubusercontent.com/Furyvenger/mercatorio-prestige-efficiency/main/docs/buildings.json','https://raw.githubusercontent.com/Furyvenger/mercatorio-prestige-efficiency/main/buildings.json'];
+    for(const url of bCandidates){
+      try{
+        const res = await fetch(url);
+        if(!res.ok) continue;
+        const arr = await res.json();
+        if(!Array.isArray(arr)) continue;
+        // Expect each building to have name, materials: [{product, amount}], prestige (optional)
+        buildingEntries = arr.filter(b => b.prestige && Number(b.prestige) != 0).map(b => ({
+          name: b.name || ('building'),
+          inputs: (b.materials || []).map(m => ({ product: m.product, amount: Number(m.amount||0) })),
+          // buildings prestige must be multiplied by 100
+          prestige: Number(b.prestige||0) * 100,
+          source: 'building',
+          raw: b
+        }));
+        if(buildingEntries.length) setStatus('Loaded '+buildingEntries.length+' building entries from '+url);
+        break;
+      }catch(e){ /* try next */ }
+    }
+  }catch(e){ /* ignore */ }
+
   const results = [];
-  // Combine recipe entries and household entries; mark source for recipes
+  // Combine recipe entries, household entries and building entries; mark source for recipes
   const allEntries = [];
   recipes.forEach(r=> allEntries.push(Object.assign({ source: 'recipe' }, r)));
   householdEntries.forEach(h=> allEntries.push(h));
+  buildingEntries.forEach(b=> allEntries.push(b));
 
   for(const rec of allEntries){
     const inputs = rec.inputs || [];

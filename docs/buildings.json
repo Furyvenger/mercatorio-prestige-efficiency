@@ -1,0 +1,7923 @@
+"buildings": [
+    {
+      "type": "logging camp",
+      "supports_boost": true,
+      "requires": {
+        "forest": {
+          "min": 20
+        }
+      },
+      "construction": {
+        "range": 8,
+        "size": 100,
+        "discount": 50,
+        "time": 1,
+        "materials": {
+          "labour": 40
+        }
+      },
+      "upgrades": [
+        {
+          "type": "toolshed 1",
+          "construction": {
+            "time": 3,
+            "materials": {
+              "labour": 80,
+              "timber": 40,
+              "tools": 20
+            }
+          },
+          "management": 0.001,
+          "flag": 16
+        },
+        {
+          "type": "toolshed 2",
+          "requires": "toolshed 1",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 200,
+              "timber": 200,
+              "axes": 30
+            }
+          },
+          "management": 0.001,
+          "flag": 32
+        }
+      ],
+      "classes": [
+        "crafting"
+      ]
+    },
+    {
+      "type": "burner hut",
+      "supports_boost": true,
+      "requires": {
+        "forest": {
+          "min": 20
+        }
+      },
+      "construction": {
+        "range": 8,
+        "size": 100,
+        "discount": 50,
+        "time": 1,
+        "materials": {
+          "labour": 80,
+          "timber": 20
+        }
+      },
+      "upgrades": [
+        {
+          "type": "toolshed 1",
+          "construction": {
+            "time": 3,
+            "materials": {
+              "labour": 80,
+              "timber": 40,
+              "tools": 20
+            }
+          },
+          "management": 0.001,
+          "flag": 16
+        },
+        {
+          "type": "toolshed 2",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 200,
+              "timber": 200,
+              "axes": 30
+            }
+          },
+          "management": 0.001,
+          "flag": 32
+        }
+      ],
+      "classes": [
+        "forging",
+        "crafting"
+      ]
+    },
+    {
+      "type": "hunting lodge",
+      "requires": {
+        "forest": {
+          "min": 20
+        }
+      },
+      "construction": {
+        "range": 9,
+        "size": 100,
+        "discount": 50,
+        "time": 1,
+        "materials": {
+          "labour": 60,
+          "timber": 20
+        }
+      },
+      "upgrades": [
+        {
+          "type": "armsrack",
+          "construction": {
+            "time": 6,
+            "materials": {
+              "labour": 40,
+              "timber": 40,
+              "arms": 5
+            }
+          },
+          "management": 0.001,
+          "flag": 16
+        },
+        {
+          "type": "curing chamber",
+          "requires": "armsrack",
+          "construction": {
+            "time": 12,
+            "materials": {
+              "labour": 60,
+              "timber": 40,
+              "bricks": 20
+            }
+          },
+          "management": 0.001,
+          "flag": 32
+        }
+      ],
+      "classes": [
+        "weaponry"
+      ]
+    },
+    {
+      "type": "farmstead",
+      "requires": {
+        "fertility": {
+          "min": 1
+        }
+      },
+      "tenants": 1,
+      "construction": {
+        "range": 8,
+        "size": 75,
+        "time": 3,
+        "materials": {
+          "labour": 100,
+          "timber": 20
+        }
+      },
+      "classes": [
+        "mercantile"
+      ]
+    },
+    {
+      "type": "grain farm",
+      "requires": {
+        "fertility": {
+          "min": 40
+        },
+        "forest": {
+          "max": 15
+        }
+      },
+      "construction": {
+        "range": 8,
+        "size": 75,
+        "discount": 20,
+        "time": 3,
+        "materials": {
+          "labour": 120,
+          "timber": 20
+        }
+      },
+      "upgrades": [
+        {
+          "type": "toolshed 1",
+          "construction": {
+            "time": 3,
+            "materials": {
+              "labour": 80,
+              "timber": 40,
+              "tools": 20
+            }
+          },
+          "management": 0.001,
+          "flag": 16
+        },
+        {
+          "type": "plough house",
+          "requires": "toolshed 1",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 240,
+              "timber": 120,
+              "ploughs": 4
+            }
+          },
+          "management": 0.001,
+          "flag": 32
+        },
+        {
+          "type": "manure pit",
+          "requires": "plough house",
+          "construction": {
+            "time": 6,
+            "materials": {
+              "labour": 200,
+              "bricks": 100,
+              "manure": 20
+            }
+          },
+          "management": 0.001,
+          "flag": 64
+        },
+        {
+          "type": "toolshed 2",
+          "requires": "manure pit",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 200,
+              "timber": 200,
+              "scythes": 20
+            }
+          },
+          "management": 0.001,
+          "flag": 128
+        }
+      ],
+      "classes": [
+        "nutrition"
+      ]
+    },
+    {
+      "type": "flax farm",
+      "requires": {
+        "fertility": {
+          "min": 40
+        },
+        "forest": {
+          "max": 15
+        }
+      },
+      "construction": {
+        "range": 8,
+        "size": 75,
+        "discount": 20,
+        "time": 3,
+        "materials": {
+          "labour": 120,
+          "timber": 40
+        }
+      },
+      "upgrades": [
+        {
+          "type": "toolshed 1",
+          "construction": {
+            "time": 3,
+            "materials": {
+              "labour": 80,
+              "timber": 40,
+              "tools": 20
+            }
+          },
+          "management": 0.001,
+          "flag": 16
+        },
+        {
+          "type": "plough house",
+          "requires": "toolshed 1",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 240,
+              "timber": 120,
+              "ploughs": 4
+            }
+          },
+          "management": 0.001,
+          "flag": 32
+        },
+        {
+          "type": "toolshed 2",
+          "requires": "plough house",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 200,
+              "timber": 200,
+              "scythes": 20
+            }
+          },
+          "management": 0.001,
+          "flag": 64
+        }
+      ],
+      "classes": [
+        "textile"
+      ]
+    },
+    {
+      "type": "pasture",
+      "requires": {
+        "fertility": {
+          "min": 1
+        },
+        "forest": {
+          "max": 20
+        }
+      },
+      "construction": {
+        "range": 8,
+        "size": 75,
+        "discount": 20,
+        "time": 3,
+        "materials": {
+          "labour": 120,
+          "timber": 40
+        }
+      },
+      "upgrades": [
+        {
+          "type": "toolshed 1",
+          "construction": {
+            "time": 3,
+            "materials": {
+              "labour": 80,
+              "timber": 40,
+              "tools": 20
+            }
+          },
+          "management": 0.001,
+          "flag": 16
+        },
+        {
+          "type": "cowshed",
+          "requires": "toolshed 1",
+          "construction": {
+            "time": 12,
+            "materials": {
+              "labour": 500,
+              "timber": 160,
+              "bricks": 40,
+              "cattle": 4
+            }
+          },
+          "management": 0.001,
+          "flag": 32
+        },
+        {
+          "type": "toolshed 2",
+          "requires": "toolshed 1",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 200,
+              "timber": 200,
+              "blades": 30
+            }
+          },
+          "management": 0.001,
+          "flag": 64
+        }
+      ],
+      "classes": [
+        "nutrition",
+        "textile"
+      ]
+    },
+    {
+      "type": "vignoble",
+      "requires": {
+        "fertility": {
+          "min": 40
+        },
+        "forest": {
+          "max": 15
+        },
+        "climate": "warm"
+      },
+      "construction": {
+        "range": 6,
+        "size": 25,
+        "discount": 20,
+        "time": 18,
+        "materials": {
+          "labour": 320,
+          "timber": 120,
+          "nails": 40
+        }
+      },
+      "upgrades": [
+        {
+          "type": "toolshed 1",
+          "construction": {
+            "time": 6,
+            "materials": {
+              "labour": 200,
+              "timber": 80,
+              "tools": 40
+            }
+          },
+          "management": 0.01,
+          "flag": 16
+        }
+      ],
+      "classes": [
+        "nutrition"
+      ]
+    },
+    {
+      "type": "apiary",
+      "requires": {
+        "fertility": {
+          "min": 1
+        },
+        "forest": {
+          "max": 20
+        },
+        "hosts": [
+          "flax farm",
+          "pasture",
+          "vignoble"
+        ]
+      },
+      "constraint": "size",
+      "construction": {
+        "time": 3,
+        "materials": {
+          "labour": 200,
+          "timber": 60
+        }
+      },
+      "upgrades": [
+        {
+          "type": "beehives",
+          "construction": {
+            "time": 12,
+            "materials": {
+              "labour": 300,
+              "timber": 120,
+              "nets": 10
+            }
+          },
+          "management": 0.01,
+          "flag": 16
+        },
+        {
+          "type": "rendering pots",
+          "construction": {
+            "time": 12,
+            "materials": {
+              "labour": 240,
+              "timber": 60,
+              "bricks": 80,
+              "nails": 10,
+              "cookware": 50
+            }
+          },
+          "management": 0.01,
+          "flag": 32
+        }
+      ],
+      "classes": [
+        "nutrition"
+      ]
+    },
+    {
+      "type": "hjell",
+      "requires": {
+        "forest": {
+          "max": 20
+        },
+        "climate": "cold"
+      },
+      "construction": {
+        "range": 6,
+        "size": 25,
+        "discount": 20,
+        "time": 12,
+        "materials": {
+          "labour": 200,
+          "timber": 200
+        }
+      },
+      "classes": [
+        "maritime"
+      ]
+    },
+    {
+      "type": "clay pit",
+      "requires": {
+        "fertility": {
+          "min": 80
+        },
+        "forest": {
+          "max": 15
+        }
+      },
+      "construction": {
+        "range": 6,
+        "size": 25,
+        "discount": 20,
+        "time": 6,
+        "materials": {
+          "labour": 200,
+          "timber": 40
+        }
+      },
+      "upgrades": [
+        {
+          "type": "toolshed 1",
+          "construction": {
+            "time": 3,
+            "materials": {
+              "labour": 80,
+              "timber": 40,
+              "tools": 20
+            }
+          },
+          "management": 0.01,
+          "flag": 16
+        }
+      ],
+      "classes": [
+        "forging"
+      ]
+    },
+    {
+      "type": "retting pit",
+      "requires": {
+        "forest": {
+          "max": 20
+        }
+      },
+      "construction": {
+        "range": 6,
+        "size": 25,
+        "discount": 20,
+        "time": 3,
+        "materials": {
+          "labour": 160,
+          "timber": 60
+        }
+      },
+      "upgrades": [
+        {
+          "type": "toolshed 1",
+          "construction": {
+            "time": 3,
+            "materials": {
+              "labour": 80,
+              "timber": 40,
+              "tools": 20
+            }
+          },
+          "management": 0.01,
+          "flag": 16
+        }
+      ],
+      "classes": [
+        "textile"
+      ]
+    },
+    {
+      "type": "brickworks",
+      "requires": {
+        "fertility": {
+          "min": 80
+        },
+        "forest": {
+          "max": 15
+        }
+      },
+      "construction": {
+        "range": 6,
+        "size": 25,
+        "time": 12,
+        "materials": {
+          "labour": 400,
+          "firewood": 160,
+          "timber": 40
+        }
+      },
+      "upgrades": [
+        {
+          "type": "toolshed 1",
+          "construction": {
+            "time": 6,
+            "materials": {
+              "labour": 80,
+              "timber": 40,
+              "tools": 20
+            }
+          },
+          "management": 0.01,
+          "flag": 16
+        },
+        {
+          "type": "tile moulds",
+          "requires": "toolshed 1",
+          "construction": {
+            "time": 12,
+            "materials": {
+              "labour": 200,
+              "timber": 40
+            }
+          },
+          "management": 0.01,
+          "flag": 32
+        }
+      ],
+      "classes": [
+        "forging"
+      ]
+    },
+    {
+      "type": "glass house",
+      "requires": {
+        "fertility": {
+          "max": 39
+        },
+        "forest": {
+          "min": 20
+        }
+      },
+      "construction": {
+        "range": 6,
+        "size": 25,
+        "time": 12,
+        "materials": {
+          "labour": 200,
+          "timber": 80,
+          "bricks": 40
+        }
+      },
+      "upgrades": [
+        {
+          "type": "toolshed 1",
+          "construction": {
+            "time": 3,
+            "materials": {
+              "labour": 80,
+              "timber": 40,
+              "tools": 20
+            }
+          },
+          "management": 0.01,
+          "flag": 16
+        }
+      ],
+      "classes": [
+        "forging"
+      ]
+    },
+    {
+      "type": "windmill",
+      "requires": {
+        "forest": {
+          "max": 1
+        }
+      },
+      "construction": {
+        "range": 6,
+        "size": 15,
+        "time": 18,
+        "materials": {
+          "labour": 600,
+          "timber": 300,
+          "tiles": 160,
+          "limestone": 60,
+          "cloth": 80,
+          "nails": 50
+        }
+      },
+      "upgrades": [
+        {
+          "type": "grooved bedstone",
+          "construction": {
+            "time": 12,
+            "materials": {
+              "labour": 400,
+              "timber": 120,
+              "grindstones": 10,
+              "nails": 20
+            }
+          },
+          "management": 0.01,
+          "flag": 16
+        }
+      ],
+      "classes": [
+        "nutrition"
+      ]
+    },
+    {
+      "type": "quarry",
+      "requires": {
+        "forest": {
+          "max": 20
+        },
+        "resource": "stone"
+      },
+      "construction": {
+        "range": 5,
+        "size": 25,
+        "discount": 20,
+        "time": 18,
+        "materials": {
+          "labour": 800,
+          "timber": 120,
+          "tools": 20
+        }
+      },
+      "upgrades": [
+        {
+          "type": "toolshed 1",
+          "construction": {
+            "time": 6,
+            "materials": {
+              "labour": 300,
+              "timber": 100,
+              "tools": 40
+            }
+          },
+          "management": 0.01,
+          "flag": 16
+        },
+        {
+          "type": "crane",
+          "requires": "toolshed 1",
+          "construction": {
+            "time": 36,
+            "materials": {
+              "labour": 600,
+              "timber": 240,
+              "wheels": 10,
+              "tackles": 10,
+              "nails": 60
+            }
+          },
+          "management": 0.01,
+          "flag": 32
+        },
+        {
+          "type": "toolshed 2",
+          "requires": "crane",
+          "construction": {
+            "time": 48,
+            "materials": {
+              "labour": 200,
+              "timber": 200,
+              "pickaxes": 40
+            }
+          },
+          "management": 0.01,
+          "flag": 64
+        }
+      ],
+      "classes": [
+        "crafting"
+      ]
+    },
+    {
+      "type": "salt mine",
+      "requires": {
+        "resource": "salt"
+      },
+      "construction": {
+        "range": 8,
+        "size": 25,
+        "discount": 20,
+        "time": 9,
+        "materials": {
+          "labour": 1200,
+          "timber": 320
+        }
+      },
+      "upgrades": [
+        {
+          "type": "toolshed 1",
+          "construction": {
+            "time": 6,
+            "materials": {
+              "labour": 300,
+              "timber": 100,
+              "tools": 40
+            }
+          },
+          "management": 0.01,
+          "flag": 16
+        },
+        {
+          "type": "toolshed 2",
+          "requires": "toolshed 1",
+          "construction": {
+            "time": 48,
+            "materials": {
+              "labour": 200,
+              "timber": 200,
+              "pickaxes": 40
+            }
+          },
+          "management": 0.01,
+          "flag": 32
+        }
+      ],
+      "classes": [
+        "forging"
+      ]
+    },
+    {
+      "type": "iron mine",
+      "requires": {
+        "resource": "iron"
+      },
+      "construction": {
+        "range": 8,
+        "size": 25,
+        "discount": 20,
+        "time": 18,
+        "materials": {
+          "labour": 1000,
+          "timber": 240
+        }
+      },
+      "upgrades": [
+        {
+          "type": "toolshed 1",
+          "construction": {
+            "time": 6,
+            "materials": {
+              "labour": 300,
+              "timber": 100,
+              "tools": 40
+            }
+          },
+          "management": 0.01,
+          "flag": 16
+        },
+        {
+          "type": "crane",
+          "requires": "toolshed 1",
+          "construction": {
+            "time": 36,
+            "materials": {
+              "labour": 600,
+              "timber": 240,
+              "wheels": 10,
+              "tackles": 10,
+              "nails": 60
+            }
+          },
+          "management": 0.01,
+          "flag": 32
+        },
+        {
+          "type": "toolshed 2",
+          "requires": "crane",
+          "construction": {
+            "time": 48,
+            "materials": {
+              "labour": 200,
+              "timber": 200,
+              "pickaxes": 40
+            }
+          },
+          "management": 0.01,
+          "flag": 64
+        }
+      ],
+      "classes": [
+        "forging"
+      ]
+    },
+    {
+      "type": "copper mine",
+      "requires": {
+        "resource": "copper"
+      },
+      "construction": {
+        "range": 8,
+        "size": 25,
+        "discount": 20,
+        "time": 18,
+        "materials": {
+          "labour": 1200,
+          "timber": 320
+        }
+      },
+      "upgrades": [
+        {
+          "type": "toolshed 1",
+          "construction": {
+            "time": 6,
+            "materials": {
+              "labour": 300,
+              "timber": 100,
+              "tools": 40
+            }
+          },
+          "management": 0.01,
+          "flag": 16
+        },
+        {
+          "type": "crane",
+          "requires": "toolshed 1",
+          "construction": {
+            "time": 36,
+            "materials": {
+              "labour": 600,
+              "timber": 240,
+              "wheels": 10,
+              "tackles": 10,
+              "nails": 60
+            }
+          },
+          "management": 0.01,
+          "flag": 32
+        },
+        {
+          "type": "toolshed 2",
+          "requires": "crane",
+          "construction": {
+            "time": 48,
+            "materials": {
+              "labour": 200,
+              "timber": 200,
+              "pickaxes": 40
+            }
+          },
+          "management": 0.01,
+          "flag": 64
+        }
+      ],
+      "classes": [
+        "forging"
+      ]
+    },
+    {
+      "type": "lead mine",
+      "requires": {
+        "resource": "lead"
+      },
+      "construction": {
+        "range": 8,
+        "size": 25,
+        "discount": 20,
+        "time": 18,
+        "materials": {
+          "labour": 1200,
+          "timber": 320
+        }
+      },
+      "upgrades": [
+        {
+          "type": "toolshed 1",
+          "construction": {
+            "time": 6,
+            "materials": {
+              "labour": 300,
+              "timber": 100,
+              "tools": 40
+            }
+          },
+          "management": 0.01,
+          "flag": 16
+        },
+        {
+          "type": "crane",
+          "requires": "toolshed 1",
+          "construction": {
+            "time": 36,
+            "materials": {
+              "labour": 600,
+              "timber": 240,
+              "wheels": 10,
+              "tackles": 10,
+              "nails": 60
+            }
+          },
+          "management": 0.01,
+          "flag": 32
+        },
+        {
+          "type": "toolshed 2",
+          "requires": "crane",
+          "construction": {
+            "time": 48,
+            "materials": {
+              "labour": 200,
+              "timber": 200,
+              "pickaxes": 40
+            }
+          },
+          "management": 0.01,
+          "flag": 64
+        }
+      ],
+      "classes": [
+        "forging"
+      ]
+    },
+    {
+      "type": "gold mine",
+      "requires": {
+        "resource": "gold"
+      },
+      "construction": {
+        "range": 8,
+        "size": 25,
+        "discount": 20,
+        "time": 24,
+        "materials": {
+          "labour": 1200,
+          "timber": 400
+        }
+      },
+      "upgrades": [
+        {
+          "type": "toolshed 1",
+          "construction": {
+            "time": 6,
+            "materials": {
+              "labour": 300,
+              "timber": 100,
+              "tools": 40
+            }
+          },
+          "management": 0.01,
+          "flag": 16
+        },
+        {
+          "type": "crane",
+          "requires": "toolshed 1",
+          "construction": {
+            "time": 36,
+            "materials": {
+              "labour": 600,
+              "timber": 240,
+              "wheels": 10,
+              "tackles": 10,
+              "nails": 60
+            }
+          },
+          "management": 0.01,
+          "flag": 32
+        },
+        {
+          "type": "toolshed 2",
+          "requires": "crane",
+          "construction": {
+            "time": 48,
+            "materials": {
+              "labour": 200,
+              "timber": 200,
+              "pickaxes": 40
+            }
+          },
+          "management": 0.01,
+          "flag": 64
+        }
+      ],
+      "classes": [
+        "forging"
+      ]
+    },
+    {
+      "type": "herb garden",
+      "requires": {
+        "center": true
+      },
+      "construction": {
+        "range": 8,
+        "size": 25,
+        "time": 12,
+        "materials": {
+          "labour": 360,
+          "timber": 200,
+          "tools": 20,
+          "manure": 40
+        }
+      },
+      "upgrades": [
+        {
+          "type": "productivity 1",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 250,
+              "timber": 250,
+              "tools": 250
+            }
+          },
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 16
+        },
+        {
+          "type": "productivity 2",
+          "requires": "productivity 1",
+          "construction": {
+            "time": 72,
+            "materials": {
+              "labour": 1000,
+              "timber": 1000,
+              "tools": 1000
+            }
+          },
+          "tier": 3,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 32
+        },
+        {
+          "type": "productivity 3",
+          "requires": "productivity 2",
+          "construction": {
+            "time": 120,
+            "materials": {
+              "labour": 1000,
+              "timber": 1000,
+              "scythes": 1000
+            }
+          },
+          "tier": 4,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 64
+        }
+      ],
+      "classes": [
+        "nutrition"
+      ]
+    },
+    {
+      "type": "net maker",
+      "requires": {
+        "center": true
+      },
+      "construction": {
+        "range": 8,
+        "size": 25,
+        "time": 12,
+        "materials": {
+          "labour": 200,
+          "timber": 150,
+          "tools": 20
+        }
+      },
+      "upgrades": [
+        {
+          "type": "productivity 1",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 250,
+              "timber": 250,
+              "tools": 100
+            }
+          },
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 16
+        },
+        {
+          "type": "productivity 2",
+          "requires": "productivity 1",
+          "construction": {
+            "time": 72,
+            "materials": {
+              "labour": 1000,
+              "timber": 1000,
+              "tools": 500
+            }
+          },
+          "tier": 3,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 32
+        },
+        {
+          "type": "productivity 3",
+          "requires": "productivity 2",
+          "construction": {
+            "time": 120,
+            "materials": {
+              "labour": 1000,
+              "timber": 2000,
+              "blades": 1000
+            }
+          },
+          "tier": 4,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 64
+        }
+      ],
+      "classes": [
+        "maritime"
+      ]
+    },
+    {
+      "type": "ropewalk",
+      "requires": {
+        "center": true
+      },
+      "construction": {
+        "range": 8,
+        "size": 25,
+        "time": 24,
+        "materials": {
+          "labour": 400,
+          "timber": 260,
+          "tools": 20,
+          "wheels": 16
+        }
+      },
+      "upgrades": [
+        {
+          "type": "cord winder",
+          "construction": {
+            "time": 36,
+            "materials": {
+              "labour": 300,
+              "timber": 100,
+              "gears": 40,
+              "steel ingots": 20
+            }
+          },
+          "management": 0.025,
+          "flag": 16
+        },
+        {
+          "type": "productivity 1",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 500,
+              "timber": 250,
+              "wheels": 100
+            }
+          },
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 32
+        },
+        {
+          "type": "productivity 2",
+          "requires": "productivity 1",
+          "construction": {
+            "time": 72,
+            "materials": {
+              "labour": 1000,
+              "timber": 1000,
+              "gears": 250
+            }
+          },
+          "tier": 3,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 64
+        },
+        {
+          "type": "productivity 3",
+          "requires": "productivity 2",
+          "construction": {
+            "time": 120,
+            "materials": {
+              "labour": 1000,
+              "timber": 1000,
+              "gears": 1000
+            }
+          },
+          "tier": 4,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 128
+        }
+      ],
+      "classes": [
+        "maritime"
+      ]
+    },
+    {
+      "type": "bloomery",
+      "requires": {
+        "center": true
+      },
+      "construction": {
+        "range": 8,
+        "size": 25,
+        "time": 12,
+        "materials": {
+          "labour": 320,
+          "timber": 80,
+          "bricks": 240
+        }
+      },
+      "upgrades": [
+        {
+          "type": "finery hearth",
+          "construction": {
+            "time": 12,
+            "materials": {
+              "labour": 400,
+              "bricks": 500,
+              "tools": 20
+            }
+          },
+          "management": 0.025,
+          "flag": 16
+        },
+        {
+          "type": "bellows",
+          "requires": "finery hearth",
+          "construction": {
+            "time": 12,
+            "materials": {
+              "labour": 200,
+              "timber": 80,
+              "tools": 20,
+              "bellows": 12
+            }
+          },
+          "management": 0.025,
+          "flag": 32
+        },
+        {
+          "type": "transmission",
+          "requires": "bellows",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 400,
+              "timber": 200,
+              "gears": 25,
+              "rope": 20,
+              "wrought iron": 40
+            }
+          },
+          "management": 0.025,
+          "flag": 64
+        },
+        {
+          "type": "productivity 1",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 250,
+              "bricks": 250,
+              "tools": 250
+            }
+          },
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 128
+        },
+        {
+          "type": "productivity 2",
+          "requires": "productivity 1",
+          "construction": {
+            "time": 72,
+            "materials": {
+              "labour": 1000,
+              "bricks": 1000,
+              "tools": 500,
+              "bellows": 50
+            }
+          },
+          "tier": 3,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 256
+        },
+        {
+          "type": "productivity 3",
+          "requires": "productivity 2",
+          "construction": {
+            "time": 120,
+            "materials": {
+              "labour": 1000,
+              "bricks": 1000,
+              "tools": 1000,
+              "bellows": 200
+            }
+          },
+          "tier": 4,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 512
+        }
+      ],
+      "classes": [
+        "forging"
+      ]
+    },
+    {
+      "type": "foundry",
+      "requires": {
+        "center": true
+      },
+      "construction": {
+        "range": 8,
+        "size": 25,
+        "time": 18,
+        "materials": {
+          "labour": 700,
+          "timber": 200,
+          "bricks": 360
+        }
+      },
+      "upgrades": [
+        {
+          "type": "bellows",
+          "construction": {
+            "time": 12,
+            "materials": {
+              "labour": 160,
+              "timber": 40,
+              "tools": 20,
+              "wheels": 10,
+              "rope": 2,
+              "bellows": 8
+            }
+          },
+          "management": 0.025,
+          "flag": 16
+        },
+        {
+          "type": "sculpture moulds",
+          "construction": {
+            "time": 36,
+            "materials": {
+              "labour": 500,
+              "timber": 300,
+              "clay": 300,
+              "tools": 100,
+              "nails": 100
+            }
+          },
+          "management": 0.025,
+          "flag": 32
+        },
+        {
+          "type": "productivity 1",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 500,
+              "bricks": 500,
+              "tools": 250
+            }
+          },
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 64
+        },
+        {
+          "type": "productivity 2",
+          "requires": "productivity 1",
+          "construction": {
+            "time": 72,
+            "materials": {
+              "labour": 1000,
+              "bricks": 2000,
+              "tools": 500,
+              "bellows": 50
+            }
+          },
+          "tier": 3,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 128
+        },
+        {
+          "type": "productivity 3",
+          "requires": "productivity 2",
+          "construction": {
+            "time": 120,
+            "materials": {
+              "labour": 1000,
+              "bricks": 2000,
+              "tools": 2500,
+              "bellows": 200
+            }
+          },
+          "tier": 4,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 256
+        }
+      ],
+      "classes": [
+        "forging"
+      ]
+    },
+    {
+      "type": "tar kiln",
+      "requires": {
+        "center": true
+      },
+      "construction": {
+        "range": 8,
+        "size": 25,
+        "time": 18,
+        "materials": {
+          "labour": 600,
+          "timber": 160,
+          "bricks": 300,
+          "tiles": 40
+        }
+      },
+      "upgrades": [
+        {
+          "type": "productivity 1",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 500,
+              "bricks": 1000
+            }
+          },
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 16
+        },
+        {
+          "type": "productivity 2",
+          "requires": "productivity 1",
+          "construction": {
+            "time": 72,
+            "materials": {
+              "labour": 1000,
+              "bricks": 2500
+            }
+          },
+          "tier": 3,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 32
+        },
+        {
+          "type": "productivity 3",
+          "requires": "productivity 2",
+          "construction": {
+            "time": 120,
+            "materials": {
+              "labour": 1000,
+              "bricks": 10000
+            }
+          },
+          "tier": 4,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 64
+        }
+      ],
+      "classes": [
+        "forging"
+      ]
+    },
+    {
+      "type": "ceramic kiln",
+      "requires": {
+        "center": true
+      },
+      "construction": {
+        "range": 8,
+        "size": 25,
+        "time": 18,
+        "materials": {
+          "labour": 600,
+          "timber": 120,
+          "bricks": 240,
+          "nails": 50
+        }
+      },
+      "upgrades": [
+        {
+          "type": "tile moulds",
+          "construction": {
+            "time": 18,
+            "materials": {
+              "labour": 400,
+              "timber": 160,
+              "tools": 20
+            }
+          },
+          "management": 0.025,
+          "flag": 16
+        },
+        {
+          "type": "turntable",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 500,
+              "timber": 200,
+              "wheels": 10,
+              "nails": 40
+            }
+          },
+          "management": 0.025,
+          "flag": 32
+        },
+        {
+          "type": "productivity 1",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 250,
+              "bricks": 250,
+              "tools": 250
+            }
+          },
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 64
+        },
+        {
+          "type": "productivity 2",
+          "requires": "productivity 1",
+          "construction": {
+            "time": 72,
+            "materials": {
+              "labour": 1000,
+              "bricks": 2000,
+              "tools": 1000,
+              "wheels": 100
+            }
+          },
+          "tier": 3,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 128
+        },
+        {
+          "type": "productivity 3",
+          "requires": "productivity 2",
+          "construction": {
+            "time": 120,
+            "materials": {
+              "labour": 1000,
+              "bricks": 2000,
+              "tools": 2500,
+              "wheels": 500
+            }
+          },
+          "tier": 4,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 256
+        }
+      ],
+      "classes": [
+        "forging"
+      ]
+    },
+    {
+      "type": "charcoal kiln",
+      "requires": {
+        "center": true
+      },
+      "construction": {
+        "range": 8,
+        "size": 25,
+        "time": 18,
+        "materials": {
+          "labour": 500,
+          "timber": 160,
+          "bricks": 300,
+          "tiles": 40
+        }
+      },
+      "upgrades": [
+        {
+          "type": "productivity 1",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 500,
+              "bricks": 500
+            }
+          },
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 16
+        },
+        {
+          "type": "productivity 2",
+          "requires": "productivity 1",
+          "construction": {
+            "time": 72,
+            "materials": {
+              "labour": 2000,
+              "bricks": 3000,
+              "tools": 1000
+            }
+          },
+          "tier": 3,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 32
+        },
+        {
+          "type": "productivity 3",
+          "requires": "productivity 2",
+          "construction": {
+            "time": 120,
+            "materials": {
+              "labour": 2000,
+              "bricks": 3000,
+              "tools": 5000
+            }
+          },
+          "tier": 4,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 64
+        }
+      ],
+      "classes": [
+        "forging"
+      ]
+    },
+    {
+      "type": "mint",
+      "requires": {
+        "center": true
+      },
+      "construction": {
+        "range": 8,
+        "size": 25,
+        "time": 24,
+        "materials": {
+          "labour": 800,
+          "timber": 200,
+          "bricks": 160,
+          "nails": 50,
+          "tiles": 120,
+          "wrought iron": 40
+        }
+      },
+      "upgrades": [
+        {
+          "type": "guard booth",
+          "construction": {
+            "time": 36,
+            "materials": {
+              "labour": 700,
+              "timber": 100,
+              "tiles": 100,
+              "limestone": 120,
+              "slaked lime": 200,
+              "arms": 50
+            }
+          },
+          "management": 0.025,
+          "flag": 16
+        },
+        {
+          "type": "productivity 1",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 500,
+              "timber": 500,
+              "tools": 500
+            }
+          },
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 32
+        },
+        {
+          "type": "productivity 2",
+          "requires": "productivity 1",
+          "construction": {
+            "time": 72,
+            "materials": {
+              "labour": 1000,
+              "timber": 1000,
+              "tools": 2500,
+              "paper": 100
+            }
+          },
+          "tier": 3,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 64
+        },
+        {
+          "type": "productivity 3",
+          "requires": "productivity 2",
+          "construction": {
+            "time": 120,
+            "materials": {
+              "labour": 2000,
+              "timber": 2000,
+              "tools": 2500,
+              "chisels": 5000,
+              "paper": 500
+            }
+          },
+          "tier": 4,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 128
+        }
+      ],
+      "classes": [
+        "crafting"
+      ]
+    },
+    {
+      "type": "guardhouse",
+      "requires": {
+        "center": true
+      },
+      "construction": {
+        "range": 8,
+        "size": 25,
+        "time": 24,
+        "materials": {
+          "labour": 600,
+          "timber": 200,
+          "nails": 160,
+          "tiles": 100,
+          "limestone": 160,
+          "arms": 50
+        }
+      },
+      "upgrades": [
+        {
+          "type": "armsrack",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 300,
+              "timber": 80,
+              "grindstones": 4,
+              "swords": 20
+            }
+          },
+          "management": 0.025,
+          "flag": 16
+        },
+        {
+          "type": "productivity 1",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 500,
+              "limestone": 250,
+              "arms": 250
+            }
+          },
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 32
+        },
+        {
+          "type": "productivity 2",
+          "requires": "productivity 1",
+          "construction": {
+            "time": 72,
+            "materials": {
+              "labour": 1000,
+              "limestone": 500,
+              "arms": 500,
+              "swords": 100
+            }
+          },
+          "tier": 3,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 64
+        },
+        {
+          "type": "productivity 3",
+          "requires": "productivity 2",
+          "construction": {
+            "time": 120,
+            "materials": {
+              "labour": 1000,
+              "limestone": 1000,
+              "arms": 1000,
+              "swords": 500
+            }
+          },
+          "tier": 4,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 128
+        }
+      ],
+      "classes": [
+        "weaponry"
+      ]
+    },
+    {
+      "type": "outpost",
+      "requires": {
+        "forest": {
+          "max": 20
+        }
+      },
+      "construction": {
+        "size": 1,
+        "time": 48,
+        "materials": {
+          "labour": 800,
+          "timber": 100,
+          "tiles": 100,
+          "limestone": 160,
+          "slaked lime": 200,
+          "arms": 80,
+          "nails": 100
+        }
+      },
+      "classes": [
+        "weaponry"
+      ]
+    },
+    {
+      "type": "cottage",
+      "requires": {
+        "center": true
+      },
+      "construction": {
+        "range": 10,
+        "size": 40,
+        "time": 3,
+        "materials": {
+          "labour": 120,
+          "timber": 30
+        }
+      },
+      "classes": [
+        "mercantile"
+      ]
+    },
+    {
+      "type": "cartshed",
+      "requires": {
+        "center": true
+      },
+      "construction": {
+        "range": 8,
+        "size": 25,
+        "time": 3,
+        "materials": {
+          "labour": 200,
+          "timber": 60
+        }
+      },
+      "upgrades": [
+        {
+          "type": "cartyard",
+          "promotion": true,
+          "capacity": 6000,
+          "construction": {
+            "time": 12,
+            "materials": {
+              "labour": 200,
+              "timber": 100
+            }
+          },
+          "flag": 16
+        }
+      ],
+      "classes": [
+        "mercantile"
+      ]
+    },
+    {
+      "type": "cartyard",
+      "requires": {
+        "center": true
+      },
+      "construction": {
+        "range": 8,
+        "size": 25,
+        "time": 12,
+        "materials": {
+          "labour": 400,
+          "timber": 160
+        }
+      },
+      "classes": [
+        "mercantile"
+      ]
+    },
+    {
+      "type": "carpentry",
+      "requires": {
+        "center": true
+      },
+      "construction": {
+        "range": 8,
+        "size": 25,
+        "time": 12,
+        "materials": {
+          "labour": 400,
+          "timber": 100
+        }
+      },
+      "upgrades": [
+        {
+          "type": "upholstry bench",
+          "construction": {
+            "time": 18,
+            "materials": {
+              "labour": 240,
+              "timber": 120,
+              "nails": 80,
+              "tools": 40
+            }
+          },
+          "management": 0.025,
+          "flag": 16
+        },
+        {
+          "type": "lathe",
+          "construction": {
+            "time": 48,
+            "materials": {
+              "labour": 400,
+              "timber": 200,
+              "tools": 50,
+              "lathes": 10
+            }
+          },
+          "management": 0.025,
+          "flag": 32
+        },
+        {
+          "type": "productivity 1",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 250,
+              "timber": 250,
+              "tools": 250
+            }
+          },
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 64
+        },
+        {
+          "type": "productivity 2",
+          "requires": "productivity 1",
+          "construction": {
+            "time": 72,
+            "materials": {
+              "labour": 1000,
+              "timber": 1000,
+              "axes": 250
+            }
+          },
+          "tier": 3,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 128
+        },
+        {
+          "type": "productivity 3",
+          "requires": "productivity 2",
+          "construction": {
+            "time": 120,
+            "materials": {
+              "labour": 1000,
+              "timber": 2000,
+              "axes": 1000
+            }
+          },
+          "tier": 4,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 256
+        }
+      ],
+      "classes": [
+        "crafting"
+      ]
+    },
+    {
+      "type": "tannery",
+      "requires": {
+        "center": true
+      },
+      "construction": {
+        "range": 8,
+        "size": 25,
+        "time": 18,
+        "materials": {
+          "labour": 400,
+          "timber": 200,
+          "bricks": 60,
+          "nails": 80
+        }
+      },
+      "upgrades": [
+        {
+          "type": "liming pots",
+          "construction": {
+            "time": 12,
+            "materials": {
+              "labour": 240,
+              "timber": 100,
+              "casks": 40,
+              "cookware": 24
+            }
+          },
+          "management": 0.025,
+          "flag": 16
+        },
+        {
+          "type": "productivity 1",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 250,
+              "timber": 250,
+              "cookware": 100
+            }
+          },
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 32
+        },
+        {
+          "type": "productivity 2",
+          "requires": "productivity 1",
+          "construction": {
+            "time": 72,
+            "materials": {
+              "labour": 1000,
+              "casks": 500,
+              "cookware": 500
+            }
+          },
+          "tier": 3,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 64
+        },
+        {
+          "type": "productivity 3",
+          "requires": "productivity 2",
+          "construction": {
+            "time": 120,
+            "materials": {
+              "labour": 1000,
+              "casks": 2000,
+              "cookware": 2000
+            }
+          },
+          "tier": 4,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 128
+        }
+      ],
+      "classes": [
+        "crafting"
+      ]
+    },
+    {
+      "type": "leatherworks",
+      "requires": {
+        "center": true
+      },
+      "construction": {
+        "range": 8,
+        "size": 25,
+        "time": 12,
+        "materials": {
+          "labour": 600,
+          "timber": 200,
+          "bricks": 60,
+          "nails": 100
+        }
+      },
+      "upgrades": [
+        {
+          "type": "joining station",
+          "construction": {
+            "time": 48,
+            "materials": {
+              "labour": 400,
+              "timber": 200,
+              "tools": 80,
+              "nails": 60
+            }
+          },
+          "management": 0.025,
+          "flag": 16
+        },
+        {
+          "type": "punching jig",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 200,
+              "timber": 200,
+              "tools": 20,
+              "wrought iron": 20
+            }
+          },
+          "management": 0.025,
+          "flag": 32
+        },
+        {
+          "type": "shaping press",
+          "construction": {
+            "time": 48,
+            "materials": {
+              "labour": 400,
+              "timber": 200,
+              "gears": 10,
+              "nails": 80
+            }
+          },
+          "management": 0.025,
+          "flag": 64
+        },
+        {
+          "type": "productivity 1",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 250,
+              "timber": 250,
+              "tools": 250
+            }
+          },
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 128
+        },
+        {
+          "type": "productivity 2",
+          "requires": "productivity 1",
+          "construction": {
+            "time": 72,
+            "materials": {
+              "labour": 1000,
+              "timber": 1000,
+              "tools": 2500
+            }
+          },
+          "tier": 3,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 256
+        },
+        {
+          "type": "productivity 3",
+          "requires": "productivity 2",
+          "construction": {
+            "time": 120,
+            "materials": {
+              "labour": 1000,
+              "timber": 2000,
+              "tools": 10000
+            }
+          },
+          "tier": 4,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 512
+        }
+      ],
+      "classes": [
+        "crafting"
+      ]
+    },
+    {
+      "type": "smithy",
+      "requires": {
+        "center": true
+      },
+      "construction": {
+        "range": 8,
+        "size": 25,
+        "time": 18,
+        "materials": {
+          "labour": 400,
+          "timber": 100,
+          "bricks": 140
+        }
+      },
+      "upgrades": [
+        {
+          "type": "bellows",
+          "construction": {
+            "time": 12,
+            "materials": {
+              "labour": 160,
+              "timber": 40,
+              "tools": 20,
+              "wheels": 10,
+              "rope": 2,
+              "bellows": 8
+            }
+          },
+          "management": 0.025,
+          "flag": 16
+        },
+        {
+          "type": "steel anvil",
+          "requires": "bellows",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 500,
+              "charcoal": 120,
+              "tools": 40,
+              "wrought iron": 100,
+              "steel ingots": 120
+            }
+          },
+          "management": 0.025,
+          "flag": 32
+        },
+        {
+          "type": "grindstone",
+          "requires": "steel anvil",
+          "construction": {
+            "time": 12,
+            "materials": {
+              "labour": 200,
+              "timber": 60,
+              "grindstones": 4,
+              "wrought iron": 40
+            }
+          },
+          "management": 0.025,
+          "flag": 64
+        },
+        {
+          "type": "punching jig",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 200,
+              "timber": 100,
+              "tools": 60,
+              "steel ingots": 40
+            }
+          },
+          "management": 0.025,
+          "flag": 128
+        },
+        {
+          "type": "hafting jig",
+          "requires": "steel anvil",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 400,
+              "timber": 100,
+              "tools": 40
+            }
+          },
+          "management": 0.025,
+          "flag": 256
+        },
+        {
+          "type": "transmission",
+          "requires": "bellows",
+          "construction": {
+            "time": 48,
+            "materials": {
+              "labour": 400,
+              "timber": 100,
+              "gears": 20,
+              "rope": 10,
+              "wrought iron": 20
+            }
+          },
+          "management": 0.025,
+          "flag": 512
+        },
+        {
+          "type": "productivity 1",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 200,
+              "bricks": 200,
+              "bellows": 8
+            }
+          },
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 1024
+        },
+        {
+          "type": "productivity 2",
+          "requires": "productivity 1",
+          "construction": {
+            "time": 72,
+            "materials": {
+              "labour": 2000,
+              "bricks": 2000,
+              "bellows": 25
+            }
+          },
+          "tier": 3,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 2048
+        },
+        {
+          "type": "productivity 3",
+          "requires": "productivity 2",
+          "construction": {
+            "time": 120,
+            "materials": {
+              "labour": 2000,
+              "bricks": 2000,
+              "grindstones": 50,
+              "bellows": 200
+            }
+          },
+          "tier": 4,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 4096
+        },
+        {
+          "type": "premium production",
+          "requires": "grindstone",
+          "construction": {
+            "time": 36,
+            "materials": {
+              "labour": 500,
+              "timber": 250,
+              "tiles": 300,
+              "grindstones": 10,
+              "tools": 200,
+              "paper": 200,
+              "steel ingots": 200,
+              "windows": 6
+            }
+          },
+          "tier": 4,
+          "management": 0.025,
+          "flag": 8192,
+          "premium": true
+        }
+      ],
+      "classes": [
+        "forging"
+      ]
+    },
+    {
+      "type": "coppersmith",
+      "requires": {
+        "center": true
+      },
+      "construction": {
+        "range": 8,
+        "size": 25,
+        "time": 18,
+        "materials": {
+          "labour": 400,
+          "timber": 100,
+          "bricks": 100
+        }
+      },
+      "upgrades": [
+        {
+          "type": "bickiron",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 300,
+              "charcoal": 40,
+              "tools": 40,
+              "wrought iron": 60,
+              "steel ingots": 10
+            }
+          },
+          "management": 0.025,
+          "flag": 16
+        },
+        {
+          "type": "productivity 1",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 250,
+              "bricks": 250,
+              "tools": 250
+            }
+          },
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 32
+        },
+        {
+          "type": "productivity 2",
+          "requires": "productivity 1",
+          "construction": {
+            "time": 72,
+            "materials": {
+              "labour": 1000,
+              "bricks": 1000,
+              "tools": 1000
+            }
+          },
+          "tier": 3,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 64
+        },
+        {
+          "type": "productivity 3",
+          "requires": "productivity 2",
+          "construction": {
+            "time": 120,
+            "materials": {
+              "labour": 1000,
+              "bricks": 1000,
+              "tools": 5000
+            }
+          },
+          "tier": 4,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 128
+        }
+      ],
+      "classes": [
+        "crafting"
+      ]
+    },
+    {
+      "type": "toolworks",
+      "requires": {
+        "center": true
+      },
+      "construction": {
+        "range": 8,
+        "size": 25,
+        "time": 24,
+        "materials": {
+          "labour": 800,
+          "timber": 360,
+          "bricks": 160,
+          "tiles": 200,
+          "nails": 120
+        }
+      },
+      "upgrades": [
+        {
+          "type": "hafting jig",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 400,
+              "timber": 100,
+              "tools": 40
+            }
+          },
+          "management": 0.025,
+          "flag": 16
+        },
+        {
+          "type": "joining station",
+          "construction": {
+            "time": 48,
+            "materials": {
+              "labour": 400,
+              "timber": 200,
+              "tools": 80,
+              "nails": 60
+            }
+          },
+          "management": 0.025,
+          "flag": 32
+        },
+        {
+          "type": "productivity 1",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 500,
+              "timber": 500,
+              "tools": 500
+            }
+          },
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 64
+        },
+        {
+          "type": "productivity 2",
+          "requires": "productivity 1",
+          "construction": {
+            "time": 72,
+            "materials": {
+              "labour": 2500,
+              "timber": 2500,
+              "tools": 5000
+            }
+          },
+          "tier": 3,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 128
+        },
+        {
+          "type": "productivity 3",
+          "requires": "productivity 2",
+          "construction": {
+            "time": 120,
+            "materials": {
+              "labour": 2500,
+              "timber": 2500,
+              "tools": 5000,
+              "chisels": 5000
+            }
+          },
+          "tier": 4,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 256
+        }
+      ],
+      "classes": [
+        "crafting"
+      ]
+    },
+    {
+      "type": "butchery",
+      "requires": {
+        "center": true
+      },
+      "construction": {
+        "range": 8,
+        "size": 25,
+        "time": 12,
+        "materials": {
+          "labour": 400,
+          "timber": 200,
+          "bricks": 60,
+          "tools": 20
+        }
+      },
+      "upgrades": [
+        {
+          "type": "productivity 1",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 250,
+              "timber": 250,
+              "tools": 250
+            }
+          },
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 16
+        },
+        {
+          "type": "productivity 2",
+          "requires": "productivity 1",
+          "construction": {
+            "time": 72,
+            "materials": {
+              "labour": 1000,
+              "timber": 1000,
+              "tools": 500,
+              "blades": 500
+            }
+          },
+          "tier": 3,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 32
+        },
+        {
+          "type": "productivity 3",
+          "requires": "productivity 2",
+          "construction": {
+            "time": 120,
+            "materials": {
+              "labour": 1000,
+              "timber": 1000,
+              "tools": 1000,
+              "blades": 2000
+            }
+          },
+          "tier": 4,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 64
+        }
+      ],
+      "classes": [
+        "nutrition"
+      ]
+    },
+    {
+      "type": "saltery",
+      "requires": {
+        "center": true
+      },
+      "construction": {
+        "range": 8,
+        "size": 25,
+        "time": 12,
+        "materials": {
+          "labour": 300,
+          "timber": 120,
+          "bricks": 60,
+          "casks": 80,
+          "tools": 20
+        }
+      },
+      "upgrades": [
+        {
+          "type": "productivity 1",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 250,
+              "timber": 250,
+              "tools": 250
+            }
+          },
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 16
+        },
+        {
+          "type": "productivity 2",
+          "requires": "productivity 1",
+          "construction": {
+            "time": 72,
+            "materials": {
+              "labour": 1000,
+              "timber": 1000,
+              "casks": 1000
+            }
+          },
+          "tier": 3,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 32
+        },
+        {
+          "type": "productivity 3",
+          "requires": "productivity 2",
+          "construction": {
+            "time": 120,
+            "materials": {
+              "labour": 1000,
+              "timber": 1000,
+              "casks": 5000
+            }
+          },
+          "tier": 4,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 64
+        }
+      ],
+      "classes": [
+        "nutrition"
+      ]
+    },
+    {
+      "type": "smokery",
+      "requires": {
+        "center": true
+      },
+      "construction": {
+        "range": 8,
+        "size": 25,
+        "time": 12,
+        "materials": {
+          "labour": 600,
+          "timber": 200,
+          "bricks": 240
+        }
+      },
+      "upgrades": [
+        {
+          "type": "productivity 1",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 500,
+              "bricks": 500,
+              "tools": 250
+            }
+          },
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 16
+        },
+        {
+          "type": "productivity 2",
+          "requires": "productivity 1",
+          "construction": {
+            "time": 72,
+            "materials": {
+              "labour": 2000,
+              "bricks": 2500,
+              "tools": 500
+            }
+          },
+          "tier": 3,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 32
+        },
+        {
+          "type": "productivity 3",
+          "requires": "productivity 2",
+          "construction": {
+            "time": 120,
+            "materials": {
+              "labour": 2500,
+              "bricks": 5000,
+              "tools": 2000
+            }
+          },
+          "tier": 4,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 64
+        },
+        {
+          "type": "premium production",
+          "construction": {
+            "time": 36,
+            "materials": {
+              "labour": 500,
+              "timber": 250,
+              "tiles": 150,
+              "casks": 500,
+              "tools": 250,
+              "paper": 250,
+              "cookware": 100,
+              "windows": 8
+            }
+          },
+          "tier": 4,
+          "management": 0.025,
+          "flag": 128,
+          "premium": true
+        }
+      ],
+      "classes": [
+        "nutrition"
+      ]
+    },
+    {
+      "type": "dairy",
+      "requires": {
+        "center": true
+      },
+      "construction": {
+        "range": 8,
+        "size": 25,
+        "time": 24,
+        "materials": {
+          "labour": 500,
+          "timber": 200,
+          "casks": 100
+        }
+      },
+      "upgrades": [
+        {
+          "type": "fermentory",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 700,
+              "timber": 300,
+              "casks": 200
+            }
+          },
+          "management": 0.025,
+          "flag": 16
+        },
+        {
+          "type": "productivity 1",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 250,
+              "timber": 250,
+              "casks": 250
+            }
+          },
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 32
+        },
+        {
+          "type": "productivity 2",
+          "requires": "productivity 1",
+          "construction": {
+            "time": 72,
+            "materials": {
+              "labour": 1000,
+              "timber": 1000,
+              "casks": 1000,
+              "glassware": 100
+            }
+          },
+          "tier": 3,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 64
+        },
+        {
+          "type": "productivity 3",
+          "requires": "productivity 2",
+          "construction": {
+            "time": 120,
+            "materials": {
+              "labour": 1000,
+              "timber": 1000,
+              "casks": 2500,
+              "glassware": 250
+            }
+          },
+          "tier": 4,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 128
+        },
+        {
+          "type": "premium production",
+          "requires": "fermentory",
+          "construction": {
+            "time": 36,
+            "materials": {
+              "labour": 400,
+              "timber": 200,
+              "tiles": 150,
+              "casks": 500,
+              "tools": 200,
+              "cookware": 50,
+              "glassware": 50,
+              "windows": 5
+            }
+          },
+          "tier": 4,
+          "management": 0.025,
+          "flag": 256,
+          "premium": true
+        }
+      ],
+      "classes": [
+        "nutrition"
+      ]
+    },
+    {
+      "type": "bakery",
+      "requires": {
+        "center": true
+      },
+      "construction": {
+        "range": 8,
+        "size": 25,
+        "time": 6,
+        "materials": {
+          "labour": 240,
+          "timber": 120
+        }
+      },
+      "upgrades": [
+        {
+          "type": "stone oven",
+          "construction": {
+            "time": 12,
+            "materials": {
+              "labour": 300,
+              "timber": 60,
+              "bricks": 160
+            }
+          },
+          "management": 0.025,
+          "flag": 16
+        },
+        {
+          "type": "productivity 1",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 250,
+              "bricks": 250,
+              "cookware": 50
+            }
+          },
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 32
+        },
+        {
+          "type": "productivity 2",
+          "requires": "productivity 1",
+          "construction": {
+            "time": 72,
+            "materials": {
+              "labour": 1000,
+              "bricks": 500,
+              "cookware": 250,
+              "glassware": 50
+            }
+          },
+          "tier": 3,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 64
+        },
+        {
+          "type": "productivity 3",
+          "requires": "productivity 2",
+          "construction": {
+            "time": 120,
+            "materials": {
+              "labour": 1000,
+              "bricks": 500,
+              "cookware": 500,
+              "glassware": 200
+            }
+          },
+          "tier": 4,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 128
+        }
+      ],
+      "classes": [
+        "nutrition"
+      ]
+    },
+    {
+      "type": "brewery",
+      "requires": {
+        "center": true
+      },
+      "construction": {
+        "range": 8,
+        "size": 25,
+        "time": 12,
+        "materials": {
+          "labour": 500,
+          "timber": 220,
+          "bricks": 120
+        }
+      },
+      "upgrades": [
+        {
+          "type": "malt mill",
+          "construction": {
+            "time": 36,
+            "materials": {
+              "labour": 800,
+              "timber": 300,
+              "limestone": 80,
+              "nails": 100
+            }
+          },
+          "management": 0.025,
+          "flag": 16
+        },
+        {
+          "type": "hopping vessels",
+          "requires": "malt mill",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 800,
+              "timber": 320,
+              "casks": 160,
+              "nails": 120,
+              "cookware": 80
+            }
+          },
+          "management": 0.025,
+          "flag": 32
+        },
+        {
+          "type": "productivity 1",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 250,
+              "timber": 100,
+              "casks": 100,
+              "cookware": 100
+            }
+          },
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 64
+        },
+        {
+          "type": "productivity 2",
+          "requires": "productivity 1",
+          "construction": {
+            "time": 72,
+            "materials": {
+              "labour": 1000,
+              "timber": 500,
+              "casks": 500,
+              "cookware": 500,
+              "alembics": 20
+            }
+          },
+          "tier": 3,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 128
+        },
+        {
+          "type": "productivity 3",
+          "requires": "productivity 2",
+          "construction": {
+            "time": 120,
+            "materials": {
+              "labour": 1000,
+              "timber": 500,
+              "casks": 500,
+              "cookware": 2000,
+              "alembics": 50
+            }
+          },
+          "tier": 4,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 256
+        }
+      ],
+      "classes": [
+        "nutrition"
+      ]
+    },
+    {
+      "type": "malthouse",
+      "requires": {
+        "center": true
+      },
+      "construction": {
+        "range": 8,
+        "size": 25,
+        "time": 18,
+        "materials": {
+          "labour": 600,
+          "timber": 240,
+          "bricks": 60,
+          "tiles": 120,
+          "nails": 80
+        }
+      },
+      "upgrades": [
+        {
+          "type": "malt sieve",
+          "construction": {
+            "time": 36,
+            "materials": {
+              "labour": 800,
+              "timber": 300,
+              "canvas": 50,
+              "nails": 60
+            }
+          },
+          "management": 0.025,
+          "flag": 16
+        },
+        {
+          "type": "steeping cistern",
+          "requires": "malt sieve",
+          "construction": {
+            "time": 36,
+            "materials": {
+              "labour": 1000,
+              "timber": 100,
+              "bricks": 300,
+              "lead bars": 200
+            }
+          },
+          "management": 0.025,
+          "flag": 32
+        },
+        {
+          "type": "productivity 1",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 500,
+              "timber": 500,
+              "nets": 50
+            }
+          },
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 64
+        },
+        {
+          "type": "productivity 2",
+          "requires": "productivity 1",
+          "construction": {
+            "time": 72,
+            "materials": {
+              "labour": 2000,
+              "timber": 2000,
+              "nets": 250
+            }
+          },
+          "tier": 3,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 128
+        },
+        {
+          "type": "productivity 3",
+          "requires": "productivity 2",
+          "construction": {
+            "time": 120,
+            "materials": {
+              "labour": 2000,
+              "timber": 2500,
+              "nets": 1000
+            }
+          },
+          "tier": 4,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 256
+        }
+      ],
+      "classes": [
+        "nutrition"
+      ]
+    },
+    {
+      "type": "dye boiler",
+      "requires": {
+        "center": true
+      },
+      "construction": {
+        "range": 8,
+        "size": 25,
+        "time": 24,
+        "materials": {
+          "labour": 400,
+          "timber": 200,
+          "bricks": 60,
+          "cookware": 40
+        }
+      },
+      "upgrades": [
+        {
+          "type": "productivity 1",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 250,
+              "timber": 250,
+              "cookware": 50
+            }
+          },
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 16
+        },
+        {
+          "type": "productivity 2",
+          "requires": "productivity 1",
+          "construction": {
+            "time": 72,
+            "materials": {
+              "labour": 1000,
+              "timber": 1000,
+              "cookware": 250,
+              "glassware": 100
+            }
+          },
+          "tier": 3,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 32
+        },
+        {
+          "type": "productivity 3",
+          "requires": "productivity 2",
+          "construction": {
+            "time": 120,
+            "materials": {
+              "labour": 1000,
+              "timber": 1000,
+              "cookware": 1000,
+              "glassware": 500
+            }
+          },
+          "tier": 4,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 64
+        },
+        {
+          "type": "premium production",
+          "construction": {
+            "time": 36,
+            "materials": {
+              "labour": 500,
+              "timber": 500,
+              "tiles": 300,
+              "paper": 250,
+              "cookware": 250,
+              "windows": 4
+            }
+          },
+          "tier": 4,
+          "management": 0.025,
+          "flag": 128,
+          "premium": true
+        }
+      ],
+      "classes": [
+        "crafting"
+      ]
+    },
+    {
+      "type": "dyeworks",
+      "requires": {
+        "center": true
+      },
+      "construction": {
+        "range": 8,
+        "size": 25,
+        "time": 36,
+        "materials": {
+          "labour": 500,
+          "timber": 300,
+          "bricks": 100,
+          "tiles": 120,
+          "nails": 50,
+          "cookware": 80
+        }
+      },
+      "upgrades": [
+        {
+          "type": "productivity 1",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 500,
+              "bricks": 500,
+              "cookware": 100
+            }
+          },
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 16
+        },
+        {
+          "type": "productivity 2",
+          "requires": "productivity 1",
+          "construction": {
+            "time": 72,
+            "materials": {
+              "labour": 2000,
+              "bricks": 1000,
+              "cookware": 500,
+              "glassware": 250
+            }
+          },
+          "tier": 3,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 32
+        },
+        {
+          "type": "productivity 3",
+          "requires": "productivity 2",
+          "construction": {
+            "time": 120,
+            "materials": {
+              "labour": 2000,
+              "bricks": 1000,
+              "cookware": 2000,
+              "glassware": 1000
+            }
+          },
+          "tier": 4,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 64
+        },
+        {
+          "type": "premium production",
+          "construction": {
+            "time": 36,
+            "materials": {
+              "labour": 1000,
+              "timber": 1000,
+              "tiles": 500,
+              "casks": 500,
+              "paper": 250,
+              "cookware": 500,
+              "windows": 4
+            }
+          },
+          "tier": 4,
+          "management": 0.025,
+          "flag": 128,
+          "premium": true
+        }
+      ],
+      "classes": [
+        "textile"
+      ]
+    },
+    {
+      "type": "spinnery",
+      "requires": {
+        "center": true
+      },
+      "construction": {
+        "range": 8,
+        "size": 25,
+        "time": 6,
+        "materials": {
+          "labour": 400,
+          "timber": 200
+        }
+      },
+      "upgrades": [
+        {
+          "type": "spinning wheel",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 320,
+              "timber": 100,
+              "spinning wheels": 6
+            }
+          },
+          "management": 0.025,
+          "flag": 16
+        },
+        {
+          "type": "productivity 1",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 500,
+              "timber": 400,
+              "tools": 100
+            }
+          },
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 32
+        },
+        {
+          "type": "productivity 2",
+          "requires": "productivity 1",
+          "construction": {
+            "time": 72,
+            "materials": {
+              "labour": 2000,
+              "timber": 2000,
+              "spinning wheels": 25
+            }
+          },
+          "tier": 3,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 64
+        },
+        {
+          "type": "productivity 3",
+          "requires": "productivity 2",
+          "construction": {
+            "time": 120,
+            "materials": {
+              "labour": 2000,
+              "timber": 2000,
+              "spinning wheels": 200
+            }
+          },
+          "tier": 4,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 128
+        }
+      ],
+      "classes": [
+        "textile"
+      ]
+    },
+    {
+      "type": "weavery",
+      "requires": {
+        "center": true
+      },
+      "construction": {
+        "range": 8,
+        "size": 25,
+        "time": 18,
+        "materials": {
+          "labour": 400,
+          "timber": 240,
+          "nails": 60
+        }
+      },
+      "upgrades": [
+        {
+          "type": "treadle loom",
+          "construction": {
+            "time": 36,
+            "materials": {
+              "labour": 600,
+              "timber": 200,
+              "looms": 2
+            }
+          },
+          "management": 0.025,
+          "flag": 16
+        },
+        {
+          "type": "productivity 1",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 250,
+              "timber": 250,
+              "tools": 250
+            }
+          },
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 32
+        },
+        {
+          "type": "productivity 2",
+          "requires": "productivity 1",
+          "construction": {
+            "time": 72,
+            "materials": {
+              "labour": 500,
+              "timber": 500,
+              "looms": 20
+            }
+          },
+          "tier": 3,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 64
+        },
+        {
+          "type": "productivity 3",
+          "requires": "productivity 2",
+          "construction": {
+            "time": 120,
+            "materials": {
+              "labour": 1000,
+              "timber": 1000,
+              "looms": 60
+            }
+          },
+          "tier": 4,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 128
+        }
+      ],
+      "classes": [
+        "textile"
+      ]
+    },
+    {
+      "type": "sewing shop",
+      "requires": {
+        "center": true
+      },
+      "construction": {
+        "range": 8,
+        "size": 25,
+        "time": 12,
+        "materials": {
+          "labour": 500,
+          "timber": 240
+        }
+      },
+      "upgrades": [
+        {
+          "type": "cutting table",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 600,
+              "timber": 300,
+              "tools": 100,
+              "nails": 40
+            }
+          },
+          "management": 0.025,
+          "flag": 16
+        },
+        {
+          "type": "crucible",
+          "requires": "cutting table",
+          "construction": {
+            "time": 36,
+            "materials": {
+              "labour": 600,
+              "timber": 120,
+              "tools": 60,
+              "wrought iron": 60,
+              "nails": 40,
+              "cookware": 40,
+              "lead bars": 40
+            }
+          },
+          "management": 0.025,
+          "flag": 32
+        },
+        {
+          "type": "productivity 1",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 500,
+              "timber": 250,
+              "tools": 250
+            }
+          },
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 64
+        },
+        {
+          "type": "productivity 2",
+          "requires": "productivity 1",
+          "construction": {
+            "time": 72,
+            "materials": {
+              "labour": 2000,
+              "timber": 2000,
+              "tools": 2000
+            }
+          },
+          "tier": 3,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 128
+        },
+        {
+          "type": "productivity 3",
+          "requires": "productivity 2",
+          "construction": {
+            "time": 120,
+            "materials": {
+              "labour": 2500,
+              "timber": 2500,
+              "tools": 1000,
+              "blades": 2500
+            }
+          },
+          "tier": 4,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 256
+        },
+        {
+          "type": "premium production",
+          "requires": "crucible",
+          "construction": {
+            "time": 36,
+            "materials": {
+              "labour": 500,
+              "timber": 250,
+              "bricks": 150,
+              "tiles": 150,
+              "slaked lime": 100,
+              "tools": 400,
+              "blades": 400,
+              "windows": 5
+            }
+          },
+          "tier": 4,
+          "management": 0.025,
+          "flag": 512,
+          "premium": true
+        }
+      ],
+      "classes": [
+        "textile"
+      ]
+    },
+    {
+      "type": "chandlery",
+      "requires": {
+        "center": true
+      },
+      "construction": {
+        "range": 8,
+        "size": 25,
+        "time": 18,
+        "materials": {
+          "labour": 500,
+          "timber": 200,
+          "bricks": 120,
+          "nails": 60,
+          "cookware": 40
+        }
+      },
+      "upgrades": [
+        {
+          "type": "productivity 1",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 500,
+              "bricks": 500,
+              "cookware": 100
+            }
+          },
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 16
+        },
+        {
+          "type": "productivity 2",
+          "requires": "productivity 1",
+          "construction": {
+            "time": 72,
+            "materials": {
+              "labour": 1000,
+              "bricks": 1000,
+              "cookware": 500
+            }
+          },
+          "tier": 3,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 32
+        },
+        {
+          "type": "productivity 3",
+          "requires": "productivity 2",
+          "construction": {
+            "time": 120,
+            "materials": {
+              "labour": 1000,
+              "bricks": 2000,
+              "cookware": 2500
+            }
+          },
+          "tier": 4,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 64
+        }
+      ],
+      "classes": [
+        "crafting"
+      ]
+    },
+    {
+      "type": "sawmill",
+      "requires": {
+        "center": true
+      },
+      "construction": {
+        "range": 8,
+        "size": 25,
+        "time": 24,
+        "materials": {
+          "labour": 600,
+          "timber": 200,
+          "bricks": 30,
+          "nails": 60,
+          "tiles": 120,
+          "wrought iron": 40
+        }
+      },
+      "upgrades": [
+        {
+          "type": "transmission",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 400,
+              "timber": 200,
+              "gears": 25,
+              "rope": 20,
+              "wrought iron": 40
+            }
+          },
+          "management": 0.025,
+          "flag": 16
+        },
+        {
+          "type": "productivity 1",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 500,
+              "timber": 250,
+              "tools": 500
+            }
+          },
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 32
+        },
+        {
+          "type": "productivity 2",
+          "requires": "productivity 1",
+          "construction": {
+            "time": 72,
+            "materials": {
+              "labour": 2000,
+              "timber": 1000,
+              "tools": 1000,
+              "gears": 100
+            }
+          },
+          "tier": 3,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 64
+        },
+        {
+          "type": "productivity 3",
+          "requires": "productivity 2",
+          "construction": {
+            "time": 120,
+            "materials": {
+              "labour": 2000,
+              "timber": 1000,
+              "axes": 2500,
+              "gears": 500
+            }
+          },
+          "tier": 4,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 128
+        }
+      ],
+      "classes": [
+        "crafting"
+      ]
+    },
+    {
+      "type": "shipyard",
+      "requires": {
+        "center": true,
+        "coast": true
+      },
+      "construction": {
+        "range": 8,
+        "size": 25,
+        "time": 18,
+        "materials": {
+          "labour": 800,
+          "timber": 400
+        }
+      },
+      "upgrades": [
+        {
+          "type": "crane",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 600,
+              "timber": 120,
+              "wheels": 20,
+              "tackles": 20,
+              "nails": 60
+            }
+          },
+          "management": 0.025,
+          "flag": 16
+        },
+        {
+          "type": "productivity 1",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 500,
+              "timber": 500,
+              "tools": 250
+            }
+          },
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 32
+        },
+        {
+          "type": "productivity 2",
+          "requires": "productivity 1",
+          "construction": {
+            "time": 72,
+            "materials": {
+              "labour": 1000,
+              "timber": 1000,
+              "tools": 1000,
+              "paper": 100
+            }
+          },
+          "tier": 3,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 64
+        },
+        {
+          "type": "productivity 3",
+          "requires": "productivity 2",
+          "construction": {
+            "time": 120,
+            "materials": {
+              "labour": 2000,
+              "timber": 2000,
+              "axes": 1000,
+              "paper": 500
+            }
+          },
+          "tier": 4,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 128
+        },
+        {
+          "type": "premium production",
+          "requires": "crane",
+          "construction": {
+            "time": 36,
+            "materials": {
+              "labour": 600,
+              "timber": 400,
+              "tiles": 250,
+              "tools": 500,
+              "axes": 500,
+              "paper": 100,
+              "windows": 10
+            }
+          },
+          "tier": 4,
+          "management": 0.025,
+          "flag": 256,
+          "premium": true
+        }
+      ],
+      "classes": [
+        "maritime"
+      ]
+    },
+    {
+      "type": "jeweller",
+      "requires": {
+        "center": true
+      },
+      "construction": {
+        "range": 8,
+        "size": 25,
+        "time": 36,
+        "materials": {
+          "labour": 800,
+          "timber": 300,
+          "bricks": 80,
+          "tiles": 120,
+          "nails": 80
+        }
+      },
+      "upgrades": [
+        {
+          "type": "crucible",
+          "construction": {
+            "time": 48,
+            "materials": {
+              "labour": 400,
+              "timber": 40,
+              "bricks": 200,
+              "tools": 200,
+              "cookware": 40
+            }
+          },
+          "management": 0.025,
+          "flag": 16
+        },
+        {
+          "type": "productivity 1",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 500,
+              "timber": 500,
+              "tools": 500
+            }
+          },
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 32
+        },
+        {
+          "type": "productivity 2",
+          "requires": "productivity 1",
+          "construction": {
+            "time": 72,
+            "materials": {
+              "labour": 2000,
+              "timber": 2000,
+              "tools": 2500
+            }
+          },
+          "tier": 3,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 64
+        },
+        {
+          "type": "productivity 3",
+          "requires": "productivity 2",
+          "construction": {
+            "time": 120,
+            "materials": {
+              "labour": 2000,
+              "timber": 2000,
+              "tools": 10000
+            }
+          },
+          "tier": 4,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 128
+        }
+      ],
+      "classes": [
+        "crafting"
+      ]
+    },
+    {
+      "type": "warehouse",
+      "capacity": 12000,
+      "requires": {
+        "center": true
+      },
+      "construction": {
+        "range": 10,
+        "size": 40,
+        "time": 12,
+        "materials": {
+          "labour": 300,
+          "timber": 200,
+          "tiles": 80,
+          "nails": 60
+        }
+      },
+      "upgrades": [
+        {
+          "type": "crane",
+          "capacity": 4000,
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 600,
+              "timber": 300,
+              "wheels": 40,
+              "tackles": 30,
+              "nails": 120
+            }
+          },
+          "management": 0.025,
+          "flag": 16
+        }
+      ]
+    },
+    {
+      "type": "stable",
+      "requires": {
+        "center": true
+      },
+      "construction": {
+        "range": 8,
+        "size": 25,
+        "time": 12,
+        "materials": {
+          "labour": 300,
+          "timber": 200,
+          "bricks": 40,
+          "cattle": 8
+        }
+      },
+      "upgrades": [
+        {
+          "type": "productivity 1",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 250,
+              "timber": 100,
+              "rope": 25
+            }
+          },
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 16
+        },
+        {
+          "type": "productivity 2",
+          "requires": "productivity 1",
+          "construction": {
+            "time": 72,
+            "materials": {
+              "labour": 1000,
+              "timber": 1000,
+              "harnesses": 200,
+              "rope": 50
+            }
+          },
+          "tier": 3,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 32
+        },
+        {
+          "type": "productivity 3",
+          "requires": "productivity 2",
+          "construction": {
+            "time": 120,
+            "materials": {
+              "labour": 1000,
+              "timber": 1500,
+              "harnesses": 500,
+              "rope": 200
+            }
+          },
+          "tier": 4,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 64
+        }
+      ],
+      "classes": [
+        "nutrition"
+      ]
+    },
+    {
+      "type": "glass blower",
+      "requires": {
+        "center": true
+      },
+      "construction": {
+        "range": 8,
+        "size": 25,
+        "time": 24,
+        "materials": {
+          "labour": 600,
+          "timber": 160,
+          "bricks": 200,
+          "tiles": 180,
+          "tools": 60,
+          "wrought iron": 20,
+          "nails": 120
+        }
+      },
+      "upgrades": [
+        {
+          "type": "joining station",
+          "construction": {
+            "time": 48,
+            "materials": {
+              "labour": 400,
+              "timber": 200,
+              "tools": 80,
+              "nails": 60
+            }
+          },
+          "management": 0.025,
+          "flag": 16
+        },
+        {
+          "type": "productivity 1",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 500,
+              "bricks": 500,
+              "tools": 500
+            }
+          },
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 32
+        },
+        {
+          "type": "productivity 2",
+          "requires": "productivity 1",
+          "construction": {
+            "time": 72,
+            "materials": {
+              "labour": 2500,
+              "bricks": 1000,
+              "tools": 2500
+            }
+          },
+          "tier": 3,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 64
+        },
+        {
+          "type": "productivity 3",
+          "requires": "productivity 2",
+          "construction": {
+            "time": 120,
+            "materials": {
+              "labour": 2500,
+              "bricks": 2500,
+              "tools": 10000
+            }
+          },
+          "tier": 4,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 128
+        },
+        {
+          "type": "premium production",
+          "requires": "joining station",
+          "construction": {
+            "time": 36,
+            "materials": {
+              "labour": 500,
+              "timber": 250,
+              "bricks": 400,
+              "tiles": 150,
+              "slaked lime": 200,
+              "tools": 500,
+              "windows": 6
+            }
+          },
+          "tier": 4,
+          "management": 0.025,
+          "flag": 256,
+          "premium": true
+        }
+      ],
+      "classes": [
+        "crafting"
+      ]
+    },
+    {
+      "type": "apothecary",
+      "requires": {
+        "center": true
+      },
+      "construction": {
+        "range": 8,
+        "size": 25,
+        "time": 36,
+        "materials": {
+          "labour": 800,
+          "timber": 200,
+          "bricks": 60,
+          "tiles": 160,
+          "nails": 100,
+          "windows": 5,
+          "alembics": 10
+        }
+      },
+      "upgrades": [
+        {
+          "type": "productivity 1",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 500,
+              "timber": 500,
+              "alembics": 25
+            }
+          },
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 16
+        },
+        {
+          "type": "productivity 2",
+          "requires": "productivity 1",
+          "construction": {
+            "time": 72,
+            "materials": {
+              "labour": 1000,
+              "timber": 1000,
+              "paper": 100,
+              "cookware": 500,
+              "alembics": 50
+            }
+          },
+          "tier": 3,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 32
+        },
+        {
+          "type": "productivity 3",
+          "requires": "productivity 2",
+          "construction": {
+            "time": 120,
+            "materials": {
+              "labour": 2000,
+              "timber": 2000,
+              "paper": 500,
+              "cookware": 1000,
+              "alembics": 100
+            }
+          },
+          "tier": 4,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 64
+        }
+      ],
+      "classes": [
+        "nutrition"
+      ]
+    },
+    {
+      "type": "boardinghouse",
+      "requires": {
+        "center": true
+      },
+      "tenants": 5,
+      "construction": {
+        "range": 8,
+        "size": 25,
+        "time": 18,
+        "materials": {
+          "labour": 500,
+          "timber": 200,
+          "tiles": 100,
+          "nails": 60
+        }
+      },
+      "classes": [
+        "mercantile"
+      ]
+    },
+    {
+      "type": "fishing shack",
+      "requires": {
+        "coast": true
+      },
+      "construction": {
+        "range": 9,
+        "size": 25,
+        "discount": 20,
+        "time": 3,
+        "materials": {
+          "labour": 100,
+          "timber": 10,
+          "logs": 10
+        }
+      },
+      "classes": [
+        "maritime"
+      ]
+    },
+    {
+      "type": "sail loft",
+      "requires": {
+        "center": true
+      },
+      "construction": {
+        "range": 8,
+        "size": 25,
+        "time": 36,
+        "materials": {
+          "labour": 500,
+          "timber": 300,
+          "bricks": 80,
+          "tiles": 120,
+          "nails": 120,
+          "windows": 6
+        }
+      },
+      "upgrades": [
+        {
+          "type": "productivity 1",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 500,
+              "timber": 500,
+              "blades": 250
+            }
+          },
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 16
+        },
+        {
+          "type": "productivity 2",
+          "requires": "productivity 1",
+          "construction": {
+            "time": 72,
+            "materials": {
+              "labour": 2500,
+              "timber": 2500,
+              "blades": 1000,
+              "paper": 100
+            }
+          },
+          "tier": 3,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 32
+        },
+        {
+          "type": "productivity 3",
+          "requires": "productivity 2",
+          "construction": {
+            "time": 120,
+            "materials": {
+              "labour": 2500,
+              "timber": 5000,
+              "blades": 2500,
+              "paper": 500
+            }
+          },
+          "tier": 4,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 64
+        },
+        {
+          "type": "premium production",
+          "construction": {
+            "time": 36,
+            "materials": {
+              "labour": 600,
+              "timber": 400,
+              "tiles": 250,
+              "tools": 500,
+              "blades": 500,
+              "paper": 100,
+              "windows": 10
+            }
+          },
+          "tier": 4,
+          "management": 0.025,
+          "flag": 128,
+          "premium": true
+        }
+      ],
+      "classes": [
+        "maritime"
+      ]
+    },
+    {
+      "type": "chapel",
+      "requires": {
+        "center": true
+      },
+      "prestige": 5,
+      "construction": {
+        "range": 4,
+        "size": 5,
+        "time": 60,
+        "materials": {
+          "labour": 6000,
+          "timber": 1200,
+          "tiles": 600,
+          "limestone": 500,
+          "furniture": 120,
+          "nails": 200
+        }
+      },
+      "upgrades": [
+        {
+          "type": "sculptures",
+          "construction": {
+            "time": 48,
+            "materials": {
+              "labour": 960,
+              "limestone": 60,
+              "slaked lime": 120,
+              "sculptures": 6
+            }
+          },
+          "prestige": 2,
+          "management": 0.025,
+          "flag": 16
+        },
+        {
+          "type": "bell tower",
+          "construction": {
+            "time": 60,
+            "materials": {
+              "labour": 1200,
+              "limestone": 200,
+              "slaked lime": 160,
+              "bells": 2
+            }
+          },
+          "prestige": 2,
+          "management": 0.025,
+          "flag": 32
+        }
+      ]
+    },
+    {
+      "type": "church",
+      "requires": {
+        "center": true
+      },
+      "prestige": 10,
+      "construction": {
+        "range": 3,
+        "size": 3,
+        "time": 90,
+        "materials": {
+          "labour": 8500,
+          "timber": 800,
+          "tiles": 800,
+          "limestone": 800,
+          "slaked lime": 400,
+          "furniture": 160,
+          "nails": 220,
+          "hinges": 60,
+          "jewellery": 100,
+          "windows": 20
+        }
+      },
+      "upgrades": [
+        {
+          "type": "sculptures",
+          "construction": {
+            "time": 48,
+            "materials": {
+              "labour": 1920,
+              "limestone": 120,
+              "slaked lime": 240,
+              "sculptures": 12
+            }
+          },
+          "prestige": 4,
+          "management": 0.025,
+          "flag": 16
+        },
+        {
+          "type": "bell tower",
+          "construction": {
+            "time": 60,
+            "materials": {
+              "labour": 2400,
+              "limestone": 400,
+              "slaked lime": 320,
+              "bells": 4
+            }
+          },
+          "prestige": 4,
+          "management": 0.025,
+          "flag": 32
+        }
+      ]
+    },
+    {
+      "type": "cathedral",
+      "requires": {
+        "center": true
+      },
+      "prestige": 40,
+      "size": 2,
+      "construction": {
+        "size": 1,
+        "time": 120,
+        "materials": {
+          "labour": 30000,
+          "timber": 1600,
+          "tiles": 3000,
+          "limestone": 2400,
+          "slaked lime": 1000,
+          "furniture": 600,
+          "nails": 800,
+          "hinges": 200,
+          "jewellery": 300,
+          "windows": 150
+        }
+      },
+      "upgrades": [
+        {
+          "type": "sculptures",
+          "construction": {
+            "time": 48,
+            "materials": {
+              "labour": 2880,
+              "limestone": 180,
+              "slaked lime": 360,
+              "sculptures": 18
+            }
+          },
+          "prestige": 8,
+          "management": 0.025,
+          "flag": 16
+        },
+        {
+          "type": "bell tower",
+          "construction": {
+            "time": 60,
+            "materials": {
+              "labour": 3600,
+              "limestone": 600,
+              "slaked lime": 480,
+              "bells": 10
+            }
+          },
+          "prestige": 10,
+          "management": 0.025,
+          "flag": 32
+        }
+      ]
+    },
+    {
+      "type": "mansion",
+      "requires": {
+        "forest": {
+          "max": 20
+        }
+      },
+      "prestige": 2,
+      "construction": {
+        "range": 5,
+        "size": 10,
+        "time": 48,
+        "materials": {
+          "labour": 1200,
+          "timber": 1000,
+          "bricks": 300,
+          "tiles": 200,
+          "slaked lime": 100,
+          "furniture": 50,
+          "nails": 140,
+          "hinges": 10
+        }
+      },
+      "upgrades": [
+        {
+          "type": "sculptures",
+          "construction": {
+            "time": 36,
+            "materials": {
+              "labour": 480,
+              "limestone": 30,
+              "slaked lime": 60,
+              "sculptures": 3
+            }
+          },
+          "prestige": 1,
+          "management": 0.01,
+          "flag": 16
+        }
+      ]
+    },
+    {
+      "type": "park",
+      "requires": {
+        "center": true
+      },
+      "prestige": 0.25,
+      "construction": {
+        "range": 8,
+        "size": 25,
+        "time": 12,
+        "materials": {
+          "labour": 260,
+          "timber": 40,
+          "limestone": 60
+        }
+      },
+      "upgrades": [
+        {
+          "type": "sculptures",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 320,
+              "limestone": 20,
+              "slaked lime": 40,
+              "sculptures": 2
+            }
+          },
+          "prestige": 0.5,
+          "management": 0.025,
+          "flag": 16
+        }
+      ]
+    },
+    {
+      "type": "townhouse",
+      "requires": {
+        "center": true
+      },
+      "prestige": 1,
+      "construction": {
+        "range": 5,
+        "size": 10,
+        "time": 24,
+        "materials": {
+          "labour": 800,
+          "timber": 600,
+          "bricks": 200,
+          "furniture": 20
+        }
+      }
+    },
+    {
+      "type": "storehouse",
+      "capacity": 6000,
+      "requires": {
+        "center": true
+      },
+      "upgrades": [
+        {
+          "type": "warehouse",
+          "promotion": true,
+          "capacity": 6000,
+          "construction": {
+            "time": 6,
+            "materials": {
+              "labour": 200,
+              "timber": 120
+            }
+          },
+          "flag": 16
+        }
+      ]
+    },
+    {
+      "type": "townhall",
+      "requires": {
+        "center": true
+      }
+    },
+    {
+      "type": "markethall",
+      "requires": {
+        "center": true
+      }
+    },
+    {
+      "type": "manor",
+      "requires": {
+        "center": true
+      }
+    },
+    {
+      "type": "square",
+      "requires": {
+        "center": true
+      }
+    },
+    {
+      "type": "townroad",
+      "requires": {
+        "center": true
+      }
+    },
+    {
+      "type": "rowhouse",
+      "requires": {
+        "center": true
+      },
+      "construction": {
+        "range": 8,
+        "size": 25,
+        "time": 18,
+        "materials": {
+          "labour": 500,
+          "timber": 300,
+          "bricks": 100,
+          "tiles": 120,
+          "nails": 60
+        }
+      },
+      "classes": [
+        "mercantile"
+      ]
+    },
+    {
+      "type": "arena",
+      "requires": {
+        "center": true
+      },
+      "prestige": 4,
+      "size": 2,
+      "construction": {
+        "size": 1,
+        "time": 48,
+        "materials": {
+          "labour": 5800,
+          "timber": 480,
+          "tiles": 200,
+          "limestone": 380,
+          "slaked lime": 140,
+          "arms": 100,
+          "nails": 200
+        }
+      },
+      "classes": [
+        "weaponry"
+      ]
+    },
+    {
+      "type": "masonry",
+      "requires": {
+        "center": true
+      },
+      "construction": {
+        "range": 8,
+        "size": 25,
+        "time": 36,
+        "materials": {
+          "labour": 600,
+          "timber": 320,
+          "tiles": 120,
+          "limestone": 60,
+          "slaked lime": 100,
+          "nails": 120
+        }
+      },
+      "upgrades": [
+        {
+          "type": "productivity 1",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 500,
+              "timber": 500,
+              "tools": 500
+            }
+          },
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 16
+        },
+        {
+          "type": "productivity 2",
+          "requires": "productivity 1",
+          "construction": {
+            "time": 72,
+            "materials": {
+              "labour": 1000,
+              "timber": 1000,
+              "tools": 2000,
+              "paper": 100
+            }
+          },
+          "tier": 3,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 32
+        },
+        {
+          "type": "productivity 3",
+          "requires": "productivity 2",
+          "construction": {
+            "time": 120,
+            "materials": {
+              "labour": 2000,
+              "timber": 2000,
+              "chisels": 5000,
+              "paper": 500
+            }
+          },
+          "tier": 4,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 64
+        }
+      ],
+      "classes": [
+        "crafting"
+      ]
+    },
+    {
+      "type": "machine workshop",
+      "requires": {
+        "center": true
+      },
+      "construction": {
+        "range": 8,
+        "size": 25,
+        "time": 36,
+        "materials": {
+          "labour": 800,
+          "timber": 400,
+          "tiles": 160,
+          "tools": 80,
+          "nails": 100
+        }
+      },
+      "upgrades": [
+        {
+          "type": "joining station",
+          "construction": {
+            "time": 48,
+            "materials": {
+              "labour": 400,
+              "timber": 200,
+              "tools": 80,
+              "nails": 60
+            }
+          },
+          "management": 0.025,
+          "flag": 16
+        },
+        {
+          "type": "pattern guide",
+          "construction": {
+            "time": 36,
+            "materials": {
+              "labour": 300,
+              "timber": 120,
+              "tools": 60,
+              "wheels": 20,
+              "nails": 60
+            }
+          },
+          "management": 0.025,
+          "flag": 32
+        },
+        {
+          "type": "centre gauge",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 200,
+              "timber": 80,
+              "tools": 80,
+              "wheels": 20,
+              "nails": 20
+            }
+          },
+          "management": 0.025,
+          "flag": 64
+        },
+        {
+          "type": "lathe",
+          "construction": {
+            "time": 48,
+            "materials": {
+              "labour": 400,
+              "timber": 200,
+              "tools": 50,
+              "lathes": 10
+            }
+          },
+          "management": 0.025,
+          "flag": 128
+        },
+        {
+          "type": "productivity 1",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 500,
+              "wheels": 100,
+              "tackles": 25
+            }
+          },
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 256
+        },
+        {
+          "type": "productivity 2",
+          "requires": "productivity 1",
+          "construction": {
+            "time": 72,
+            "materials": {
+              "labour": 1000,
+              "timber": 1000,
+              "wheels": 250,
+              "paper": 100,
+              "tackles": 50
+            }
+          },
+          "tier": 3,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 512
+        },
+        {
+          "type": "productivity 3",
+          "requires": "productivity 2",
+          "construction": {
+            "time": 120,
+            "materials": {
+              "labour": 2000,
+              "timber": 2000,
+              "gears": 500,
+              "paper": 250,
+              "tackles": 100
+            }
+          },
+          "tier": 4,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 1024
+        }
+      ],
+      "classes": [
+        "crafting"
+      ]
+    },
+    {
+      "type": "gold camp",
+      "requires": {
+        "resource": "gold"
+      },
+      "construction": {
+        "range": 8,
+        "size": 10,
+        "discount": 20,
+        "time": 6,
+        "materials": {
+          "labour": 200,
+          "timber": 60
+        }
+      },
+      "upgrades": [
+        {
+          "type": "gold mine",
+          "promotion": true,
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 1000,
+              "timber": 400
+            }
+          },
+          "flag": 16
+        }
+      ],
+      "classes": [
+        "forging"
+      ]
+    },
+    {
+      "type": "guard camp",
+      "requires": {
+        "center": true
+      },
+      "construction": {
+        "range": 8,
+        "size": 25,
+        "time": 12,
+        "materials": {
+          "labour": 300,
+          "timber": 80,
+          "arms": 20,
+          "nails": 40
+        }
+      },
+      "upgrades": [
+        {
+          "type": "guardhouse",
+          "promotion": true,
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 400,
+              "timber": 200,
+              "nails": 160,
+              "tiles": 100,
+              "limestone": 160,
+              "arms": 30
+            }
+          },
+          "flag": 16
+        }
+      ],
+      "classes": [
+        "weaponry"
+      ]
+    },
+    {
+      "type": "iron camp",
+      "requires": {
+        "resource": "iron"
+      },
+      "construction": {
+        "range": 8,
+        "size": 10,
+        "discount": 20,
+        "time": 6,
+        "materials": {
+          "labour": 160,
+          "timber": 40
+        }
+      },
+      "upgrades": [
+        {
+          "type": "iron mine",
+          "promotion": true,
+          "construction": {
+            "time": 18,
+            "materials": {
+              "labour": 840,
+              "timber": 240
+            }
+          },
+          "flag": 16
+        }
+      ],
+      "classes": [
+        "forging"
+      ]
+    },
+    {
+      "type": "lime kiln",
+      "requires": {
+        "center": true
+      },
+      "construction": {
+        "range": 8,
+        "size": 25,
+        "time": 18,
+        "materials": {
+          "labour": 500,
+          "timber": 160,
+          "bricks": 200
+        }
+      },
+      "upgrades": [
+        {
+          "type": "productivity 1",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 500,
+              "bricks": 500,
+              "tools": 250
+            }
+          },
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 16
+        },
+        {
+          "type": "productivity 2",
+          "requires": "productivity 1",
+          "construction": {
+            "time": 72,
+            "materials": {
+              "labour": 2500,
+              "bricks": 2000,
+              "tools": 1000
+            }
+          },
+          "tier": 3,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 32
+        },
+        {
+          "type": "productivity 3",
+          "requires": "productivity 2",
+          "construction": {
+            "time": 120,
+            "materials": {
+              "labour": 2500,
+              "bricks": 5000,
+              "tools": 2500
+            }
+          },
+          "tier": 4,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 64
+        }
+      ],
+      "classes": [
+        "forging"
+      ]
+    },
+    {
+      "type": "nailworks",
+      "requires": {
+        "center": true
+      },
+      "construction": {
+        "range": 8,
+        "size": 25,
+        "time": 24,
+        "materials": {
+          "labour": 400,
+          "timber": 100,
+          "bricks": 100,
+          "wrought iron": 40
+        }
+      },
+      "upgrades": [
+        {
+          "type": "productivity 1",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 250,
+              "timber": 250,
+              "tools": 250
+            }
+          },
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 16
+        },
+        {
+          "type": "productivity 2",
+          "requires": "productivity 1",
+          "construction": {
+            "time": 72,
+            "materials": {
+              "labour": 1000,
+              "timber": 1000,
+              "bellows": 50
+            }
+          },
+          "tier": 3,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 32
+        },
+        {
+          "type": "productivity 3",
+          "requires": "productivity 2",
+          "construction": {
+            "time": 120,
+            "materials": {
+              "labour": 1000,
+              "timber": 1000,
+              "bellows": 200
+            }
+          },
+          "tier": 4,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 64
+        }
+      ],
+      "classes": [
+        "forging"
+      ]
+    },
+    {
+      "type": "pulleyworks",
+      "requires": {
+        "center": true
+      },
+      "construction": {
+        "range": 8,
+        "size": 25,
+        "time": 18,
+        "materials": {
+          "labour": 600,
+          "timber": 200,
+          "tiles": 100,
+          "tools": 60,
+          "nails": 60
+        }
+      },
+      "upgrades": [
+        {
+          "type": "lathe",
+          "construction": {
+            "time": 48,
+            "materials": {
+              "labour": 400,
+              "timber": 200,
+              "tools": 50,
+              "lathes": 10
+            }
+          },
+          "management": 0.025,
+          "flag": 16
+        },
+        {
+          "type": "productivity 1",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 500,
+              "timber": 250,
+              "tools": 500
+            }
+          },
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 32
+        },
+        {
+          "type": "productivity 2",
+          "requires": "productivity 1",
+          "construction": {
+            "time": 72,
+            "materials": {
+              "labour": 2500,
+              "timber": 1000,
+              "tools": 1000,
+              "paper": 100
+            }
+          },
+          "tier": 3,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 64
+        },
+        {
+          "type": "productivity 3",
+          "requires": "productivity 2",
+          "construction": {
+            "time": 120,
+            "materials": {
+              "labour": 2500,
+              "timber": 1000,
+              "chisels": 2500,
+              "paper": 500
+            }
+          },
+          "tier": 4,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 128
+        }
+      ],
+      "classes": [
+        "maritime"
+      ]
+    },
+    {
+      "type": "weaponsmith",
+      "requires": {
+        "center": true
+      },
+      "construction": {
+        "range": 8,
+        "size": 25,
+        "time": 18,
+        "materials": {
+          "labour": 500,
+          "timber": 100,
+          "bricks": 120,
+          "wrought iron": 40
+        }
+      },
+      "upgrades": [
+        {
+          "type": "bellows",
+          "construction": {
+            "time": 12,
+            "materials": {
+              "labour": 160,
+              "timber": 40,
+              "tools": 20,
+              "wheels": 10,
+              "rope": 2,
+              "bellows": 8
+            }
+          },
+          "management": 0.025,
+          "flag": 16
+        },
+        {
+          "type": "steel anvil",
+          "requires": "bellows",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 500,
+              "charcoal": 120,
+              "tools": 40,
+              "wrought iron": 100,
+              "steel ingots": 120
+            }
+          },
+          "management": 0.025,
+          "flag": 32
+        },
+        {
+          "type": "grindstone",
+          "requires": "steel anvil",
+          "construction": {
+            "time": 12,
+            "materials": {
+              "labour": 200,
+              "timber": 60,
+              "grindstones": 4,
+              "wrought iron": 40
+            }
+          },
+          "management": 0.025,
+          "flag": 64
+        },
+        {
+          "type": "productivity 1",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 500,
+              "bricks": 250,
+              "tools": 250
+            }
+          },
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 128
+        },
+        {
+          "type": "productivity 2",
+          "requires": "productivity 1",
+          "construction": {
+            "time": 72,
+            "materials": {
+              "labour": 1000,
+              "bricks": 1500,
+              "tools": 500,
+              "bellows": 50
+            }
+          },
+          "tier": 3,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 256
+        },
+        {
+          "type": "productivity 3",
+          "requires": "productivity 2",
+          "construction": {
+            "time": 120,
+            "materials": {
+              "labour": 1000,
+              "bricks": 1500,
+              "grindstones": 50,
+              "tools": 1000,
+              "bellows": 200
+            }
+          },
+          "tier": 4,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 512
+        },
+        {
+          "type": "premium production",
+          "requires": "grindstone",
+          "construction": {
+            "time": 36,
+            "materials": {
+              "labour": 500,
+              "timber": 250,
+              "tiles": 300,
+              "grindstones": 10,
+              "tools": 200,
+              "steel ingots": 200,
+              "windows": 4
+            }
+          },
+          "tier": 4,
+          "management": 0.025,
+          "flag": 1024,
+          "premium": true
+        }
+      ],
+      "classes": [
+        "weaponry"
+      ]
+    },
+    {
+      "type": "cooperage",
+      "requires": {
+        "center": true
+      },
+      "construction": {
+        "range": 8,
+        "size": 25,
+        "time": 24,
+        "materials": {
+          "labour": 400,
+          "timber": 200,
+          "tiles": 60,
+          "tools": 60,
+          "nails": 60
+        }
+      },
+      "upgrades": [
+        {
+          "type": "productivity 1",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 500,
+              "timber": 250,
+              "tools": 250
+            }
+          },
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 16
+        },
+        {
+          "type": "productivity 2",
+          "requires": "productivity 1",
+          "construction": {
+            "time": 72,
+            "materials": {
+              "labour": 1000,
+              "timber": 1000,
+              "tools": 500,
+              "axes": 500
+            }
+          },
+          "tier": 3,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 32
+        },
+        {
+          "type": "productivity 3",
+          "requires": "productivity 2",
+          "construction": {
+            "time": 120,
+            "materials": {
+              "labour": 1000,
+              "timber": 1000,
+              "tools": 2500,
+              "axes": 2500
+            }
+          },
+          "tier": 4,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 64
+        }
+      ],
+      "classes": [
+        "crafting"
+      ]
+    },
+    {
+      "type": "hospital",
+      "requires": {
+        "center": true
+      },
+      "prestige": 15,
+      "size": 2,
+      "construction": {
+        "size": 1,
+        "time": 96,
+        "materials": {
+          "labour": 12000,
+          "timber": 1200,
+          "tiles": 1000,
+          "limestone": 600,
+          "slaked lime": 500,
+          "furniture": 200,
+          "nails": 500,
+          "hinges": 150,
+          "windows": 80
+        }
+      }
+    },
+    {
+      "type": "alloy smelter",
+      "requires": {
+        "center": true
+      },
+      "construction": {
+        "range": 8,
+        "size": 25,
+        "time": 24,
+        "materials": {
+          "labour": 500,
+          "timber": 200,
+          "bricks": 360
+        }
+      },
+      "upgrades": [
+        {
+          "type": "productivity 1",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 500,
+              "bricks": 500,
+              "tools": 250
+            }
+          },
+          "management": 0.01,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 16
+        },
+        {
+          "type": "productivity 2",
+          "requires": "productivity 1",
+          "construction": {
+            "time": 72,
+            "materials": {
+              "labour": 1000,
+              "bricks": 2000,
+              "tools": 1000,
+              "bellows": 50
+            }
+          },
+          "tier": 3,
+          "management": 0.01,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 32
+        },
+        {
+          "type": "productivity 3",
+          "requires": "productivity 2",
+          "construction": {
+            "time": 120,
+            "materials": {
+              "labour": 1000,
+              "bricks": 2000,
+              "tools": 1000,
+              "bellows": 200
+            }
+          },
+          "tier": 4,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 64
+        }
+      ],
+      "classes": [
+        "forging"
+      ]
+    },
+    {
+      "type": "armoury",
+      "requires": {
+        "center": true
+      },
+      "construction": {
+        "range": 8,
+        "size": 25,
+        "time": 24,
+        "materials": {
+          "labour": 600,
+          "timber": 200,
+          "bricks": 160,
+          "tiles": 80,
+          "tools": 50,
+          "nails": 80
+        }
+      },
+      "upgrades": [
+        {
+          "type": "bellows",
+          "construction": {
+            "time": 12,
+            "materials": {
+              "labour": 160,
+              "timber": 40,
+              "tools": 20,
+              "wheels": 10,
+              "rope": 2,
+              "bellows": 8
+            }
+          },
+          "management": 0.01,
+          "flag": 16
+        },
+        {
+          "type": "steel anvil",
+          "requires": "bellows",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 500,
+              "charcoal": 120,
+              "tools": 40,
+              "wrought iron": 100,
+              "steel ingots": 120
+            }
+          },
+          "management": 0.01,
+          "flag": 32
+        },
+        {
+          "type": "productivity 1",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 500,
+              "bricks": 250,
+              "tools": 250
+            }
+          },
+          "management": 0.01,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 64
+        },
+        {
+          "type": "productivity 2",
+          "requires": "productivity 1",
+          "construction": {
+            "time": 72,
+            "materials": {
+              "labour": 1000,
+              "bricks": 1000,
+              "tools": 2000
+            }
+          },
+          "tier": 3,
+          "management": 0.01,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 128
+        },
+        {
+          "type": "productivity 3",
+          "requires": "productivity 2",
+          "construction": {
+            "time": 120,
+            "materials": {
+              "labour": 1000,
+              "bricks": 1000,
+              "tools": 5000
+            }
+          },
+          "tier": 4,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 256
+        },
+        {
+          "type": "premium production",
+          "requires": "bellows",
+          "construction": {
+            "time": 36,
+            "materials": {
+              "labour": 500,
+              "timber": 250,
+              "tiles": 300,
+              "tools": 500,
+              "steel ingots": 200,
+              "windows": 4
+            }
+          },
+          "tier": 4,
+          "management": 0.025,
+          "flag": 512,
+          "premium": true
+        }
+      ],
+      "classes": [
+        "weaponry"
+      ]
+    },
+    {
+      "type": "carding house",
+      "requires": {
+        "center": true
+      },
+      "construction": {
+        "range": 8,
+        "size": 25,
+        "time": 6,
+        "materials": {
+          "labour": 240,
+          "timber": 120
+        }
+      },
+      "upgrades": [
+        {
+          "type": "stock cards",
+          "construction": {
+            "time": 12,
+            "materials": {
+              "labour": 400,
+              "timber": 100,
+              "tools": 60,
+              "leather": 25,
+              "wrought iron": 100
+            }
+          },
+          "management": 0.025,
+          "flag": 16
+        },
+        {
+          "type": "washing coppers",
+          "construction": {
+            "time": 12,
+            "materials": {
+              "labour": 300,
+              "tools": 20,
+              "copper ingots": 100,
+              "cookware": 100
+            }
+          },
+          "management": 0.025,
+          "flag": 32
+        },
+        {
+          "type": "productivity 1",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 250,
+              "timber": 100,
+              "tools": 100
+            }
+          },
+          "management": 0.01,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 64
+        },
+        {
+          "type": "productivity 2",
+          "requires": "productivity 1",
+          "construction": {
+            "time": 72,
+            "materials": {
+              "labour": 500,
+              "timber": 500,
+              "tools": 1000
+            }
+          },
+          "tier": 3,
+          "management": 0.01,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 128
+        },
+        {
+          "type": "productivity 3",
+          "requires": "productivity 2",
+          "construction": {
+            "time": 120,
+            "materials": {
+              "labour": 500,
+              "timber": 500,
+              "tools": 5000
+            }
+          },
+          "tier": 4,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 256
+        }
+      ],
+      "classes": [
+        "textile"
+      ]
+    },
+    {
+      "type": "fulling house",
+      "requires": {
+        "center": true
+      },
+      "construction": {
+        "range": 8,
+        "size": 25,
+        "time": 36,
+        "materials": {
+          "labour": 500,
+          "timber": 200,
+          "bricks": 60,
+          "casks": 50
+        }
+      },
+      "upgrades": [
+        {
+          "type": "transmission",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 400,
+              "timber": 200,
+              "gears": 25,
+              "rope": 20,
+              "wrought iron": 40
+            }
+          },
+          "management": 0.01,
+          "flag": 16
+        },
+        {
+          "type": "productivity 1",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 500,
+              "timber": 250,
+              "tools": 100
+            }
+          },
+          "management": 0.01,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 32
+        },
+        {
+          "type": "productivity 2",
+          "requires": "productivity 1",
+          "construction": {
+            "time": 72,
+            "materials": {
+              "labour": 1000,
+              "timber": 1000,
+              "tools": 1000,
+              "gears": 100,
+              "rope": 50
+            }
+          },
+          "tier": 3,
+          "management": 0.01,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 64
+        },
+        {
+          "type": "productivity 3",
+          "requires": "productivity 2",
+          "construction": {
+            "time": 120,
+            "materials": {
+              "labour": 1000,
+              "timber": 1000,
+              "tools": 2500,
+              "gears": 250,
+              "rope": 100
+            }
+          },
+          "tier": 4,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 128
+        }
+      ],
+      "classes": [
+        "textile"
+      ]
+    },
+    {
+      "type": "silver mine",
+      "requires": {
+        "resource": "silver"
+      },
+      "construction": {
+        "range": 8,
+        "size": 25,
+        "time": 24,
+        "materials": {
+          "labour": 1200,
+          "timber": 400
+        }
+      },
+      "upgrades": [
+        {
+          "type": "toolshed 1",
+          "construction": {
+            "time": 6,
+            "materials": {
+              "labour": 300,
+              "timber": 100,
+              "tools": 40
+            }
+          },
+          "management": 0.01,
+          "flag": 16
+        },
+        {
+          "type": "crane",
+          "requires": "toolshed 1",
+          "construction": {
+            "time": 36,
+            "materials": {
+              "labour": 600,
+              "timber": 240,
+              "wheels": 10,
+              "tackles": 10,
+              "nails": 60
+            }
+          },
+          "management": 0.01,
+          "flag": 32
+        },
+        {
+          "type": "toolshed 2",
+          "requires": "crane",
+          "construction": {
+            "time": 48,
+            "materials": {
+              "labour": 200,
+              "timber": 200,
+              "pickaxes": 40
+            }
+          },
+          "management": 0.01,
+          "flag": 64
+        }
+      ],
+      "classes": [
+        "forging"
+      ]
+    },
+    {
+      "type": "smeltery",
+      "requires": {
+        "center": true
+      },
+      "construction": {
+        "range": 8,
+        "size": 25,
+        "time": 18,
+        "materials": {
+          "labour": 500,
+          "timber": 120,
+          "bricks": 200
+        }
+      },
+      "upgrades": [
+        {
+          "type": "bellows",
+          "construction": {
+            "time": 12,
+            "materials": {
+              "labour": 160,
+              "timber": 40,
+              "tools": 20,
+              "wheels": 10,
+              "rope": 2,
+              "bellows": 8
+            }
+          },
+          "management": 0.01,
+          "flag": 16
+        },
+        {
+          "type": "transmission",
+          "requires": "bellows",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 400,
+              "timber": 100,
+              "gears": 20,
+              "rope": 10,
+              "wrought iron": 20
+            }
+          },
+          "management": 0.025,
+          "flag": 32
+        },
+        {
+          "type": "productivity 1",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 250,
+              "bricks": 250,
+              "tools": 50
+            }
+          },
+          "management": 0.01,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 64
+        },
+        {
+          "type": "productivity 2",
+          "requires": "productivity 1",
+          "construction": {
+            "time": 72,
+            "materials": {
+              "labour": 500,
+              "bricks": 500,
+              "tools": 100,
+              "bellows": 10
+            }
+          },
+          "tier": 3,
+          "management": 0.01,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 128
+        },
+        {
+          "type": "productivity 3",
+          "requires": "productivity 2",
+          "construction": {
+            "time": 120,
+            "materials": {
+              "labour": 1000,
+              "bricks": 1000,
+              "tools": 250,
+              "bellows": 50
+            }
+          },
+          "tier": 4,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 256
+        }
+      ],
+      "classes": [
+        "forging"
+      ]
+    },
+    {
+      "type": "tin mine",
+      "requires": {
+        "resource": "tin"
+      },
+      "construction": {
+        "range": 8,
+        "size": 25,
+        "time": 18,
+        "materials": {
+          "labour": 1200,
+          "timber": 320
+        }
+      },
+      "upgrades": [
+        {
+          "type": "toolshed 1",
+          "construction": {
+            "time": 6,
+            "materials": {
+              "labour": 300,
+              "timber": 100,
+              "tools": 40
+            }
+          },
+          "management": 0.01,
+          "flag": 16
+        },
+        {
+          "type": "crane",
+          "requires": "toolshed 1",
+          "construction": {
+            "time": 36,
+            "materials": {
+              "labour": 600,
+              "timber": 240,
+              "wheels": 10,
+              "tackles": 10,
+              "nails": 60
+            }
+          },
+          "management": 0.01,
+          "flag": 32
+        },
+        {
+          "type": "toolshed 2",
+          "requires": "crane",
+          "construction": {
+            "time": 48,
+            "materials": {
+              "labour": 200,
+              "timber": 200,
+              "pickaxes": 40
+            }
+          },
+          "management": 0.01,
+          "flag": 64
+        }
+      ],
+      "classes": [
+        "forging"
+      ]
+    },
+    {
+      "type": "tapestry atelier",
+      "requires": {
+        "center": true
+      },
+      "construction": {
+        "range": 8,
+        "size": 25,
+        "time": 36,
+        "materials": {
+          "labour": 600,
+          "timber": 400,
+          "bricks": 200,
+          "tiles": 100,
+          "slaked lime": 60,
+          "nails": 100
+        }
+      },
+      "upgrades": [
+        {
+          "type": "treadle loom",
+          "construction": {
+            "time": 36,
+            "materials": {
+              "labour": 600,
+              "timber": 200,
+              "looms": 2
+            }
+          },
+          "management": 0.01,
+          "flag": 16
+        },
+        {
+          "type": "productivity 1",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 500,
+              "timber": 250,
+              "tools": 250
+            }
+          },
+          "management": 0.01,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 32
+        },
+        {
+          "type": "productivity 2",
+          "requires": "productivity 1",
+          "construction": {
+            "time": 72,
+            "materials": {
+              "labour": 1000,
+              "timber": 1000,
+              "paper": 100,
+              "looms": 10
+            }
+          },
+          "tier": 3,
+          "management": 0.01,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 64
+        },
+        {
+          "type": "productivity 3",
+          "requires": "productivity 2",
+          "construction": {
+            "time": 120,
+            "materials": {
+              "labour": 2000,
+              "timber": 2000,
+              "paper": 500,
+              "looms": 50
+            }
+          },
+          "tier": 4,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 128
+        }
+      ],
+      "classes": [
+        "textile"
+      ]
+    },
+    {
+      "type": "carburising forge",
+      "requires": {
+        "center": true
+      },
+      "construction": {
+        "range": 8,
+        "size": 25,
+        "time": 36,
+        "materials": {
+          "labour": 600,
+          "timber": 120,
+          "bricks": 500,
+          "tiles": 100,
+          "tools": 50
+        }
+      },
+      "upgrades": [
+        {
+          "type": "bellows",
+          "construction": {
+            "time": 12,
+            "materials": {
+              "labour": 200,
+              "timber": 80,
+              "tools": 20,
+              "bellows": 12
+            }
+          },
+          "management": 0.01,
+          "flag": 16
+        },
+        {
+          "type": "transmission",
+          "requires": "bellows",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 400,
+              "timber": 200,
+              "gears": 25,
+              "rope": 20,
+              "wrought iron": 40
+            }
+          },
+          "management": 0.01,
+          "flag": 32
+        },
+        {
+          "type": "productivity 1",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 250,
+              "bricks": 500,
+              "tools": 500
+            }
+          },
+          "management": 0.01,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 64
+        },
+        {
+          "type": "productivity 2",
+          "requires": "productivity 1",
+          "construction": {
+            "time": 72,
+            "materials": {
+              "labour": 1000,
+              "bricks": 1000,
+              "tools": 500,
+              "bellows": 100
+            }
+          },
+          "tier": 3,
+          "management": 0.01,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 128
+        },
+        {
+          "type": "productivity 3",
+          "requires": "productivity 2",
+          "construction": {
+            "time": 120,
+            "materials": {
+              "labour": 1000,
+              "bricks": 1000,
+              "tools": 1000,
+              "bellows": 400
+            }
+          },
+          "tier": 4,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 256
+        },
+        {
+          "type": "premium production",
+          "requires": "transmission",
+          "construction": {
+            "time": 36,
+            "materials": {
+              "labour": 400,
+              "timber": 100,
+              "limestone": 50,
+              "slaked lime": 100,
+              "tools": 100,
+              "gears": 30,
+              "windows": 4,
+              "bellows": 30
+            }
+          },
+          "tier": 4,
+          "management": 0.025,
+          "flag": 512,
+          "premium": true
+        }
+      ],
+      "classes": [
+        "forging"
+      ]
+    },
+    {
+      "type": "flaying station",
+      "requires": {
+        "center": true,
+        "hosts": [
+          "butchery"
+        ]
+      },
+      "constraint": "operation",
+      "construction": {
+        "time": 6,
+        "materials": {
+          "labour": 200,
+          "timber": 120,
+          "tools": 20
+        }
+      },
+      "upgrades": [
+        {
+          "type": "skinning table",
+          "construction": {
+            "time": 18,
+            "materials": {
+              "labour": 200,
+              "timber": 80,
+              "tools": 40,
+              "nails": 80
+            }
+          },
+          "management": 0.01,
+          "flag": 16
+        },
+        {
+          "type": "productivity 1",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 200,
+              "timber": 100,
+              "tools": 100
+            }
+          },
+          "management": 0.01,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 32
+        },
+        {
+          "type": "productivity 2",
+          "requires": "productivity 1",
+          "construction": {
+            "time": 72,
+            "materials": {
+              "labour": 400,
+              "timber": 100,
+              "tools": 100,
+              "blades": 200
+            }
+          },
+          "tier": 3,
+          "management": 0.01,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 64
+        },
+        {
+          "type": "productivity 3",
+          "requires": "productivity 2",
+          "construction": {
+            "time": 120,
+            "materials": {
+              "labour": 800,
+              "timber": 400,
+              "tools": 250,
+              "blades": 400
+            }
+          },
+          "tier": 4,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 128
+        }
+      ],
+      "classes": [
+        "nutrition"
+      ]
+    },
+    {
+      "type": "milking bay",
+      "requires": {
+        "hosts": [
+          "pasture"
+        ]
+      },
+      "constraint": "size",
+      "construction": {
+        "time": 3,
+        "materials": {
+          "labour": 200,
+          "timber": 80
+        }
+      },
+      "classes": [
+        "nutrition"
+      ]
+    },
+    {
+      "type": "skinning hut",
+      "requires": {
+        "hosts": [
+          "hunting lodge"
+        ]
+      },
+      "constraint": "operation",
+      "construction": {
+        "time": 3,
+        "materials": {
+          "labour": 60,
+          "timber": 30
+        }
+      },
+      "upgrades": [
+        {
+          "type": "skinning table",
+          "construction": {
+            "time": 12,
+            "materials": {
+              "labour": 120,
+              "timber": 60,
+              "tools": 20
+            }
+          },
+          "management": 0.01,
+          "flag": 16
+        }
+      ],
+      "classes": [
+        "nutrition"
+      ]
+    },
+    {
+      "type": "steeling forge",
+      "requires": {
+        "center": true,
+        "hosts": [
+          "bloomery"
+        ]
+      },
+      "constraint": "operation",
+      "construction": {
+        "time": 24,
+        "materials": {
+          "labour": 400,
+          "timber": 80,
+          "bricks": 300,
+          "tiles": 100,
+          "tools": 50
+        }
+      },
+      "upgrades": [
+        {
+          "type": "bellows",
+          "construction": {
+            "time": 12,
+            "materials": {
+              "labour": 200,
+              "timber": 80,
+              "tools": 20,
+              "bellows": 12
+            }
+          },
+          "management": 0.01,
+          "flag": 16
+        },
+        {
+          "type": "productivity 1",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 250,
+              "bricks": 250,
+              "tools": 250
+            }
+          },
+          "management": 0.01,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 32
+        },
+        {
+          "type": "productivity 2",
+          "requires": "productivity 1",
+          "construction": {
+            "time": 72,
+            "materials": {
+              "labour": 1000,
+              "bricks": 1000,
+              "tools": 1000,
+              "bellows": 50
+            }
+          },
+          "tier": 3,
+          "management": 0.01,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 64
+        },
+        {
+          "type": "productivity 3",
+          "requires": "productivity 2",
+          "construction": {
+            "time": 120,
+            "materials": {
+              "labour": 1000,
+              "bricks": 1000,
+              "tools": 1000,
+              "bellows": 200
+            }
+          },
+          "tier": 4,
+          "management": 0.025,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 128
+        }
+      ],
+      "classes": [
+        "forging"
+      ]
+    },
+    {
+      "type": "manure pit",
+      "requires": {
+        "hosts": [
+          "pasture"
+        ]
+      },
+      "constraint": "size",
+      "construction": {
+        "time": 3,
+        "materials": {
+          "labour": 120,
+          "timber": 20,
+          "bricks": 40
+        }
+      },
+      "upgrades": [
+        {
+          "type": "compost bay",
+          "construction": {
+            "time": 6,
+            "materials": {
+              "labour": 200,
+              "timber": 80,
+              "bricks": 60,
+              "tools": 50
+            }
+          },
+          "management": 0.01,
+          "flag": 16
+        }
+      ],
+      "classes": [
+        "nutrition"
+      ]
+    },
+    {
+      "type": "muckery",
+      "requires": {
+        "center": true,
+        "hosts": [
+          "stable"
+        ]
+      },
+      "constraint": "operation",
+      "construction": {
+        "time": 3,
+        "materials": {
+          "labour": 160,
+          "timber": 40,
+          "bricks": 60
+        }
+      },
+      "upgrades": [
+        {
+          "type": "compost bay",
+          "construction": {
+            "time": 6,
+            "materials": {
+              "labour": 300,
+              "timber": 120,
+              "bricks": 100,
+              "tools": 80
+            }
+          },
+          "management": 0.01,
+          "flag": 16
+        }
+      ],
+      "classes": [
+        "nutrition"
+      ]
+    },
+    {
+      "type": "resin camp",
+      "requires": {
+        "hosts": [
+          "logging camp",
+          "burner hut"
+        ]
+      },
+      "constraint": "size",
+      "construction": {
+        "time": 3,
+        "materials": {
+          "labour": 120,
+          "timber": 20
+        }
+      },
+      "upgrades": [
+        {
+          "type": "toolshed 1",
+          "construction": {
+            "time": 3,
+            "materials": {
+              "labour": 80,
+              "timber": 40,
+              "tools": 20
+            }
+          },
+          "management": 0.01,
+          "flag": 16
+        }
+      ],
+      "classes": [
+        "forging"
+      ]
+    },
+    {
+      "type": "cupel furnace",
+      "requires": {
+        "center": true,
+        "hosts": [
+          "smeltery"
+        ]
+      },
+      "constraint": "operation",
+      "construction": {
+        "time": 24,
+        "materials": {
+          "labour": 400,
+          "timber": 80,
+          "bricks": 300,
+          "tools": 40
+        }
+      },
+      "upgrades": [
+        {
+          "type": "bellows",
+          "construction": {
+            "time": 12,
+            "materials": {
+              "labour": 200,
+              "timber": 80,
+              "tools": 20,
+              "bellows": 12
+            }
+          },
+          "management": 0.01,
+          "flag": 16
+        },
+        {
+          "type": "productivity 1",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 250,
+              "bricks": 250,
+              "tools": 250
+            }
+          },
+          "management": 0.01,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 32
+        },
+        {
+          "type": "productivity 2",
+          "requires": "productivity 1",
+          "construction": {
+            "time": 72,
+            "materials": {
+              "labour": 500,
+              "bricks": 500,
+              "tools": 500,
+              "bellows": 25
+            }
+          },
+          "tier": 3,
+          "management": 0.01,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 64
+        },
+        {
+          "type": "productivity 3",
+          "requires": "productivity 2",
+          "construction": {
+            "time": 120,
+            "materials": {
+              "labour": 1000,
+              "bricks": 1000,
+              "tools": 1000,
+              "bellows": 100
+            }
+          },
+          "tier": 4,
+          "management": 0.01,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 128
+        }
+      ],
+      "classes": [
+        "forging"
+      ]
+    },
+    {
+      "type": "honey house",
+      "requires": {
+        "hosts": [
+          "apiary"
+        ]
+      },
+      "constraint": "operation",
+      "construction": {
+        "time": 3,
+        "materials": {
+          "labour": 180,
+          "timber": 100
+        }
+      },
+      "upgrades": [
+        {
+          "type": "comb press",
+          "construction": {
+            "time": 12,
+            "materials": {
+              "labour": 400,
+              "timber": 200,
+              "gears": 4,
+              "nails": 20
+            }
+          },
+          "management": 0.01,
+          "flag": 16
+        }
+      ],
+      "classes": [
+        "nutrition"
+      ]
+    },
+    {
+      "type": "seedhouse",
+      "requires": {
+        "hosts": [
+          "retting pit"
+        ]
+      },
+      "constraint": "operation",
+      "construction": {
+        "time": 6,
+        "materials": {
+          "labour": 120,
+          "timber": 80
+        }
+      },
+      "upgrades": [
+        {
+          "type": "toolshed 1",
+          "construction": {
+            "time": 6,
+            "materials": {
+              "labour": 80,
+              "timber": 40,
+              "tools": 20
+            }
+          },
+          "management": 0.01,
+          "flag": 16
+        }
+      ],
+      "classes": [
+        "nutrition"
+      ]
+    },
+    {
+      "type": "slab yard",
+      "requires": {
+        "center": true,
+        "hosts": [
+          "sawmill"
+        ]
+      },
+      "constraint": "operation",
+      "construction": {
+        "time": 3,
+        "materials": {
+          "labour": 200,
+          "timber": 80
+        }
+      },
+      "upgrades": [
+        {
+          "type": "toolshed 1",
+          "construction": {
+            "time": 6,
+            "materials": {
+              "labour": 120,
+              "timber": 60,
+              "tools": 40
+            }
+          },
+          "management": 0.01,
+          "flag": 16
+        }
+      ],
+      "classes": [
+        "crafting"
+      ]
+    },
+    {
+      "type": "woodshed",
+      "requires": {
+        "hosts": [
+          "logging camp",
+          "hunting lodge"
+        ]
+      },
+      "constraint": "size",
+      "construction": {
+        "time": 3,
+        "materials": {
+          "labour": 120,
+          "timber": 20
+        }
+      },
+      "classes": [
+        "crafting"
+      ]
+    },
+    {
+      "type": "monastery",
+      "requires": {
+        "forest": {
+          "max": 20
+        }
+      },
+      "prestige": 12,
+      "construction": {
+        "range": 4,
+        "size": 5,
+        "time": 120,
+        "materials": {
+          "labour": 6000,
+          "timber": 1000,
+          "tiles": 1000,
+          "limestone": 1000,
+          "slaked lime": 500,
+          "furniture": 80,
+          "nails": 250,
+          "hinges": 100,
+          "windows": 50
+        }
+      },
+      "classes": [
+        "crafting"
+      ]
+    },
+    {
+      "type": "raghouse",
+      "requires": {
+        "center": true
+      },
+      "construction": {
+        "range": 8,
+        "size": 25,
+        "time": 18,
+        "materials": {
+          "labour": 320,
+          "timber": 160,
+          "nails": 50,
+          "cookware": 12
+        }
+      },
+      "upgrades": [
+        {
+          "type": "liming pots",
+          "construction": {
+            "time": 12,
+            "materials": {
+              "labour": 240,
+              "timber": 100,
+              "casks": 40,
+              "cookware": 24
+            }
+          },
+          "management": 0.01,
+          "flag": 16
+        },
+        {
+          "type": "productivity 1",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 250,
+              "timber": 100,
+              "tools": 100
+            }
+          },
+          "management": 0.01,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 32
+        },
+        {
+          "type": "productivity 2",
+          "requires": "productivity 1",
+          "construction": {
+            "time": 72,
+            "materials": {
+              "labour": 500,
+              "timber": 250,
+              "tools": 250,
+              "cookware": 250
+            }
+          },
+          "tier": 3,
+          "management": 0.01,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 64
+        },
+        {
+          "type": "productivity 3",
+          "requires": "productivity 2",
+          "construction": {
+            "time": 120,
+            "materials": {
+              "labour": 1000,
+              "timber": 500,
+              "tools": 1000,
+              "cookware": 750
+            }
+          },
+          "tier": 4,
+          "management": 0.01,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 128
+        }
+      ],
+      "classes": [
+        "crafting"
+      ]
+    },
+    {
+      "type": "bullion forge",
+      "requires": {
+        "center": true
+      },
+      "construction": {
+        "range": 8,
+        "size": 25,
+        "time": 18,
+        "materials": {
+          "labour": 400,
+          "timber": 200,
+          "bricks": 100
+        }
+      },
+      "upgrades": [
+        {
+          "type": "bellows",
+          "construction": {
+            "time": 12,
+            "materials": {
+              "labour": 160,
+              "timber": 40,
+              "tools": 20,
+              "wheels": 10,
+              "rope": 2,
+              "bellows": 8
+            }
+          },
+          "management": 0.01,
+          "flag": 16
+        },
+        {
+          "type": "guard booth",
+          "requires": "bellows",
+          "construction": {
+            "time": 36,
+            "materials": {
+              "labour": 800,
+              "timber": 120,
+              "limestone": 160,
+              "slaked lime": 60,
+              "arms": 60
+            }
+          },
+          "management": 0.01,
+          "flag": 32
+        },
+        {
+          "type": "productivity 1",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 250,
+              "bricks": 250,
+              "tools": 100
+            }
+          },
+          "management": 0.01,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 64
+        },
+        {
+          "type": "productivity 2",
+          "requires": "productivity 1",
+          "construction": {
+            "time": 72,
+            "materials": {
+              "labour": 500,
+              "bricks": 500,
+              "tools": 250,
+              "paper": 100,
+              "bellows": 25
+            }
+          },
+          "tier": 3,
+          "management": 0.01,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 128
+        },
+        {
+          "type": "productivity 3",
+          "requires": "productivity 2",
+          "construction": {
+            "time": 120,
+            "materials": {
+              "labour": 1000,
+              "bricks": 1000,
+              "tools": 500,
+              "paper": 250,
+              "bellows": 100
+            }
+          },
+          "tier": 4,
+          "management": 0.01,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 256
+        }
+      ],
+      "classes": [
+        "forging"
+      ]
+    },
+    {
+      "type": "distillery",
+      "requires": {
+        "center": true
+      },
+      "construction": {
+        "range": 8,
+        "size": 25,
+        "time": 18,
+        "materials": {
+          "labour": 300,
+          "timber": 100,
+          "bricks": 200,
+          "nails": 50,
+          "alembics": 12
+        }
+      },
+      "upgrades": [
+        {
+          "type": "fermentory",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 700,
+              "timber": 300,
+              "casks": 200
+            }
+          },
+          "management": 0.025,
+          "flag": 16
+        },
+        {
+          "type": "productivity 1",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 200,
+              "bricks": 100,
+              "alembics": 20
+            }
+          },
+          "management": 0.01,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 32
+        },
+        {
+          "type": "productivity 2",
+          "requires": "productivity 1",
+          "construction": {
+            "time": 72,
+            "materials": {
+              "labour": 600,
+              "bricks": 400,
+              "paper": 25,
+              "alembics": 40
+            }
+          },
+          "tier": 3,
+          "management": 0.01,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 64
+        },
+        {
+          "type": "productivity 3",
+          "requires": "productivity 2",
+          "construction": {
+            "time": 120,
+            "materials": {
+              "labour": 1000,
+              "bricks": 1000,
+              "paper": 100,
+              "alembics": 120
+            }
+          },
+          "tier": 4,
+          "management": 0.01,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 128
+        }
+      ],
+      "classes": [
+        "nutrition"
+      ]
+    },
+    {
+      "type": "rendering house",
+      "requires": {
+        "center": true,
+        "hosts": [
+          "butchery"
+        ]
+      },
+      "constraint": "operation",
+      "construction": {
+        "time": 12,
+        "materials": {
+          "labour": 300,
+          "timber": 100,
+          "bricks": 100,
+          "casks": 40,
+          "cookware": 25
+        }
+      },
+      "upgrades": [
+        {
+          "type": "productivity 1",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 100,
+              "bricks": 100,
+              "cookware": 50
+            }
+          },
+          "management": 0.01,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 16
+        },
+        {
+          "type": "productivity 2",
+          "requires": "productivity 1",
+          "construction": {
+            "time": 72,
+            "materials": {
+              "labour": 250,
+              "bricks": 250,
+              "cookware": 100,
+              "glassware": 50
+            }
+          },
+          "tier": 3,
+          "management": 0.01,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 32
+        },
+        {
+          "type": "productivity 3",
+          "requires": "productivity 2",
+          "construction": {
+            "time": 120,
+            "materials": {
+              "labour": 500,
+              "bricks": 500,
+              "cookware": 500,
+              "glassware": 100
+            }
+          },
+          "tier": 4,
+          "management": 0.01,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 64
+        }
+      ],
+      "classes": [
+        "nutrition"
+      ]
+    },
+    {
+      "type": "soapery",
+      "requires": {
+        "center": true
+      },
+      "construction": {
+        "range": 8,
+        "size": 25,
+        "time": 24,
+        "materials": {
+          "labour": 400,
+          "timber": 200,
+          "bricks": 120,
+          "casks": 100,
+          "cookware": 40
+        }
+      },
+      "upgrades": [
+        {
+          "type": "productivity 1",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 250,
+              "bricks": 250,
+              "cookware": 100
+            }
+          },
+          "management": 0.01,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 16
+        },
+        {
+          "type": "productivity 2",
+          "requires": "productivity 1",
+          "construction": {
+            "time": 72,
+            "materials": {
+              "labour": 500,
+              "bricks": 500,
+              "cookware": 250,
+              "glassware": 50
+            }
+          },
+          "tier": 3,
+          "management": 0.01,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 32
+        },
+        {
+          "type": "productivity 3",
+          "requires": "productivity 2",
+          "construction": {
+            "time": 120,
+            "materials": {
+              "labour": 1000,
+              "bricks": 1000,
+              "cookware": 500,
+              "glassware": 150
+            }
+          },
+          "tier": 4,
+          "management": 0.01,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 64
+        }
+      ],
+      "classes": [
+        "nutrition"
+      ]
+    },
+    {
+      "type": "varnish kitchen",
+      "requires": {
+        "center": true
+      },
+      "construction": {
+        "range": 8,
+        "size": 25,
+        "time": 24,
+        "materials": {
+          "labour": 500,
+          "timber": 200,
+          "bricks": 80,
+          "cookware": 50
+        }
+      },
+      "upgrades": [
+        {
+          "type": "grooved bedstone",
+          "construction": {
+            "time": 12,
+            "materials": {
+              "labour": 400,
+              "timber": 120,
+              "grindstones": 10,
+              "nails": 20
+            }
+          },
+          "management": 0.025,
+          "flag": 16
+        },
+        {
+          "type": "productivity 1",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 250,
+              "timber": 250,
+              "cookware": 50
+            }
+          },
+          "management": 0.01,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 32
+        },
+        {
+          "type": "productivity 2",
+          "requires": "productivity 1",
+          "construction": {
+            "time": 72,
+            "materials": {
+              "labour": 500,
+              "timber": 500,
+              "paper": 50,
+              "cookware": 100,
+              "glassware": 50
+            }
+          },
+          "tier": 3,
+          "management": 0.01,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 64
+        },
+        {
+          "type": "productivity 3",
+          "requires": "productivity 2",
+          "construction": {
+            "time": 120,
+            "materials": {
+              "labour": 1000,
+              "timber": 1000,
+              "paper": 100,
+              "cookware": 250,
+              "glassware": 100
+            }
+          },
+          "tier": 4,
+          "management": 0.01,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 128
+        }
+      ],
+      "classes": [
+        "nutrition"
+      ]
+    },
+    {
+      "type": "canvas weavery",
+      "requires": {
+        "center": true
+      },
+      "construction": {
+        "range": 8,
+        "size": 25,
+        "time": 24,
+        "materials": {
+          "labour": 500,
+          "timber": 300,
+          "wrought iron": 20,
+          "nails": 60
+        }
+      },
+      "upgrades": [
+        {
+          "type": "treadle loom",
+          "construction": {
+            "time": 36,
+            "materials": {
+              "labour": 500,
+              "timber": 200,
+              "looms": 4
+            }
+          },
+          "management": 0.01,
+          "flag": 16
+        },
+        {
+          "type": "productivity 1",
+          "construction": {
+            "time": 24,
+            "materials": {
+              "labour": 250,
+              "timber": 250,
+              "tools": 250
+            }
+          },
+          "management": 0.01,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 32
+        },
+        {
+          "type": "productivity 2",
+          "requires": "productivity 1",
+          "construction": {
+            "time": 72,
+            "materials": {
+              "labour": 500,
+              "timber": 500,
+              "looms": 10
+            }
+          },
+          "tier": 3,
+          "management": 0.01,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 64
+        },
+        {
+          "type": "productivity 3",
+          "requires": "productivity 2",
+          "construction": {
+            "time": 120,
+            "materials": {
+              "labour": 1000,
+              "timber": 1000,
+              "looms": 25
+            }
+          },
+          "tier": 4,
+          "management": 0.01,
+          "bonus": {
+            "productivity": 2
+          },
+          "flag": 128
+        }
+      ],
+      "classes": [
+        "textile"
+      ]
+    }
+  ]
