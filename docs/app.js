@@ -166,8 +166,12 @@ async function computePrestigeCosts(){
 
   let recipesObj;
   try{
-    const r = await fetch('https://raw.githubusercontent.com/Furyvenger/mercatorio-prestige-efficiency/main/recipes_season_7.json');
-    if(!r.ok) throw new Error('HTTP '+r.status);
+    // prefer local copy under docs/ for faster client load; fallback to raw github if missing
+    let r = await fetch('docs/recipes_season_7.json');
+    if(!r.ok){
+      r = await fetch('https://raw.githubusercontent.com/Furyvenger/mercatorio-prestige-efficiency/main/recipes_season_7.json');
+      if(!r.ok) throw new Error('HTTP '+r.status);
+    }
     recipesObj = await r.json();
   }catch(e){ setStatus('Failed to load recipes: '+(e.message||e)); return; }
 
@@ -286,8 +290,21 @@ async function computePrestigeCosts(){
       totalCost += cost;
     }
     let prestige = Number(rec.prestige || 0);
-    // If this came from the recipes file (which used small numbers), ensure scale (recipes already scaled earlier elsewhere)
-    if(rec.source === 'recipe') prestige = prestige * 100;
+    if(rec.source === 'recipe'){
+      // recipe prestige scale
+      prestige = prestige * 100;
+    }
+    // apply taxes for recipes: determine building site
+    if(rec.source === 'recipe'){
+      const site = rec.site || (rec.recipe && rec.recipe.site) || null;
+      let tax = 0.5;
+      if(typeof buildingsAll !== 'undefined' && site){
+        const bdef = buildingsAll.find(b=>b.type === site);
+        if(bdef && bdef.requires && bdef.requires.center === true) tax = 6;
+        else tax = 0.5;
+      }
+      totalCost += tax;
+    }
     let costPerPrestige = null;
     if(missing.length === 0 && prestige > 0){
       costPerPrestige = totalCost / prestige;
