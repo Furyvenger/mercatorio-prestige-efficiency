@@ -166,8 +166,8 @@ async function computePrestigeCosts(){
 
   let recipesObj;
   try{
-    // prefer local copy under docs/ for faster client load; fallback to raw github if missing
-    let r = await fetch('docs/recipes_season_7.json');
+    // prefer local copy relative to the served docs root; fallback to raw github if missing
+    let r = await fetch('recipes_season_7.json');
     if(!r.ok){
       r = await fetch('https://raw.githubusercontent.com/Furyvenger/mercatorio-prestige-efficiency/main/recipes_season_7.json');
       if(!r.ok) throw new Error('HTTP '+r.status);
