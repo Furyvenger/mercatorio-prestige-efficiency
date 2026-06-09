@@ -155,6 +155,9 @@ function getUnitPrice(markets, product){
   return null;
 }
 
+let currentPrestigeResults = []; // store results so contracts can be added
+let currentMarketData = null;
+
 // Compute prestige costs using recipes_season_7.json from this repo (raw github URL)
 async function computePrestigeCosts(){
   setStatus('Computing prestige costs...');
@@ -163,6 +166,7 @@ async function computePrestigeCosts(){
   const data = await fetchMarketData(townId, { forceCache: preferCache });
   if(!data){ setStatus('No market data available'); return; }
   const markets = data.markets || {};
+  currentMarketData = data;
 
   let recipesObj;
   try{
@@ -195,8 +199,8 @@ async function computePrestigeCosts(){
 
   try{
     const candidates = [
-      'docs/household.json',
       'household.json',
+      'docs/household.json',
       '../household.json',
       '/household.json',
       'https://raw.githubusercontent.com/Furyvenger/mercatorio-prestige-efficiency/main/household.json'
@@ -235,13 +239,15 @@ async function computePrestigeCosts(){
   // Load buildings (if present) and normalize into entries
   let buildingEntries = [];
   try{
-    const bCandidates = ['docs/buildings.json','buildings.json','https://raw.githubusercontent.com/Furyvenger/mercatorio-prestige-efficiency/main/docs/buildings.json','https://raw.githubusercontent.com/Furyvenger/mercatorio-prestige-efficiency/main/buildings.json'];
+    const bCandidates = ['buildings.json','docs/buildings.json','https://raw.githubusercontent.com/Furyvenger/mercatorio-prestige-efficiency/main/docs/buildings.json','https://raw.githubusercontent.com/Furyvenger/mercatorio-prestige-efficiency/main/buildings.json'];
     for(const url of bCandidates){
       try{
         const res = await fetch(url);
         if(!res.ok) continue;
         const arr = await res.json();
         if(!Array.isArray(arr)) continue;
+        // keep full buildings array for tax lookups
+        buildingsAll = arr;
         // Expect each building to have type, construction.materials (object) or materials (object/array), prestige (optional)
         buildingEntries = arr.filter(b => b.prestige && Number(b.prestige) != 0).map(b => {
           // find materials object/array
@@ -322,8 +328,59 @@ async function computePrestigeCosts(){
     return a.costPerPrestige - b.costPerPrestige;
   });
 
+  currentPrestigeResults = results;
   renderPrestigeResults(results, data);
   setStatus('Computed '+results.length+' methods.');
+}
+
+function addContract(){
+  const product = document.getElementById('contractProduct')?.value?.trim();
+  const amount = Number(document.getElementById('contractAmount')?.value || 1);
+  const prestige = Number(document.getElementById('contractPrestige')?.value || 1);
+  
+  if(!product || amount <= 0 || prestige <= 0){
+    setStatus('Please fill in product name, amount, and prestige.');
+    return;
+  }
+  
+  if(!currentPrestigeResults || !currentMarketData){
+    setStatus('Please compute prestige first.');
+    return;
+  }
+  
+  const markets = currentMarketData.markets || {};
+  const unitPrice = getUnitPrice(markets, product);
+  const totalCost = (unitPrice || 0) * amount;
+  const costPerPrestige = prestige > 0 ? totalCost / prestige : null;
+  
+  const entry = {
+    name: product + ' (contract)',
+    prestige,
+    totalCost,
+    costPerPrestige,
+    missing: unitPrice == null ? [product] : [],
+    breakdown: [{ product, amount, unitPrice, cost: totalCost }],
+    source: 'contract'
+  };
+  
+  currentPrestigeResults.push(entry);
+  
+  // re-sort and render
+  currentPrestigeResults.sort((a,b)=>{
+    if(a.missing.length && !b.missing.length) return 1;
+    if(!a.missing.length && b.missing.length) return -1;
+    if(a.costPerPrestige == null && b.costPerPrestige == null) return a.name.localeCompare(b.name);
+    if(a.costPerPrestige == null) return 1;
+    if(b.costPerPrestige == null) return -1;
+    return a.costPerPrestige - b.costPerPrestige;
+  });
+  
+  document.getElementById('contractProduct').value = '';
+  document.getElementById('contractAmount').value = '1';
+  document.getElementById('contractPrestige').value = '1';
+  
+  renderPrestigeResults(currentPrestigeResults, currentMarketData);
+  setStatus('Contract added.');
 }
 
 function renderPrestigeResults(results, data){
@@ -345,6 +402,10 @@ function renderPrestigeResults(results, data){
     // Highlight building construction methods (light blue)
     if(r.source === 'building'){
       tr.style.background = '#e6f7ff';
+    }
+    // Highlight church contracts (amber)
+    if(r.source === 'contract'){
+      tr.style.background = '#fef3c7';
     }
     tbody.appendChild(tr);
   });
@@ -379,6 +440,8 @@ loadConfig();
 loadBtn.addEventListener('click', ()=>fetchMarketData(townInput.value));
 const computeBtn = document.getElementById('computeBtn');
 if(computeBtn) computeBtn.addEventListener('click', ()=>computePrestigeCosts());
+const addContractBtn = document.getElementById('addContractBtn');
+if(addContractBtn) addContractBtn.addEventListener('click', ()=>addContract());
 
 // Auto-load once on start
 window.addEventListener('load', ()=>fetchMarketData(townInput.value));
