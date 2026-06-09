@@ -403,9 +403,9 @@ function renderPrestigeResults(results, data){
     if(r.source === 'building'){
       tr.style.background = '#e6f7ff';
     }
-    // Highlight church contracts (amber)
+    // Highlight church contracts (light green)
     if(r.source === 'contract'){
-      tr.style.background = '#fef3c7';
+      tr.style.background = '#dcfce7';
     }
     tbody.appendChild(tr);
   });
