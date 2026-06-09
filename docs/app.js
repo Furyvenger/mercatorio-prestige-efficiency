@@ -157,6 +157,33 @@ function getUnitPrice(markets, product){
 
 let currentPrestigeResults = []; // store results so contracts can be added
 let currentMarketData = null;
+const CONTRACTS_STORAGE_KEY = 'mercatorio_contracts';
+
+function saveContractsToStorage(contracts){
+  try{
+    localStorage.setItem(CONTRACTS_STORAGE_KEY, JSON.stringify(contracts));
+  }catch(e){
+    console.warn('Failed to save contracts to localStorage', e);
+  }
+}
+
+function loadContractsFromStorage(){
+  try{
+    const stored = localStorage.getItem(CONTRACTS_STORAGE_KEY);
+    return stored ? JSON.parse(stored) : [];
+  }catch(e){
+    console.warn('Failed to load contracts from localStorage', e);
+    return [];
+  }
+}
+
+function clearContractsFromStorage(){
+  try{
+    localStorage.removeItem(CONTRACTS_STORAGE_KEY);
+  }catch(e){
+    console.warn('Failed to clear contracts from localStorage', e);
+  }
+}
 
 // Compute prestige costs using recipes_season_7.json from this repo (raw github URL)
 async function computePrestigeCosts(){
@@ -328,9 +355,37 @@ async function computePrestigeCosts(){
     return a.costPerPrestige - b.costPerPrestige;
   });
 
+  // Load and restore saved contracts from localStorage
+  const savedContracts = loadContractsFromStorage();
+  for(const contract of savedContracts){
+    const unitPrice = getUnitPrice(markets, contract.product);
+    const totalCost = (unitPrice || 0) * contract.amount;
+    const costPerPrestige = contract.prestige > 0 ? totalCost / contract.prestige : null;
+    results.push({
+      name: contract.product + ' (contract)',
+      prestige: contract.prestige,
+      totalCost,
+      costPerPrestige,
+      missing: unitPrice == null ? [contract.product] : [],
+      breakdown: [{ product: contract.product, amount: contract.amount, unitPrice, cost: totalCost }],
+      source: 'contract'
+    });
+  }
+
+  // Re-sort after adding restored contracts
+  results.sort((a,b)=>{
+    if(a.missing.length && !b.missing.length) return 1;
+    if(!a.missing.length && b.missing.length) return -1;
+    if(a.costPerPrestige == null && b.costPerPrestige == null) return a.name.localeCompare(b.name);
+    if(a.costPerPrestige == null) return 1;
+    if(b.costPerPrestige == null) return -1;
+    return a.costPerPrestige - b.costPerPrestige;
+  });
+
   currentPrestigeResults = results;
   renderPrestigeResults(results, data);
-  setStatus('Computed '+results.length+' methods.');
+  const contractCount = savedContracts.length;
+  setStatus('Computed '+results.length+' methods'+(contractCount?' (+'+contractCount+' saved contracts)':'')+'.');
 }
 
 function addContract(){
@@ -365,6 +420,11 @@ function addContract(){
   
   currentPrestigeResults.push(entry);
   
+  // Save contract to localStorage (just the essential data for recreation)
+  const storedContracts = loadContractsFromStorage();
+  storedContracts.push({ product, amount, prestige });
+  saveContractsToStorage(storedContracts);
+  
   // re-sort and render
   currentPrestigeResults.sort((a,b)=>{
     if(a.missing.length && !b.missing.length) return 1;
@@ -380,7 +440,7 @@ function addContract(){
   document.getElementById('contractPrestige').value = '1';
   
   renderPrestigeResults(currentPrestigeResults, currentMarketData);
-  setStatus('Contract added.');
+  setStatus('Contract added and saved.');
 }
 
 function renderPrestigeResults(results, data){
@@ -442,6 +502,11 @@ const computeBtn = document.getElementById('computeBtn');
 if(computeBtn) computeBtn.addEventListener('click', ()=>computePrestigeCosts());
 const addContractBtn = document.getElementById('addContractBtn');
 if(addContractBtn) addContractBtn.addEventListener('click', ()=>addContract());
+const clearContractsBtn = document.getElementById('clearContractsBtn');
+if(clearContractsBtn) clearContractsBtn.addEventListener('click', ()=>{
+  clearContractsFromStorage();
+  setStatus('All contracts cleared.');
+});
 
 // Auto-load once on start
 window.addEventListener('load', ()=>fetchMarketData(townInput.value));
