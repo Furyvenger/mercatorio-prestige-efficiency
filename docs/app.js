@@ -107,8 +107,18 @@ function getUnitPrice(markets, product){
   if(!markets || !product) return null;
   const m = markets[product];
   if(!m) return null;
-  if(m.last_price != null) return Number(m.last_price);
-  if(m.highest_bid != null && m.lowest_ask != null) return (Number(m.highest_bid) + Number(m.lowest_ask)) / 2;
+  
+  const volume = Number(m.volume || 0);
+  const lastPrice = m.last_price != null ? Number(m.last_price) : null;
+  const lowestAsk = m.lowest_ask != null ? Number(m.lowest_ask) : null;
+  
+  // If volume > 0, use last_price (most recent actual trade)
+  if(volume > 0 && lastPrice != null) return lastPrice;
+  
+  // If volume = 0 (no recent trades), use lowest_ask (next best price)
+  if(volume === 0 && lowestAsk != null) return lowestAsk;
+  
+  // If no volume and no ask price, consider it missing
   return null;
 }
 
