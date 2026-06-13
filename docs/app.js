@@ -31,31 +31,15 @@ function setStatus(msg){ if(statusEl) statusEl.textContent = msg }
 
 function clearOutput(){ if(outputEl) outputEl.innerHTML = ''; } 
 
-async function fetchMarketData(townId, options = { forceCache: false }){
-  setStatus('Fetching market overview...');
+async function fetchMarketData(townId, options = {}){
+  setStatus('Fetching market data...');
   clearOutput();
-  const cacheUrl = `cache/town_${encodeURIComponent(townId)}.json`;
-  // If credentials provided via UI or URL, prefer direct authenticated fetch (skip cache) unless forceCache is set
   const urlParams = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : new URLSearchParams('');
   const hasCreds = (tokenInput && tokenInput.value) || (userInput && userInput.value) || urlParams.get('token');
-  const preferCache = options.forceCache || (document.getElementById('useCache') && document.getElementById('useCache').checked);
-
-  if(preferCache || !hasCreds){
-    // Try cached static file first (served by GitHub Pages when available)
-    try{
-      const cres = await fetch(cacheUrl);
-      if(cres.ok){
-        const cjson = await cres.json();
-        renderMarketOverview(cjson);
-        setStatus('Loaded (cache).');
-        return cjson;
-      }
-    }catch(e){ /* ignore cache fetch errors */ }
-  }
 
   const url = `${config.apiBase}/towns/${encodeURIComponent(townId)}/marketdata`;
   try{
-    // Try direct fetch first (may fail in browser due to CORS)
+    // Try direct fetch with credentials if available
     const headers = {};
     if(tokenInput && tokenInput.value){ headers['Authorization'] = 'Bearer ' + tokenInput.value.trim(); }
     if(userInput && userInput.value){ headers['X-Merc-User'] = userInput.value.trim(); }
@@ -80,13 +64,13 @@ async function fetchMarketData(townId, options = { forceCache: false }){
         <ol>
           <li>Paste your API token and email into the input fields above and click "Load Market Data".</li>
           <li>Or open this site with query parameters (insecure): <code>${escapeHtml(example)}</code></li>
-          <li>If CORS still blocks requests, use the cached data or deploy a server-side proxy (see docs/DEPLOY.md).</li>
+          <li>If CORS still blocks requests, deploy a server-side proxy (see docs/DEPLOY.md).</li>
         </ol>
         <p style="color:#b91c1c">Warning: putting tokens in URLs or the page is insecure. Only do this for testing.</p>
       `;
       return null;
     }
-    // Fallback: use a public CORS proxy (for local testing). If this is undesirable for production, deploy a server-side proxy.
+    // Fallback: use a public CORS proxy (for local testing only)
     try{
       setStatus('Direct fetch failed; trying CORS proxy...');
       const proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url);
@@ -95,8 +79,6 @@ async function fetchMarketData(townId, options = { forceCache: false }){
       const text = await pres.text();
       let json;
       try{ json = JSON.parse(text); }catch(parseErr){
-        // If parsing fails, the proxy may have returned the raw JSON already or an error HTML.
-        // Try to parse as-is; if still fails, throw.
         throw new Error('Failed to parse proxy response as JSON');
       }
       renderMarketOverview(json);
@@ -105,9 +87,8 @@ async function fetchMarketData(townId, options = { forceCache: false }){
     }catch(proxyErr){
       console.error('Proxy fetch failed', proxyErr);
       setStatus('Error fetching API: '+(proxyErr.message||proxyErr)+'. See console for details.');
-            if(outputEl) outputEl.innerHTML = `<pre>${proxyErr.stack||proxyErr}</pre>`;
-      // Fallback to local mock data so the UI remains usable during development
-      try{ const mock = await loadMockData(); return mock; }catch(e){ console.warn('Mock load failed', e); return null; }
+      if(outputEl) outputEl.innerHTML = `<pre>${escapeHtml(String(proxyErr.stack||proxyErr))}</pre>`;
+      return null;
     }
   }
 }
@@ -189,8 +170,7 @@ function clearContractsFromStorage(){
 async function computePrestigeCosts(){
   setStatus('Computing prestige costs...');
   const townId = townInput.value;
-  const preferCache = document.getElementById('useCache') && document.getElementById('useCache').checked;
-  const data = await fetchMarketData(townId, { forceCache: preferCache });
+  const data = await fetchMarketData(townId);
   if(!data){ setStatus('No market data available'); return; }
   const markets = data.markets || {};
   currentMarketData = data;
