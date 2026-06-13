@@ -33,15 +33,21 @@ async function handle(request){
   const apiUrl = `https://play.mercatorio.io/api/towns/${encodeURIComponent(town)}/marketdata`;
 
   const headers = { 'Accept': 'application/json' };
-  // Prefer secret-bound token (set as environment variable on the Worker)
+  // Use secret-bound token (set as environment variable on the Worker)
   try{
     if (typeof MERCATORIO_API_TOKEN !== 'undefined' && MERCATORIO_API_TOKEN) {
       headers['Authorization'] = 'Bearer ' + MERCATORIO_API_TOKEN;
     }
   }catch(e){}
-  // Allow caller to provide X-Merc-User (email) header; this does not expose the token
-  const mercUser = request.headers.get('X-Merc-User') || request.headers.get('x-merc-user');
-  if(mercUser) headers['X-Merc-User'] = mercUser;
+  // Use secret-bound user (email) or fall back to caller-provided X-Merc-User header
+  try{
+    if (typeof MERCATORIO_API_USER !== 'undefined' && MERCATORIO_API_USER) {
+      headers['X-Merc-User'] = MERCATORIO_API_USER;
+    } else {
+      const mercUser = request.headers.get('X-Merc-User') || request.headers.get('x-merc-user');
+      if(mercUser) headers['X-Merc-User'] = mercUser;
+    }
+  }catch(e){}
 
   try{
     const resp = await fetch(apiUrl, { method: 'GET', headers });
