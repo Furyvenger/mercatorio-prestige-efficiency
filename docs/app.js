@@ -232,7 +232,7 @@ async function computePrestigeCosts(){
   // Load buildings (if present) and normalize into entries
   let buildingEntries = [];
   try{
-    const bCandidates = ['buildings.json','docs/buildings.json','https://raw.githubusercontent.com/Furyvenger/mercatorio-prestige-efficiency/main/docs/buildings.json','https://raw.githubusercontent.com/Furyvenger/mercatorio-prestige-efficiency/main/buildings.json'];
+    const bCandidates = ['buildings.json','https://raw.githubusercontent.com/Furyvenger/mercatorio-prestige-efficiency/main/docs/buildings.json'];
     for(const url of bCandidates){
       try{
         const res = await fetch(url);
@@ -261,11 +261,14 @@ async function computePrestigeCosts(){
             raw: b
           };
         });
-        if(buildingEntries.length) setStatus('Loaded '+buildingEntries.length+' building entries from '+url);
+        if(buildingEntries.length) {
+          console.log('Loaded '+buildingEntries.length+' building entries from '+url);
+          setStatus('Loaded '+buildingEntries.length+' building entries from '+url);
+        }
         break;
-      }catch(e){ /* try next */ }
+      }catch(e){ console.warn('Building fetch failed from '+url, e); }
     }
-  }catch(e){ /* ignore */ }
+  }catch(e){ console.warn('Building load error', e); }
 
   const results = [];
   // Combine recipe entries, household entries and building entries; mark source for recipes
