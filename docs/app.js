@@ -1,5 +1,4 @@
 const statusEl = document.getElementById('status');
-const outputEl = document.getElementById('output');
 const townInput = document.getElementById('townId');
 const tokenInput = document.getElementById('apiToken');
 const userInput = document.getElementById('apiUser');
@@ -29,11 +28,8 @@ async function loadConfig(){
 
 function setStatus(msg){ if(statusEl) statusEl.textContent = msg }
 
-function clearOutput(){ if(outputEl) outputEl.innerHTML = ''; } 
-
 async function fetchMarketData(townId, options = {}){
   setStatus('Fetching market data...');
-  clearOutput();
   const urlParams = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : new URLSearchParams('');
   const hasCreds = (tokenInput && tokenInput.value) || (userInput && userInput.value) || urlParams.get('token');
 
@@ -43,6 +39,11 @@ async function fetchMarketData(townId, options = {}){
     const headers = {};
     if(tokenInput && tokenInput.value){ headers['Authorization'] = 'Bearer ' + tokenInput.value.trim(); }
     if(userInput && userInput.value){ headers['X-Merc-User'] = userInput.value.trim(); }
+    
+    // Log what we're sending (for debugging)
+    if(tokenInput && tokenInput.value) console.log('Sending Authorization header');
+    if(userInput && userInput.value) console.log('Sending X-Merc-User header: ' + userInput.value);
+    
     const res = await fetch(url, { headers });
     if(!res.ok) throw new Error(`HTTP ${res.status}`);
     const json = await res.json();
@@ -59,15 +60,14 @@ async function fetchMarketData(townId, options = {}){
       setStatus('Network/CORS error when attempting direct fetch.');
       const host = window.location.origin + window.location.pathname;
       const example = `${host}?token=<YOUR_TOKEN>&user=<YOUR_EMAIL>`;
-      outputEl.innerHTML = `
-        <p>Direct requests from your browser may be blocked by the API (CORS). To try a live fetch from this browser you can:</p>
-        <ol>
-          <li>Paste your API token and email into the input fields above and click "Load Market Data".</li>
-          <li>Or open this site with query parameters (insecure): <code>${escapeHtml(example)}</code></li>
-          <li>If CORS still blocks requests, deploy a server-side proxy (see docs/DEPLOY.md).</li>
-        </ol>
-        <p style="color:#b91c1c">Warning: putting tokens in URLs or the page is insecure. Only do this for testing.</p>
-      `;
+      const msg = `
+Direct requests from your browser may be blocked by the API (CORS). To try a live fetch from this browser you can:
+1. Paste your API token and email into the input fields above and click "Load Market Data".
+2. Or open this site with query parameters (insecure): ${example}
+3. If CORS still blocks requests, deploy a server-side proxy (see docs/DEPLOY.md).
+
+Warning: putting tokens in URLs or the page is insecure. Only do this for testing.`;
+      setStatus(msg);
       return null;
     }
     // Fallback: use a public CORS proxy (for local testing only)
@@ -87,44 +87,20 @@ async function fetchMarketData(townId, options = {}){
     }catch(proxyErr){
       console.error('Proxy fetch failed', proxyErr);
       setStatus('Error fetching API: '+(proxyErr.message||proxyErr)+'. See console for details.');
-      if(outputEl) outputEl.innerHTML = `<pre>${escapeHtml(String(proxyErr.stack||proxyErr))}</pre>`;
       return null;
     }
   }
 }
 
 function renderMarketOverview(data){
-  // Do not render the full market table — only keep minimal metadata for prestige computations.
-  clearOutput();
-  if(data && data.fetched_at && outputEl){
-    const meta = document.createElement('div');
-    meta.style.fontSize = '0.9em';
-    meta.style.color = '#6b7280';
-    meta.textContent = 'Prices cached: ' + data.fetched_at;
-    outputEl.appendChild(meta);
+  // Minimal rendering - just show a status message
+  if(data && data.fetched_at){
+    setStatus('Market data loaded: ' + data.fetched_at);
   }
 }
 
 function fmt(v){ return v==null?'-':String(v) }
 function escapeHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') }
-
-async function loadMockData(){
-  setStatus('Loading mock data...');
-  clearOutput();
-  try{
-    const r = await fetch('sample_marketdata.json');
-    if(!r.ok) throw new Error(`HTTP ${r.status}`);
-    const j = await r.json();
-    renderMarketOverview(j);
-    setStatus('Loaded (mock).');
-    return j;
-  }catch(e){
-    console.error('Mock data load failed', e);
-    setStatus('No mock data available: '+(e.message||e));
-    if(outputEl) outputEl.innerHTML = `<pre>${e.stack||e}</pre>`;
-    return null;
-  }
-}
 
 // Helper: determine unit price for a product from markets map
 function getUnitPrice(markets, product){
