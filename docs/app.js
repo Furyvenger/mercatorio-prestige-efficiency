@@ -230,6 +230,7 @@ async function computePrestigeCosts(){
   }catch(e){ /* ignore */ }
 
   // Load buildings (if present) and normalize into entries
+  let buildingsAll = [];
   let buildingEntries = [];
   try{
     const bCandidates = ['buildings.json','https://raw.githubusercontent.com/Furyvenger/mercatorio-prestige-efficiency/main/docs/buildings.json'];
