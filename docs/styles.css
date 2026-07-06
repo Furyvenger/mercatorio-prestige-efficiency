@@ -246,31 +246,28 @@ button:active {
   background: var(--bg-tertiary);
 }
 
-.table tr[style*="fff7cc"] {
-  background: #3a2f1f !important;
-  color: var(--text-secondary) !important;
+.table tr.row-household {
+  background: #3a2f1f;
 }
 
-.table tr[style*="fff7cc"] td {
-  color: var(--text-secondary) !important;
+.table tr.row-household td {
+  color: var(--text-secondary);
 }
 
-.table tr[style*="e6f7ff"] {
-  background: #1a2d3d !important;
-  color: var(--text-secondary) !important;
+.table tr.row-building {
+  background: #1a2d3d;
 }
 
-.table tr[style*="e6f7ff"] td {
-  color: var(--text-secondary) !important;
+.table tr.row-building td {
+  color: var(--text-secondary);
 }
 
-.table tr[style*="dcfce7"] {
-  background: #1a3a2f !important;
-  color: var(--text-secondary) !important;
+.table tr.row-contract {
+  background: #1a3a2f;
 }
 
-.table tr[style*="dcfce7"] td {
-  color: var(--text-secondary) !important;
+.table tr.row-contract td {
+  color: var(--text-secondary);
 }
 
 .table-details-btn {

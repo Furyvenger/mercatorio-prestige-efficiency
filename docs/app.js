@@ -425,17 +425,13 @@ function renderPrestigeResults(results, data){
     const cppDisplay = (r.costPerPrestige==null ? '?' : r.costPerPrestige.toFixed(4));
     const tr = document.createElement('tr');
     tr.innerHTML = `<td>${escapeHtml(r.name)}</td><td>${r.prestige}</td><td>${costDisplay}</td><td>${cppDisplay}</td><td>${r.missing.length}</td><td><button data-idx="${idx}" class="detailsBtn">Details</button></td>`;
-    // Highlight household-derived methods
+    // Highlight with CSS classes based on source
     if(r.source === 'household'){
-      tr.style.background = '#fff7cc';
-    }
-    // Highlight building construction methods (light blue)
-    if(r.source === 'building'){
-      tr.style.background = '#e6f7ff';
-    }
-    // Highlight church contracts (light green)
-    if(r.source === 'contract'){
-      tr.style.background = '#dcfce7';
+      tr.classList.add('row-household');
+    } else if(r.source === 'building'){
+      tr.classList.add('row-building');
+    } else if(r.source === 'contract'){
+      tr.classList.add('row-contract');
     }
     tbody.appendChild(tr);
   });
