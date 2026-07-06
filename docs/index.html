@@ -8,32 +8,55 @@
 </head>
 <body>
   <main>
-    <h1>Mercatorio — Prestige Efficiency (MVP)</h1>
+    <h1>Mercatorio — Prestige Efficiency</h1>
     <p>Enter a town ID to load market overview (uses play.mercatorio.io API).</p>
-    <label>Town ID: <input id="townId" value="1"></label>
-    <label>API token (optional): <input id="apiToken" type="password" placeholder="paste token for testing"></label>
-    <label>Merc User (optional): <input id="apiUser" placeholder="email"></label>
-    <label><input id="saveCreds" type="checkbox"> Save credentials to this browser (localStorage)</label>
+    
     <div>
-      <label>Apprentices: <input id="apprentices" type="number" value="0" min="0" step="1" style="width:4.5rem;margin-right:8px"></label>
-      <button id="loadBtn">Load Market Data</button>
-      <button id="computeBtn">Compute Prestige Efficiency (recipes season 7)</button>
+      <label>Town ID: <input id="townId" value="1"></label>
+      <label>API token (optional): <input id="apiToken" type="password" placeholder="paste token for testing"></label>
+      <label>Merc User (optional): <input id="apiUser" placeholder="email"></label>
+      <label><input id="saveCreds" type="checkbox"> Save credentials to this browser (localStorage)</label>
     </div>
-    <div style="margin-top:16px;padding:12px;background:#f3f4f6;border-radius:4px">
-      <h3 style="margin-top:0;margin-bottom:8px">Church Contract</h3>
-      <div style="display:flex;gap:8px;align-items:flex-end">
-        <label>Product: <input id="contractProduct" type="text" placeholder="product name" style="width:120px"></label>
-        <label>Amount: <input id="contractAmount" type="number" value="1" min="0.1" step="0.1" style="width:80px"></label>
-        <label>Prestige: <input id="contractPrestige" type="number" value="1" min="0" step="0.1" style="width:80px"></label>
+    
+    <div style="margin-top:20px;display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+      <label>Apprentices: <input id="apprentices" type="number" value="0" min="0" step="1" style="width:4.5rem"></label>
+      <button id="loadBtn">Load Market Data</button>
+      <button id="computeBtn">Compute Prestige Efficiency</button>
+    </div>
+    
+    <div class="contract-section">
+      <h3>Church Contract</h3>
+      <div>
+        <label>Product: <input id="contractProduct" type="text" placeholder="product name" style="width:140px"></label>
+        <label>Amount: <input id="contractAmount" type="number" value="1" min="0.1" step="0.1" style="width:100px"></label>
+        <label>Prestige: <input id="contractPrestige" type="number" value="1" min="0" step="0.1" style="width:100px"></label>
         <button id="addContractBtn">Add to Table</button>
-        <button id="clearContractsBtn" style="margin-left:auto">Clear all contracts</button>
+        <button id="clearContractsBtn">Clear all</button>
       </div>
     </div>
+    
     <div id="status" aria-live="polite"></div>
-    <p style="font-size:0.9em;color:#374151"><strong>Legend:</strong> <span style="background:#fff7cc;padding:2px 6px;border-radius:3px">&nbsp;</span> Household <span style="background:#e6f7ff;padding:2px 6px;border-radius:3px;margin-left:8px">&nbsp;</span> Building <span style="background:#dcfce7;padding:2px 6px;border-radius:3px;margin-left:8px">&nbsp;</span> Church contract</p>
+    
+    <div class="legend">
+      <strong>Legend:</strong>
+      <div class="legend-item">
+        <div class="legend-color legend-household"></div>
+        <span>Household</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-color legend-building"></div>
+        <span>Building</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-color legend-contract"></div>
+        <span>Church contract</span>
+      </div>
+    </div>
+    
     <section id="prestigeResults"></section>
+    
     <footer>
-      <p>Note: If API requests are blocked due to CORS, use a proxy or deploy a server-side proxy or Cloudflare Worker proxy as documented.</p>
+      <p>Note: If API requests are blocked due to CORS, deploy a server-side proxy or Cloudflare Worker proxy as documented.</p>
     </footer>
   </main>
   <script src="app.js" type="module"></script>
