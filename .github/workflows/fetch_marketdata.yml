@@ -5,6 +5,11 @@ permissions:
 
 on:
   workflow_dispatch:
+    inputs:
+      towns:
+        description: 'Space-separated list of town ids (overrides config.json)'
+        required: false
+        default: ''
   schedule:
     - cron: '0 * * * *' # hourly
 
@@ -28,7 +33,12 @@ jobs:
           USER: ${{ secrets.MERCATORIO_API_USER }}
         run: |
           mkdir -p docs/cache
-          towns=$(python -c "import json;print(' '.join(json.load(open('docs/config.json')).get('towns',[])))")
+          towns_input="${{ github.event.inputs.towns }}"
+          if [ -n "$towns_input" ]; then
+            towns="$towns_input"
+          else
+            towns=$(python -c "import json;print(' '.join(json.load(open('docs/config.json')).get('towns',[])))")
+          fi
           if [ -z "$towns" ]; then towns="1"; fi
           for id in $towns; do
             url="$API_BASE/towns/$id/marketdata"
