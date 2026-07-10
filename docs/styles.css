@@ -297,6 +297,15 @@ footer {
   color: var(--text-tertiary);
 }
 
+/* Filters styling */
+.filters{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+.filters label{font-size:13px;color:var(--text-secondary)}
+
 /* Responsive */
 /* Tablet tweaks */
 @media (max-width: 1024px) {

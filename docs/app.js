@@ -416,6 +416,28 @@ function addContract(){
 function renderPrestigeResults(results, data){
   const container = document.getElementById('prestigeResults');
   container.innerHTML = '';
+  // Apply client-side filters (if the filter checkboxes exist)
+  try{
+    const fRecipe = document.getElementById('filterRecipe')?.checked ?? true;
+    const fHouse = document.getElementById('filterHousehold')?.checked ?? true;
+    const fBuild = document.getElementById('filterBuilding')?.checked ?? true;
+    const fContract = document.getElementById('filterContract')?.checked ?? true;
+    results = (results || []).filter(r => {
+      if(r.source === 'recipe') return fRecipe;
+      if(r.source === 'household') return fHouse;
+      if(r.source === 'building') return fBuild;
+      if(r.source === 'contract') return fContract;
+      return true;
+    });
+  }catch(e){ /* ignore and show all */ }
+n  if(!results || results.length === 0){
+    const msg = document.createElement('div');
+    msg.textContent = 'No results to show for selected filters.';
+    msg.style.padding = '12px';
+    container.appendChild(msg);
+    return;
+  }
+
   const table = document.createElement('table'); table.className = 'table';
   const thead = document.createElement('thead'); thead.innerHTML = '<tr><th>Recipe</th><th>Prestige</th><th>Cost</th><th>Cost / prestige</th><th>Missing</th><th>Details</th></tr>';
   table.appendChild(thead);
@@ -452,7 +474,7 @@ function renderPrestigeResults(results, data){
         list.innerHTML += `<li>${escapeHtml(b.product)} — amount: ${b.amount}, unitPrice: ${up}, cost: ${cost}</li>`;
       });
       detailDiv.appendChild(list);
-      const src = data.fetched_at ? 'cache' : 'live';
+      const src = data && data.fetched_at ? 'cache' : 'live';
       detailDiv.appendChild(document.createElement('hr'));
       const meta = document.createElement('div'); meta.style.fontSize='0.9em'; meta.style.color='#6b7280'; meta.textContent = 'Prices source: '+src; detailDiv.appendChild(meta);
       const existing = container.querySelector('.detail');
@@ -472,6 +494,12 @@ const clearContractsBtn = document.getElementById('clearContractsBtn');
 if(clearContractsBtn) clearContractsBtn.addEventListener('click', ()=>{
   clearContractsFromStorage();
   setStatus('All contracts cleared.');
+});
+
+// Re-render when filters change
+['filterRecipe','filterHousehold','filterBuilding','filterContract'].forEach(id=>{
+  const el = document.getElementById(id);
+  if(el) el.addEventListener('change', ()=>renderPrestigeResults(currentPrestigeResults, currentMarketData));
 });
 
 // Auto-load once on start
