@@ -298,39 +298,62 @@ footer {
 }
 
 /* Responsive */
+/* Tablet tweaks */
+@media (max-width: 1024px) {
+  main { padding: 20px; }
+  h1 { font-size: 22px; }
+}
+
+/* Mobile improvements */
 @media (max-width: 768px) {
   main {
-    padding: 20px;
+    padding: 16px;
+    border-radius: 8px;
   }
 
-  h1 {
-    font-size: 24px;
+  h1 { font-size: 20px; }
+
+  /* Stack form controls and make inputs full-width for easy tapping */
+  label { display: block; margin-bottom: 8px; }
+  input[type="text"],
+  input[type="password"],
+  input[type="email"],
+  input[type="number"] {
+    width: 100%;
+    max-width: 100%;
   }
 
-  label {
-    display: block;
-    margin-bottom: 8px;
-  }
-
+  /* Contract area layout */
   .contract-section > div {
     flex-direction: column;
+    align-items: stretch;
   }
+  .contract-section label { width: 100%; }
+  .contract-section button:last-child { margin-left: 0; width: 100%; }
 
-  .contract-section button:last-child {
-    margin-left: 0;
-  }
+  /* Legend compact layout */
+  .legend { display: flex; flex-wrap: wrap; gap: 8px; }
+  .legend-item { display: flex; align-items: center; margin-bottom: 0; }
 
-  .legend-item {
-    display: block;
-    margin-bottom: 8px;
-  }
+  /* Controls row (top buttons/inputs) - make each control grow/shrink nicely */
+  .controls-row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .controls-row > * { flex: 1 1 auto; min-width: 0; }
 
-  .table {
-    font-size: 12px;
-  }
+  /* Make primary actions easy to tap */
+  button { width: 100%; padding: 10px; }
 
-  .table th,
-  .table td {
-    padding: 8px 10px;
-  }
+  /* Table responsiveness: allow horizontal scroll when needed */
+  #prestigeResults { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .table { min-width: 720px; font-size: 13px; display: table; }
+  .table th, .table td { padding: 8px 10px; }
+
+  .table-details-content { padding: 12px; }
+  #status { font-size: 13px; }
+}
+
+/* Extra-small devices: make things slightly more compact */
+@media (max-width: 420px) {
+  h1 { font-size: 18px; }
+  main { padding: 12px; }
+  input[type="number"] { font-size: 14px; }
 }
