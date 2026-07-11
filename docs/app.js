@@ -440,14 +440,22 @@ function renderPrestigeResults(results, data){
   }
 
   const table = document.createElement('table'); table.className = 'table';
-  const thead = document.createElement('thead'); thead.innerHTML = '<tr><th>Recipe</th><th>Prestige</th><th>Cost</th><th>Cost / prestige</th><th>Missing</th><th>Details</th></tr>';
+  const thead = document.createElement('thead'); thead.innerHTML = '<tr><th>Recipe</th><th>Prestige</th><th>Amount</th><th>Cost</th><th>Cost / prestige</th><th>Details</th></tr>';
   table.appendChild(thead);
   const tbody = document.createElement('tbody');
   results.forEach((r, idx)=>{
     const costDisplay = r.missing.length ? '?' : r.totalCost.toFixed(2);
     const cppDisplay = (r.costPerPrestige==null ? '?' : r.costPerPrestige.toFixed(4));
+    // Determine amount to display
+    let amountDisplay = '1';
+    if(r.source === 'household' || r.source === 'contract'){
+      // For household and contracts, show the amount from the single input
+      if(r.breakdown && r.breakdown.length > 0){
+        amountDisplay = r.breakdown[0].amount.toFixed(2);
+      }
+    }
     const tr = document.createElement('tr');
-    tr.innerHTML = `<td>${escapeHtml(r.name)}</td><td>${r.prestige}</td><td>${costDisplay}</td><td>${cppDisplay}</td><td>${r.missing.length}</td><td><button data-idx="${idx}" class="detailsBtn">Details</button></td>`;
+    tr.innerHTML = `<td>${escapeHtml(r.name)}</td><td>${r.prestige}</td><td>${amountDisplay}</td><td>${costDisplay}</td><td>${cppDisplay}</td><td><button data-idx="${idx}" class="detailsBtn">Details</button></td>`;
     // Highlight with CSS classes based on source
     if(r.source === 'household'){
       tr.classList.add('row-household');
