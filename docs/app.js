@@ -430,7 +430,8 @@ function renderPrestigeResults(results, data){
       return true;
     });
   }catch(e){ /* ignore and show all */ }
-n  if(!results || results.length === 0){
+
+  if(!results || results.length === 0){
     const msg = document.createElement('div');
     msg.textContent = 'No results to show for selected filters.';
     msg.style.padding = '12px';
