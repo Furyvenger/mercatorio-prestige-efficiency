@@ -16,7 +16,6 @@ The app is **frontend-only** (static JavaScript + HTML) deployed via GitHub Page
 - **index.html**: Simple UI for town ID input, credentials, and prestige results
 - **config.json**: API base URL and town IDs for caching
 - **Data files**:
-  - `recipes_season_7.json`: Recipe outputs/prestige/site
   - `household.json`: Household consumption products/prestige
   - `buildings.json`: Building construction materials/prestige
   - `cache/town_*.json`: Cached market data (populated by GitHub Actions)
@@ -76,9 +75,8 @@ The app is **frontend-only** (static JavaScript + HTML) deployed via GitHub Page
 - **Final metric**: `cost_per_prestige = total_cost / prestige`
 
 ### Data Source Loading Strategy
-For each data type (recipes, household, buildings), the app tries multiple sources in order:
-1. Local file relative to served docs root (e.g., `recipes_season_7.json`)
-2. GitHub raw URL fallback (e.g., `https://raw.githubusercontent.com/Furyvenger/mercatorio-prestige-efficiency/main/recipes_season_7.json`)
+Recipes are always loaded fresh from `https://play.mercatorio.io/api/config/recipes`.
+Household and building data use local files first, with GitHub raw URL fallbacks.
 
 Household/buildings JSON parsing is lenient: attempts strict JSON first, then regex-normalizes JS object literals (quote unquoted keys, convert single quotes).
 
@@ -148,10 +146,12 @@ Household/buildings JSON parsing is lenient: attempts strict JSON first, then re
 2. Trigger workflow manually or wait for next hourly run
 3. Cache will populate as `docs/cache/town_<id>.json`
 
-### Updating recipes/household/buildings data
-1. Edit respective JSON file in `docs/`
+### Updating household/buildings data
+1. Edit the respective JSON file in `docs/`
 2. Ensure valid JSON structure (or lenient parser will attempt recovery)
 3. Commit; GitHub Pages auto-deploys
+
+Recipes are sourced live from the Mercatorio API and do not have a repository data file.
 
 ### Changing prestige multiplier logic
 - Edit `computePrestigeCosts()` in `docs/app.js` (search for `prestige = prestige * 100`)

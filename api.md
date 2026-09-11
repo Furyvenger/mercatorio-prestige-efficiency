@@ -5,6 +5,13 @@ Host: play.mercatorio.io
 
 # Public endpoints
 
+## Recipes configuration
+```
+GET /api/config/recipes
+```
+
+Returns the current recipe definitions used by the prestige calculator.
+
 ## Town markets overview
 ```
 GET /api/towns/<town_id>/marketdata

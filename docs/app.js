@@ -175,7 +175,7 @@ function clearContractsFromStorage(){
   }
 }
 
-// Compute prestige costs using recipes_season_7.json from this repo (raw github URL)
+// Compute prestige costs using the current recipes from the Mercatorio API.
 async function computePrestigeCosts(){
   setStatus('Computing prestige costs...');
   const townId = townInput.value;
@@ -186,16 +186,23 @@ async function computePrestigeCosts(){
 
   let recipesObj;
   try{
-    // prefer local copy relative to the served docs root; fallback to raw github if missing
-    let r = await fetch('recipes_season_7.json');
-    if(!r.ok){
-      r = await fetch('https://raw.githubusercontent.com/Furyvenger/mercatorio-prestige-efficiency/main/recipes_season_7.json');
-      if(!r.ok) throw new Error('HTTP '+r.status);
+    const recipeHeaders = { 'Accept': 'application/json' };
+    if(tokenInput && tokenInput.value){
+      recipeHeaders['Authorization'] = 'Bearer ' + tokenInput.value.trim();
     }
+    if(userInput && userInput.value){
+      recipeHeaders['X-Merc-User'] = userInput.value.trim();
+    }
+    const r = await fetch('https://play.mercatorio.io/api/config/recipes', {
+      headers: recipeHeaders,
+      cache: 'no-store'
+    });
+    if(!r.ok) throw new Error('HTTP '+r.status);
     recipesObj = await r.json();
   }catch(e){ setStatus('Failed to load recipes: '+(e.message||e)); return; }
 
-  const recipes = Object.values(recipesObj).filter(rcp => rcp.prestige && Number(rcp.prestige) != 0);
+  const recipeData = Array.isArray(recipesObj) ? recipesObj : (recipesObj.recipes || recipesObj);
+  const recipes = Object.values(recipeData).filter(rcp => rcp && rcp.prestige && Number(rcp.prestige) != 0);
   // Load household entries (if present) and normalize (robust parser)
   let householdEntries = [];
   async function tryParseHouseholdText(text){
