@@ -446,16 +446,19 @@ async function computeRecipeProfits(){
   const townId = townInput.value.trim();
   const outputProducts = [...new Set(recipes
     .filter(recipe => Array.isArray(recipe.inputs) && Array.isArray(recipe.outputs) && recipe.outputs.length)
-    .flatMap(recipe => recipe.outputs.map(output => output.product)))];
+    .flatMap(recipe => recipe.outputs.map(output => output.product))
+    .filter(product => String(product).trim().toLowerCase() !== 'money'))];
   const sellOrders = new Map();
-  try{
-    await Promise.all(outputProducts.map(async product => {
+  const failedProducts = [];
+  await Promise.all(outputProducts.map(async product => {
+    try{
       sellOrders.set(product, await fetchSellOrders(townId, product));
-    }));
-  }catch(e){
-    setStatus('Failed to load buy orders: '+(e.message||e));
-    return;
-  }
+    }catch(e){
+      console.warn('Failed to load buy orders for '+product, e);
+      sellOrders.set(product, []);
+      failedProducts.push(product);
+    }
+  }));
   const profits = recipes
     .filter(recipe => Array.isArray(recipe.inputs) && Array.isArray(recipe.outputs) && recipe.outputs.length)
     .map(recipe => {
@@ -531,7 +534,7 @@ async function computeRecipeProfits(){
       const price = item.unitPrice == null ? '?' : item.unitPrice.toFixed(2);
       const extra = item.type === 'output' ? `; unfilled: ${item.unsold}` : '';
       list.innerHTML += `<li>${item.type === 'output' ? 'Output sold' : 'Input'}: ${escapeHtml(item.product)} — ${item.amount} × ${price} = ${item.unitPrice == null ? '?' : item.value.toFixed(2)}${extra}</li>`;
-      if(item.type === 'output' && item.fills.length){
+      if(item.type === 'output' && item.fills && item.fills.length){
         list.innerHTML += `<li class="market-fill-details">Buy-order fills: ${item.fills.map(fill => `${fill.amount} @ ${fill.price}`).join(', ')}</li>`;
       }
     });
@@ -540,7 +543,8 @@ async function computeRecipeProfits(){
     if(existing) existing.remove();
     container.appendChild(detail);
   });
-  setStatus('Loaded '+profits.length+' recipe profit rankings.');
+  setStatus('Loaded '+profits.length+' recipe profit rankings.'+
+    (failedProducts.length ? ' Buy orders unavailable for '+failedProducts.length+' product(s); those outputs show no proceeds.' : ''));
 }
 
 function addContract(){
