@@ -3,6 +3,7 @@ addEventListener('fetch', event => {
 });
 
 const ALLOWED_ORIGIN = typeof ALLOWED_ORIGIN !== 'undefined' ? ALLOWED_ORIGIN : '*';
+const MERCATORIO_API_BASE = 'https://play.mercatorio.io/api';
 
 function corsHeaders(request) {
   const origin = request.headers.get('Origin') || '*';
@@ -20,20 +21,14 @@ async function handle(request){
   }
 
   const url = new URL(request.url);
-  // Accept town via query ?town=ID or path /towns/<id>
-  let town = url.searchParams.get('town');
-  if(!town){
-    const m = url.pathname.match(/\/towns\/(\d+)\/marketdata/);
-    if(m) town = m[1];
-  }
-  const isRecipesRequest = url.pathname === '/config/recipes' || url.pathname === '/api/config/recipes';
-  if(!town && !isRecipesRequest){
-    return new Response(JSON.stringify({ error: 'missing town id' }), { status: 400, headers: { 'Content-Type':'application/json', ...corsHeaders(request) } });
+  if(!url.pathname || url.pathname === '/'){
+    return new Response(JSON.stringify({ error: 'missing API path' }), { status: 400, headers: { 'Content-Type':'application/json', ...corsHeaders(request) } });
   }
 
-  const apiUrl = isRecipesRequest
-    ? 'https://play.mercatorio.io/api/config/recipes'
-    : `https://play.mercatorio.io/api/towns/${encodeURIComponent(town)}/marketdata`;
+  // The worker owns the upstream host; callers provide only the API path and query.
+  // Accept both /config/... (the client form) and /api/config/... (the upstream form).
+  const apiPath = url.pathname.replace(/^\/api(?=\/|$)/, '') || '/';
+  const apiUrl = `${MERCATORIO_API_BASE}${apiPath}${url.search}`;
 
   const headers = { 'Accept': 'application/json' };
   // Use secret-bound token (set as environment variable on the Worker)
@@ -53,7 +48,7 @@ async function handle(request){
   }catch(e){}
 
   try{
-    const resp = await fetch(apiUrl, { method: 'GET', headers });
+    const resp = await fetch(apiUrl, { method: request.method, headers });
     const respHeaders = {};
     // Copy selective headers
     resp.headers.forEach((v,k)=>{ respHeaders[k]=v });

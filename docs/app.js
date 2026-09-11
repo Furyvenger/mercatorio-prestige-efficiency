@@ -163,6 +163,40 @@ async function fetchRecipes(){
   return Object.values(recipeData).filter(recipe => recipe && typeof recipe === 'object');
 }
 
+async function fetchSellOrders(townId, product){
+  const url = `${config.apiBase}/towns/${encodeURIComponent(townId)}/markets/${encodeURIComponent(product)}`;
+  const headers = { 'Accept': 'application/json' };
+  if(tokenInput && tokenInput.value){
+    headers['Authorization'] = 'Bearer ' + tokenInput.value.trim();
+  }
+  if(userInput && userInput.value){
+    headers['X-Merc-User'] = userInput.value.trim();
+  }
+  const response = await fetch(url, { headers, cache: 'no-store' });
+  if(!response.ok) throw new Error(`${product}: HTTP ${response.status}`);
+  const market = await response.json();
+  return Array.isArray(market.bids) ? market.bids : [];
+}
+
+function calculateSellProceeds(bids, quantity){
+  let remaining = quantity;
+  let proceeds = 0;
+  const fills = [];
+  const sortedBids = bids
+    .map(bid => ({ price: Number(bid.price), volume: Number(bid.volume) }))
+    .filter(bid => Number.isFinite(bid.price) && bid.price >= 0 && Number.isFinite(bid.volume) && bid.volume > 0)
+    .sort((a, b) => b.price - a.price);
+
+  for(const bid of sortedBids){
+    if(remaining <= 0) break;
+    const amount = Math.min(remaining, bid.volume);
+    proceeds += amount * bid.price;
+    remaining -= amount;
+    fills.push({ amount, price: bid.price, value: amount * bid.price });
+  }
+  return { proceeds, remaining, fills };
+}
+
 let currentPrestigeResults = []; // store results so contracts can be added
 let currentMarketData = null;
 const CONTRACTS_STORAGE_KEY = 'mercatorio_contracts';
@@ -409,6 +443,19 @@ async function computeRecipeProfits(){
   }
 
   const markets = data.markets || {};
+  const townId = townInput.value.trim();
+  const outputProducts = [...new Set(recipes
+    .filter(recipe => Array.isArray(recipe.inputs) && Array.isArray(recipe.outputs) && recipe.outputs.length)
+    .flatMap(recipe => recipe.outputs.map(output => output.product)))];
+  const sellOrders = new Map();
+  try{
+    await Promise.all(outputProducts.map(async product => {
+      sellOrders.set(product, await fetchSellOrders(townId, product));
+    }));
+  }catch(e){
+    setStatus('Failed to load buy orders: '+(e.message||e));
+    return;
+  }
   const profits = recipes
     .filter(recipe => Array.isArray(recipe.inputs) && Array.isArray(recipe.outputs) && recipe.outputs.length)
     .map(recipe => {
@@ -427,11 +474,9 @@ async function computeRecipeProfits(){
       });
       recipe.outputs.forEach(output => {
         const amount = Number(output.amount || 0);
-        const unitPrice = getUnitPrice(markets, output.product);
-        if(unitPrice == null) missing.push(output.product);
-        const value = unitPrice == null ? 0 : unitPrice * amount;
-        outputValue += value;
-        breakdown.push({ type: 'output', product: output.product, amount, unitPrice, value });
+        const sale = calculateSellProceeds(sellOrders.get(output.product) || [], amount);
+        outputValue += sale.proceeds;
+        breakdown.push({ type: 'output', product: output.product, amount, unitPrice: amount ? sale.proceeds / (amount - sale.remaining || 1) : null, value: sale.proceeds, fills: sale.fills, unsold: sale.remaining });
       });
 
       // Include the base recipe operating cost used by the prestige calculator.
@@ -477,11 +522,18 @@ async function computeRecipeProfits(){
     const recipe = profits[Number(event.target.dataset.profitIdx)];
     const detail = document.createElement('div');
     detail.className = 'table-details-content';
-    detail.innerHTML = `<h3>${escapeHtml(recipe.name)}</h3><p>Missing prices: ${recipe.missing.length ? escapeHtml(recipe.missing.join(', ')) : 'none'}</p>`;
+    const unfilled = recipe.breakdown
+      .filter(item => item.type === 'output' && item.unsold > 0)
+      .map(item => `${item.product} (${item.unsold})`);
+    detail.innerHTML = `<h3>${escapeHtml(recipe.name)}</h3><p>Missing input prices: ${recipe.missing.length ? escapeHtml(recipe.missing.join(', ')) : 'none'}</p><p>Unfilled output demand: ${unfilled.length ? escapeHtml(unfilled.join(', ')) : 'none'}</p>`;
     const list = document.createElement('ul');
     recipe.breakdown.forEach(item => {
-      const price = item.unitPrice == null ? '?' : item.unitPrice;
-      list.innerHTML += `<li>${item.type === 'output' ? 'Output' : 'Input'}: ${escapeHtml(item.product)} — ${item.amount} × ${price} = ${item.unitPrice == null ? '?' : item.value.toFixed(2)}</li>`;
+      const price = item.unitPrice == null ? '?' : item.unitPrice.toFixed(2);
+      const extra = item.type === 'output' ? `; unfilled: ${item.unsold}` : '';
+      list.innerHTML += `<li>${item.type === 'output' ? 'Output sold' : 'Input'}: ${escapeHtml(item.product)} — ${item.amount} × ${price} = ${item.unitPrice == null ? '?' : item.value.toFixed(2)}${extra}</li>`;
+      if(item.type === 'output' && item.fills.length){
+        list.innerHTML += `<li class="market-fill-details">Buy-order fills: ${item.fills.map(fill => `${fill.amount} @ ${fill.price}`).join(', ')}</li>`;
+      }
     });
     detail.appendChild(list);
     const existing = container.querySelector('.table-details-content');

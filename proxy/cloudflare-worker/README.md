@@ -4,9 +4,16 @@ Overview
 - This Worker proxies requests from the browser to the Mercatorio API, adds the necessary Authorization header using a secret bound to the Worker, and returns responses with CORS headers so the browser can call it.
 
 Endpoints
-- GET /?town=<id>  -> proxies to https://play.mercatorio.io/api/towns/<id>/marketdata
-- GET /towns/<id>/marketdata -> same as above
-- GET /config/recipes -> proxies to https://play.mercatorio.io/api/config/recipes
+- Any GET or HEAD API path is forwarded to the fixed Mercatorio API base:
+  `https://mercatorio-proxy.example.workers.dev/<path>` ->
+  `https://play.mercatorio.io/api/<path>`
+- For example, `GET /config/recipes` forwards to
+  `https://play.mercatorio.io/api/config/recipes`.
+- Query strings are forwarded unchanged, and an optional `/api` prefix is accepted.
+
+This means new read-only API endpoints do not require a worker code change. The
+worker still owns the upstream host, so callers cannot redirect it to another
+domain.
 
 Security
 - Store your MERCATORIO_API_TOKEN as a Worker secret (do not embed it in client code).
