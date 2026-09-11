@@ -193,7 +193,7 @@ async function computePrestigeCosts(){
     if(userInput && userInput.value){
       recipeHeaders['X-Merc-User'] = userInput.value.trim();
     }
-    const r = await fetch('https://play.mercatorio.io/api/config/recipes', {
+    const r = await fetch(`${config.apiBase}/config/recipes`, {
       headers: recipeHeaders,
       cache: 'no-store'
     });

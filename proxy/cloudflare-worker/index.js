@@ -26,11 +26,14 @@ async function handle(request){
     const m = url.pathname.match(/\/towns\/(\d+)\/marketdata/);
     if(m) town = m[1];
   }
-  if(!town){
+  const isRecipesRequest = url.pathname === '/config/recipes' || url.pathname === '/api/config/recipes';
+  if(!town && !isRecipesRequest){
     return new Response(JSON.stringify({ error: 'missing town id' }), { status: 400, headers: { 'Content-Type':'application/json', ...corsHeaders(request) } });
   }
 
-  const apiUrl = `https://play.mercatorio.io/api/towns/${encodeURIComponent(town)}/marketdata`;
+  const apiUrl = isRecipesRequest
+    ? 'https://play.mercatorio.io/api/config/recipes'
+    : `https://play.mercatorio.io/api/towns/${encodeURIComponent(town)}/marketdata`;
 
   const headers = { 'Accept': 'application/json' };
   // Use secret-bound token (set as environment variable on the Worker)

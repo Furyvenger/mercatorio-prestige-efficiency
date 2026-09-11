@@ -6,6 +6,7 @@ Overview
 Endpoints
 - GET /?town=<id>  -> proxies to https://play.mercatorio.io/api/towns/<id>/marketdata
 - GET /towns/<id>/marketdata -> same as above
+- GET /config/recipes -> proxies to https://play.mercatorio.io/api/config/recipes
 
 Security
 - Store your MERCATORIO_API_TOKEN as a Worker secret (do not embed it in client code).

@@ -75,7 +75,7 @@ The app is **frontend-only** (static JavaScript + HTML) deployed via GitHub Page
 - **Final metric**: `cost_per_prestige = total_cost / prestige`
 
 ### Data Source Loading Strategy
-Recipes are always loaded fresh from `https://play.mercatorio.io/api/config/recipes`.
+Recipes are always loaded fresh through `config.apiBase/config/recipes`, which the Cloudflare Worker proxies to `https://play.mercatorio.io/api/config/recipes`.
 Household and building data use local files first, with GitHub raw URL fallbacks.
 
 Household/buildings JSON parsing is lenient: attempts strict JSON first, then regex-normalizes JS object literals (quote unquoted keys, convert single quotes).
