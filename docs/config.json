@@ -1,5 +1,4 @@
 {
   "apiBase": "https://mercatorio-proxy.gaaltamas94.workers.dev",
-  "defaultTownId": "78000248",
   "towns": ["78000248"]
 }

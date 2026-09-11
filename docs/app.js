@@ -2,33 +2,58 @@ const statusEl = document.getElementById('status');
 const townInput = document.getElementById('townId');
 const tokenInput = document.getElementById('apiToken');
 const userInput = document.getElementById('apiUser');
-const saveCreds = document.getElementById('saveCreds');
 const loadBtn = document.getElementById('loadBtn');
+const TOWN_STORAGE_KEY = 'merc_town_id';
 
-// Restore saved creds if present
-try{ if(localStorage){ const t = localStorage.getItem('merc_token'); const u = localStorage.getItem('merc_user'); if(t) tokenInput.value = t; if(u) userInput.value = u; } }catch(e){}
+function saveUserPreferences(){
+  try{
+    if(!localStorage) return;
+    localStorage.setItem(TOWN_STORAGE_KEY, townInput.value.trim());
+    localStorage.setItem('merc_token', tokenInput.value || '');
+    localStorage.setItem('merc_user', userInput.value || '');
+  }catch(e){
+    console.warn('Failed to save preferences to localStorage', e);
+  }
+}
+
+// Restore saved preferences if present.
+try{
+  if(localStorage){
+    const town = localStorage.getItem(TOWN_STORAGE_KEY);
+    const token = localStorage.getItem('merc_token');
+    const user = localStorage.getItem('merc_user');
+    if(town) townInput.value = town;
+    if(token) tokenInput.value = token;
+    if(user) userInput.value = user;
+  }
+}catch(e){ console.warn('Failed to load preferences from localStorage', e); }
+
 // Also allow pre-filling via URL query params ?token=...&user=...
 try{
   const params = new URLSearchParams(window.location.search);
-  const ut = params.get('token'); const uu = params.get('user'); const save = params.get('save');
+  const ut = params.get('token'); const uu = params.get('user');
   if(ut) tokenInput.value = ut;
   if(uu) userInput.value = uu;
-  if(save && save === '1' && localStorage){ saveCreds.checked = true; localStorage.setItem('merc_token', ut||''); localStorage.setItem('merc_user', uu||''); }
 }catch(e){}
 
-let config = { apiBase: 'https://play.mercatorio.io/api', defaultTownId: '1' };
+let config = { apiBase: 'https://play.mercatorio.io/api' };
 
 async function loadConfig(){
   try{
     const r = await fetch('config.json');
     if(r.ok) config = await r.json();
   }catch(e){ /* ignore, use defaults */ }
-  townInput.value = config.defaultTownId || townInput.value;
 }
 
 function setStatus(msg){ if(statusEl) statusEl.textContent = msg }
 
 async function fetchMarketData(townId, options = {}){
+  townId = String(townId || '').trim();
+  if(!townId){
+    setStatus('Enter a town ID to load market data.');
+    return null;
+  }
+  saveUserPreferences();
   setStatus('Fetching market data...');
   const urlParams = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : new URLSearchParams('');
   const hasCreds = (tokenInput && tokenInput.value) || (userInput && userInput.value) || urlParams.get('token');
@@ -49,8 +74,6 @@ async function fetchMarketData(townId, options = {}){
     const json = await res.json();
     renderMarketOverview(json);
     setStatus('Loaded (direct).');
-    // Save creds if requested
-    try{ if(saveCreds && saveCreds.checked && localStorage){ localStorage.setItem('merc_token', tokenInput.value || ''); localStorage.setItem('merc_user', userInput.value || ''); } }catch(e){}
     return json;
   }catch(err){
     console.warn('Direct fetch failed, attempting CORS proxy fallback', err);
@@ -494,6 +517,9 @@ function renderPrestigeResults(results, data){
 }
 
 loadConfig();
+townInput.addEventListener('input', saveUserPreferences);
+tokenInput.addEventListener('input', saveUserPreferences);
+userInput.addEventListener('input', saveUserPreferences);
 loadBtn.addEventListener('click', ()=>fetchMarketData(townInput.value));
 const computeBtn = document.getElementById('computeBtn');
 if(computeBtn) computeBtn.addEventListener('click', ()=>computePrestigeCosts());
@@ -511,5 +537,8 @@ if(clearContractsBtn) clearContractsBtn.addEventListener('click', ()=>{
   if(el) el.addEventListener('change', ()=>renderPrestigeResults(currentPrestigeResults, currentMarketData));
 });
 
-// Auto-load once on start
-window.addEventListener('load', ()=>fetchMarketData(townInput.value));
+// Auto-load only when a town ID has been saved.
+window.addEventListener('load', ()=>{
+  if(townInput.value.trim()) fetchMarketData(townInput.value);
+  else setStatus('Enter a town ID to load market data.');
+});

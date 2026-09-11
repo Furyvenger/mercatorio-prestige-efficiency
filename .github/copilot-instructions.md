@@ -94,7 +94,6 @@ Household/buildings JSON parsing is lenient: attempts strict JSON first, then re
 ```json
 {
   "apiBase": "https://your-proxy-url.workers.dev",
-  "defaultTownId": "78000248",
   "towns": ["78000248", "..."]  // town IDs for GitHub Actions caching
 }
 ```
