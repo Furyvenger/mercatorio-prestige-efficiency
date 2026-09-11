@@ -466,29 +466,46 @@ async function computeRecipeProfits(){
       let outputValue = 0;
       const missing = [];
       const breakdown = [];
+      const outputSales = recipe.outputs.map(output => {
+        const amount = Number(output.amount || 0);
+        if(String(output.product).trim().toLowerCase() === 'money'){
+          return { output, amount, sale: { proceeds: 0, remaining: 0, fills: [] }, ratio: 1 };
+        }
+        const sale = calculateSellProceeds(sellOrders.get(output.product) || [], amount);
+        return {
+          output,
+          amount,
+          sale,
+          ratio: amount > 0 ? Math.min(1, (amount - sale.remaining) / amount) : 1
+        };
+      });
+      const productionRatio = outputSales.reduce((ratio, item) => Math.min(ratio, item.ratio), 1);
 
       recipe.inputs.forEach(input => {
-        const amount = Number(input.amount || 0);
+        const amount = Number(input.amount || 0) * productionRatio;
         const unitPrice = getUnitPrice(markets, input.product);
         if(unitPrice == null) missing.push(input.product);
         const cost = unitPrice == null ? 0 : unitPrice * amount;
         inputCost += cost;
         breakdown.push({ type: 'input', product: input.product, amount, unitPrice, value: cost });
       });
-      recipe.outputs.forEach(output => {
-        const amount = Number(output.amount || 0);
-        const sale = calculateSellProceeds(sellOrders.get(output.product) || [], amount);
-        outputValue += sale.proceeds;
-        breakdown.push({ type: 'output', product: output.product, amount, unitPrice: amount ? sale.proceeds / (amount - sale.remaining || 1) : null, value: sale.proceeds, fills: sale.fills, unsold: sale.remaining });
+      outputSales.forEach(({ output, amount }) => {
+        const sellAmount = amount * productionRatio;
+        const scaledSale = String(output.product).trim().toLowerCase() === 'money'
+          ? { proceeds: 0, remaining: 0, fills: [] }
+          : calculateSellProceeds(sellOrders.get(output.product) || [], sellAmount);
+        outputValue += scaledSale.proceeds;
+        breakdown.push({ type: 'output', product: output.product, amount: sellAmount, unitPrice: sellAmount ? scaledSale.proceeds / (sellAmount - scaledSale.remaining || 1) : null, value: scaledSale.proceeds, fills: scaledSale.fills, unsold: sellAmount - (sellAmount - scaledSale.remaining) });
       });
 
       // Include the base recipe operating cost used by the prestige calculator.
-      inputCost += 0.5;
+      inputCost += 0.5 * productionRatio;
       return {
         name: recipe.name || 'Unnamed recipe',
         profit: outputValue - inputCost,
         inputCost,
         outputValue,
+        productionRatio,
         missing: [...new Set(missing)],
         breakdown
       };
@@ -528,7 +545,7 @@ async function computeRecipeProfits(){
     const unfilled = recipe.breakdown
       .filter(item => item.type === 'output' && item.unsold > 0)
       .map(item => `${item.product} (${item.unsold})`);
-    detail.innerHTML = `<h3>${escapeHtml(recipe.name)}</h3><p>Missing input prices: ${recipe.missing.length ? escapeHtml(recipe.missing.join(', ')) : 'none'}</p><p>Unfilled output demand: ${unfilled.length ? escapeHtml(unfilled.join(', ')) : 'none'}</p>`;
+    detail.innerHTML = `<h3>${escapeHtml(recipe.name)}</h3><p>Production level: ${(recipe.productionRatio * 100).toFixed(2)}% of one recipe</p><p>Missing input prices: ${recipe.missing.length ? escapeHtml(recipe.missing.join(', ')) : 'none'}</p><p>Unfilled output demand: ${unfilled.length ? escapeHtml(unfilled.join(', ')) : 'none'}</p>`;
     const list = document.createElement('ul');
     recipe.breakdown.forEach(item => {
       const price = item.unitPrice == null ? '?' : item.unitPrice.toFixed(2);
