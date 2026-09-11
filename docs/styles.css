@@ -57,6 +57,46 @@ h1 {
   background-clip: text;
 }
 
+.tabs {
+  display: flex;
+  gap: 4px;
+  margin: 20px 0 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.tab-button {
+  background: transparent;
+  color: var(--text-secondary);
+  border-radius: 6px 6px 0 0;
+  border-bottom: 2px solid transparent;
+}
+
+.tab-button:hover {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+  box-shadow: none;
+  transform: none;
+}
+
+.tab-button.active {
+  color: var(--text-primary);
+  border-bottom-color: var(--accent);
+}
+
+.tab-page[hidden] {
+  display: none;
+}
+
+.profit-positive {
+  color: var(--success) !important;
+  font-weight: 600;
+}
+
+.profit-negative {
+  color: var(--error) !important;
+  font-weight: 600;
+}
+
 h3 {
   margin: 0 0 12px 0;
   font-size: 16px;

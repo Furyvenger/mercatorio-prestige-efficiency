@@ -9,6 +9,12 @@
 <body>
   <main>
     <h1>Mercatorio — Prestige Efficiency</h1>
+    <nav class="tabs" aria-label="Site pages">
+      <button class="tab-button active" data-tab="prestigePage">Prestige efficiency</button>
+      <button class="tab-button" data-tab="profitPage">Recipe profits</button>
+    </nav>
+
+    <div id="prestigePage" class="tab-page active">
     <p>Enter a town ID to load market overview (uses play.mercatorio.io API).</p>
 
     <div>
@@ -62,6 +68,13 @@
     </div>
     
     <section id="prestigeResults"></section>
+    </div>
+
+    <div id="profitPage" class="tab-page" hidden>
+      <p>Recipes are ranked by estimated profit using the selected town's market prices.</p>
+      <button id="computeProfitBtn">Load recipe profits</button>
+      <section id="profitResults"></section>
+    </div>
     
     <footer>
       <p>Note: If API requests are blocked due to CORS, deploy a server-side proxy or Cloudflare Worker proxy as documented.</p>

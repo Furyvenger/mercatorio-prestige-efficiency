@@ -145,6 +145,24 @@ function getUnitPrice(markets, product){
   return null;
 }
 
+async function fetchRecipes(){
+  const recipeHeaders = { 'Accept': 'application/json' };
+  if(tokenInput && tokenInput.value){
+    recipeHeaders['Authorization'] = 'Bearer ' + tokenInput.value.trim();
+  }
+  if(userInput && userInput.value){
+    recipeHeaders['X-Merc-User'] = userInput.value.trim();
+  }
+  const r = await fetch(`${config.apiBase}/config/recipes`, {
+    headers: recipeHeaders,
+    cache: 'no-store'
+  });
+  if(!r.ok) throw new Error('HTTP '+r.status);
+  const recipesObj = await r.json();
+  const recipeData = Array.isArray(recipesObj) ? recipesObj : (recipesObj.recipes || recipesObj);
+  return Object.values(recipeData).filter(recipe => recipe && typeof recipe === 'object');
+}
+
 let currentPrestigeResults = []; // store results so contracts can be added
 let currentMarketData = null;
 const CONTRACTS_STORAGE_KEY = 'mercatorio_contracts';
@@ -184,25 +202,12 @@ async function computePrestigeCosts(){
   const markets = data.markets || {};
   currentMarketData = data;
 
-  let recipesObj;
+  let recipes;
   try{
-    const recipeHeaders = { 'Accept': 'application/json' };
-    if(tokenInput && tokenInput.value){
-      recipeHeaders['Authorization'] = 'Bearer ' + tokenInput.value.trim();
-    }
-    if(userInput && userInput.value){
-      recipeHeaders['X-Merc-User'] = userInput.value.trim();
-    }
-    const r = await fetch(`${config.apiBase}/config/recipes`, {
-      headers: recipeHeaders,
-      cache: 'no-store'
-    });
-    if(!r.ok) throw new Error('HTTP '+r.status);
-    recipesObj = await r.json();
+    recipes = await fetchRecipes();
   }catch(e){ setStatus('Failed to load recipes: '+(e.message||e)); return; }
 
-  const recipeData = Array.isArray(recipesObj) ? recipesObj : (recipesObj.recipes || recipesObj);
-  const recipes = Object.values(recipeData).filter(rcp => rcp && rcp.prestige && Number(rcp.prestige) != 0);
+  recipes = recipes.filter(rcp => rcp.prestige && Number(rcp.prestige) != 0);
   // Load household entries (if present) and normalize (robust parser)
   let householdEntries = [];
   async function tryParseHouseholdText(text){
@@ -388,6 +393,104 @@ async function computePrestigeCosts(){
   setStatus('Computed '+results.length+' methods'+(contractCount?' (+'+contractCount+' saved contracts)':'')+'.');
 }
 
+async function computeRecipeProfits(){
+  const container = document.getElementById('profitResults');
+  container.innerHTML = '';
+  setStatus('Computing recipe profits...');
+  const data = await fetchMarketData(townInput.value);
+  if(!data){ setStatus('No market data available'); return; }
+
+  let recipes;
+  try{
+    recipes = await fetchRecipes();
+  }catch(e){
+    setStatus('Failed to load recipes: '+(e.message||e));
+    return;
+  }
+
+  const markets = data.markets || {};
+  const profits = recipes
+    .filter(recipe => Array.isArray(recipe.inputs) && Array.isArray(recipe.outputs) && recipe.outputs.length)
+    .map(recipe => {
+      let inputCost = 0;
+      let outputValue = 0;
+      const missing = [];
+      const breakdown = [];
+
+      recipe.inputs.forEach(input => {
+        const amount = Number(input.amount || 0);
+        const unitPrice = getUnitPrice(markets, input.product);
+        if(unitPrice == null) missing.push(input.product);
+        const cost = unitPrice == null ? 0 : unitPrice * amount;
+        inputCost += cost;
+        breakdown.push({ type: 'input', product: input.product, amount, unitPrice, value: cost });
+      });
+      recipe.outputs.forEach(output => {
+        const amount = Number(output.amount || 0);
+        const unitPrice = getUnitPrice(markets, output.product);
+        if(unitPrice == null) missing.push(output.product);
+        const value = unitPrice == null ? 0 : unitPrice * amount;
+        outputValue += value;
+        breakdown.push({ type: 'output', product: output.product, amount, unitPrice, value });
+      });
+
+      // Include the base recipe operating cost used by the prestige calculator.
+      inputCost += 0.5;
+      return {
+        name: recipe.name || 'Unnamed recipe',
+        profit: outputValue - inputCost,
+        inputCost,
+        outputValue,
+        missing: [...new Set(missing)],
+        breakdown
+      };
+    })
+    .sort((a, b) => {
+      if(a.missing.length && !b.missing.length) return 1;
+      if(!a.missing.length && b.missing.length) return -1;
+      if(a.missing.length && b.missing.length) return a.name.localeCompare(b.name);
+      return b.profit - a.profit;
+    });
+
+  if(!profits.length){
+    container.textContent = 'No recipes with inputs and outputs were returned.';
+    return;
+  }
+
+  const table = document.createElement('table');
+  table.className = 'table';
+  table.innerHTML = '<thead><tr><th>#</th><th>Recipe</th><th>Output value</th><th>Input cost</th><th>Profit</th><th>Details</th></tr></thead>';
+  const tbody = document.createElement('tbody');
+  profits.forEach((recipe, index) => {
+    const unavailable = recipe.missing.length > 0;
+    const profitDisplay = unavailable ? '?' : recipe.profit.toFixed(2);
+    const row = document.createElement('tr');
+    const profitClass = unavailable ? '' : (recipe.profit >= 0 ? 'profit-positive' : 'profit-negative');
+    row.innerHTML = `<td>${index + 1}</td><td>${escapeHtml(recipe.name)}</td><td>${unavailable ? '?' : recipe.outputValue.toFixed(2)}</td><td>${unavailable ? '?' : recipe.inputCost.toFixed(2)}</td><td class="${profitClass}">${profitDisplay}</td><td><button class="detailsBtn" data-profit-idx="${index}">Details</button></td>`;
+    tbody.appendChild(row);
+  });
+  table.appendChild(tbody);
+  container.appendChild(table);
+
+  table.addEventListener('click', event => {
+    if(!event.target.classList.contains('detailsBtn')) return;
+    const recipe = profits[Number(event.target.dataset.profitIdx)];
+    const detail = document.createElement('div');
+    detail.className = 'table-details-content';
+    detail.innerHTML = `<h3>${escapeHtml(recipe.name)}</h3><p>Missing prices: ${recipe.missing.length ? escapeHtml(recipe.missing.join(', ')) : 'none'}</p>`;
+    const list = document.createElement('ul');
+    recipe.breakdown.forEach(item => {
+      const price = item.unitPrice == null ? '?' : item.unitPrice;
+      list.innerHTML += `<li>${item.type === 'output' ? 'Output' : 'Input'}: ${escapeHtml(item.product)} — ${item.amount} × ${price} = ${item.unitPrice == null ? '?' : item.value.toFixed(2)}</li>`;
+    });
+    detail.appendChild(list);
+    const existing = container.querySelector('.table-details-content');
+    if(existing) existing.remove();
+    container.appendChild(detail);
+  });
+  setStatus('Loaded '+profits.length+' recipe profit rankings.');
+}
+
 function addContract(){
   const product = document.getElementById('contractProduct')?.value?.trim();
   const amount = Number(document.getElementById('contractAmount')?.value || 1);
@@ -530,6 +633,8 @@ userInput.addEventListener('input', saveUserPreferences);
 loadBtn.addEventListener('click', ()=>fetchMarketData(townInput.value));
 const computeBtn = document.getElementById('computeBtn');
 if(computeBtn) computeBtn.addEventListener('click', ()=>computePrestigeCosts());
+const computeProfitBtn = document.getElementById('computeProfitBtn');
+if(computeProfitBtn) computeProfitBtn.addEventListener('click', ()=>computeRecipeProfits());
 const addContractBtn = document.getElementById('addContractBtn');
 if(addContractBtn) addContractBtn.addEventListener('click', ()=>addContract());
 const clearContractsBtn = document.getElementById('clearContractsBtn');
@@ -542,6 +647,17 @@ if(clearContractsBtn) clearContractsBtn.addEventListener('click', ()=>{
 ['filterRecipe','filterHousehold','filterBuilding','filterContract'].forEach(id=>{
   const el = document.getElementById(id);
   if(el) el.addEventListener('change', ()=>renderPrestigeResults(currentPrestigeResults, currentMarketData));
+});
+
+document.querySelectorAll('.tab-button').forEach(button=>{
+  button.addEventListener('click', ()=>{
+    document.querySelectorAll('.tab-button').forEach(tab=>tab.classList.toggle('active', tab === button));
+    document.querySelectorAll('.tab-page').forEach(page=>{
+      const active = page.id === button.dataset.tab;
+      page.hidden = !active;
+      page.classList.toggle('active', active);
+    });
+  });
 });
 
 // Auto-load only when a town ID has been saved.
