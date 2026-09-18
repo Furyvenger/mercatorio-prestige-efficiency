@@ -241,7 +241,10 @@ async function computePrestigeCosts(){
     recipes = await fetchRecipes();
   }catch(e){ setStatus('Failed to load recipes: '+(e.message||e)); return; }
 
-  recipes = recipes.filter(rcp => rcp.prestige && Number(rcp.prestige) != 0);
+  // The API reports production recipe prestige in centiprestige units.
+  recipes = recipes
+    .filter(rcp => rcp.prestige && Number(rcp.prestige) != 0)
+    .map(rcp => Object.assign({}, rcp, { prestige: Number(rcp.prestige) / 100 }));
   // Load household entries (if present) and normalize (robust parser)
   let householdEntries = [];
   async function tryParseHouseholdText(text){
@@ -362,10 +365,6 @@ async function computePrestigeCosts(){
       totalCost += cost;
     }
     let prestige = Number(rec.prestige || 0);
-    if(rec.source === 'recipe'){
-      // recipe prestige scale
-      prestige = prestige * 100;
-    }
     // apply taxes for recipes: determine building site
     if(rec.source === 'recipe'){
       const site = rec.site || (rec.recipe && rec.recipe.site) || null;

@@ -67,7 +67,7 @@ The app is **frontend-only** (static JavaScript + HTML) deployed via GitHub Page
 ```
 
 ### Prestige Calculation
-- **Recipe prestige**: Raw prestige × 100
+- **Recipe prestige**: API prestige ÷ 100 (the API reports production recipes in centiprestige units)
 - **Household prestige**: Raw prestige × 1 (no multiplier)
 - **Building prestige**: Raw prestige × 100
 - **Apprentice boost**: Household consumption increases by 25% per apprentice (excludes "gear" and "luxury" categories)
