@@ -276,7 +276,7 @@ async function computePrestigeCosts(){
         const parsed = await tryParseHouseholdText(txt);
         if(parsed && Array.isArray(parsed)){
           const apprentices = Number(document.getElementById('apprentices')?.value || 0);
-          const factor = 1 + 0.25 * Math.max(0, apprentices);
+          const factor = 1 + 0.20 * Math.max(0, apprentices);
           householdEntries = parsed.map(h => {
             let amt = Number(h.volume||0);
             // apprentices increase household consumption excluding gear and luxury

@@ -70,7 +70,7 @@ The app is **frontend-only** (static JavaScript + HTML) deployed via GitHub Page
 - **Recipe prestige**: API prestige (the API value is already in actual prestige units)
 - **Household prestige**: Raw prestige × 1 (no multiplier)
 - **Building prestige**: Raw prestige × 100
-- **Apprentice boost**: Household consumption increases by 25% per apprentice (excludes "gear" and "luxury" categories)
+- **Apprentice boost**: Household consumption increases by 20% per apprentice (excludes "gear" and "luxury" categories)
 - **Recipe tax**: +0.5 (or +6 if site requires center)
 - **Final metric**: `cost_per_prestige = total_cost / prestige`
 
