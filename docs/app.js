@@ -575,6 +575,16 @@ function addContract(){
     setStatus('Please compute prestige first.');
     return;
   }
+
+  const storedContracts = loadContractsFromStorage();
+  if(storedContracts.some(contract =>
+    contract.product === product &&
+    contract.amount === amount &&
+    contract.prestige === prestige
+  )){
+    setStatus('This contract already exists in the table.');
+    return;
+  }
   
   const markets = currentMarketData.markets || {};
   const unitPrice = getUnitPrice(markets, product);
@@ -592,9 +602,7 @@ function addContract(){
   };
   
   currentPrestigeResults.push(entry);
-  
   // Save contract to localStorage (just the essential data for recreation)
-  const storedContracts = loadContractsFromStorage();
   storedContracts.push({ product, amount, prestige });
   saveContractsToStorage(storedContracts);
   
