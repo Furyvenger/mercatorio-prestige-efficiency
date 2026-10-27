@@ -1,3 +1,5 @@
+import { createChurchContracts } from './church-contracts.mjs';
+
 const statusEl = document.getElementById('status');
 const townInput = document.getElementById('townId');
 const tokenInput = document.getElementById('apiToken');
@@ -199,33 +201,7 @@ function calculateSellProceeds(bids, quantity){
 
 let currentPrestigeResults = []; // store results so contracts can be added
 let currentMarketData = null;
-const CONTRACTS_STORAGE_KEY = 'mercatorio_contracts';
-
-function saveContractsToStorage(contracts){
-  try{
-    localStorage.setItem(CONTRACTS_STORAGE_KEY, JSON.stringify(contracts));
-  }catch(e){
-    console.warn('Failed to save contracts to localStorage', e);
-  }
-}
-
-function loadContractsFromStorage(){
-  try{
-    const stored = localStorage.getItem(CONTRACTS_STORAGE_KEY);
-    return stored ? JSON.parse(stored) : [];
-  }catch(e){
-    console.warn('Failed to load contracts from localStorage', e);
-    return [];
-  }
-}
-
-function clearContractsFromStorage(){
-  try{
-    localStorage.removeItem(CONTRACTS_STORAGE_KEY);
-  }catch(e){
-    console.warn('Failed to clear contracts from localStorage', e);
-  }
-}
+const churchContracts = createChurchContracts({ getUnitPrice });
 
 // Compute prestige costs using the current recipes from the Mercatorio API.
 async function computePrestigeCosts(){
@@ -381,47 +357,13 @@ async function computePrestigeCosts(){
     results.push({ name: rec.name || rec.product || '', prestige, totalCost, costPerPrestige, missing, breakdown, recipe: rec, source: rec.source || 'recipe' });
   }
 
-  // Sort: entries without missing prices first (ascending cost), then entries with missing prices
-  results.sort((a,b)=>{
-    if(a.missing.length && !b.missing.length) return 1;
-    if(!a.missing.length && b.missing.length) return -1;
-    if(a.costPerPrestige == null && b.costPerPrestige == null) return a.name.localeCompare(b.name);
-    if(a.costPerPrestige == null) return 1;
-    if(b.costPerPrestige == null) return -1;
-    return a.costPerPrestige - b.costPerPrestige;
-  });
-
   // Load and restore saved contracts from localStorage
-  const savedContracts = loadContractsFromStorage();
-  for(const contract of savedContracts){
-    const unitPrice = getUnitPrice(markets, contract.product);
-    const totalCost = (unitPrice || 0) * contract.amount;
-    const costPerPrestige = contract.prestige > 0 ? totalCost / contract.prestige : null;
-    results.push({
-      name: contract.product + ' (contract)',
-      prestige: contract.prestige,
-      totalCost,
-      costPerPrestige,
-      missing: unitPrice == null ? [contract.product] : [],
-      breakdown: [{ product: contract.product, amount: contract.amount, unitPrice, cost: totalCost }],
-      source: 'contract'
-    });
-  }
-
-  // Re-sort after adding restored contracts
-  results.sort((a,b)=>{
-    if(a.missing.length && !b.missing.length) return 1;
-    if(!a.missing.length && b.missing.length) return -1;
-    if(a.costPerPrestige == null && b.costPerPrestige == null) return a.name.localeCompare(b.name);
-    if(a.costPerPrestige == null) return 1;
-    if(b.costPerPrestige == null) return -1;
-    return a.costPerPrestige - b.costPerPrestige;
-  });
-
-  currentPrestigeResults = results;
-  renderPrestigeResults(results, data);
+  const restored = churchContracts.restore(results, markets);
+  const savedContracts = restored.contracts;
+  currentPrestigeResults = restored.results;
+  renderPrestigeResults(currentPrestigeResults, data);
   const contractCount = savedContracts.length;
-  setStatus('Computed '+results.length+' methods'+(contractCount?' (+'+contractCount+' saved contracts)':'')+'.');
+  setStatus('Computed '+currentPrestigeResults.length+' methods'+(contractCount?' (+'+contractCount+' saved contracts)':'')+'.');
 }
 
 async function computeRecipeProfits(){
@@ -562,66 +504,22 @@ async function computeRecipeProfits(){
 }
 
 function addContract(){
-  const product = document.getElementById('contractProduct')?.value?.trim();
-  const amount = Number(document.getElementById('contractAmount')?.value || 1);
-  const prestige = Number(document.getElementById('contractPrestige')?.value || 1);
-  
-  if(!product || amount <= 0 || prestige <= 0){
-    setStatus('Please fill in product name, amount, and prestige.');
-    return;
-  }
-  
-  if(!currentPrestigeResults || !currentMarketData){
-    setStatus('Please compute prestige first.');
-    return;
-  }
-
-  const storedContracts = loadContractsFromStorage();
-  if(storedContracts.some(contract =>
-    contract.product === product &&
-    contract.amount === amount &&
-    contract.prestige === prestige
-  )){
-    setStatus('This contract already exists in the table.');
-    return;
-  }
-  
-  const markets = currentMarketData.markets || {};
-  const unitPrice = getUnitPrice(markets, product);
-  const totalCost = (unitPrice || 0) * amount;
-  const costPerPrestige = prestige > 0 ? totalCost / prestige : null;
-  
-  const entry = {
-    name: product + ' (contract)',
-    prestige,
-    totalCost,
-    costPerPrestige,
-    missing: unitPrice == null ? [product] : [],
-    breakdown: [{ product, amount, unitPrice, cost: totalCost }],
-    source: 'contract'
-  };
-  
-  currentPrestigeResults.push(entry);
-  // Save contract to localStorage (just the essential data for recreation)
-  storedContracts.push({ product, amount, prestige });
-  saveContractsToStorage(storedContracts);
-  
-  // re-sort and render
-  currentPrestigeResults.sort((a,b)=>{
-    if(a.missing.length && !b.missing.length) return 1;
-    if(!a.missing.length && b.missing.length) return -1;
-    if(a.costPerPrestige == null && b.costPerPrestige == null) return a.name.localeCompare(b.name);
-    if(a.costPerPrestige == null) return 1;
-    if(b.costPerPrestige == null) return -1;
-    return a.costPerPrestige - b.costPerPrestige;
+  const result = churchContracts.add(currentPrestigeResults, currentMarketData, {
+    product: document.getElementById('contractProduct')?.value,
+    amount: document.getElementById('contractAmount')?.value,
+    prestige: document.getElementById('contractPrestige')?.value
   });
-  
+  if(!result.added){
+    setStatus(result.status);
+    return;
+  }
+  currentPrestigeResults = result.results;
   document.getElementById('contractProduct').value = '';
   document.getElementById('contractAmount').value = '1';
   document.getElementById('contractPrestige').value = '1';
   
   renderPrestigeResults(currentPrestigeResults, currentMarketData);
-  setStatus('Contract added and saved.');
+  setStatus(result.status);
 }
 
 function renderPrestigeResults(results, data){
@@ -717,7 +615,8 @@ const addContractBtn = document.getElementById('addContractBtn');
 if(addContractBtn) addContractBtn.addEventListener('click', ()=>addContract());
 const clearContractsBtn = document.getElementById('clearContractsBtn');
 if(clearContractsBtn) clearContractsBtn.addEventListener('click', ()=>{
-  clearContractsFromStorage();
+  currentPrestigeResults = churchContracts.clear(currentPrestigeResults);
+  renderPrestigeResults(currentPrestigeResults, currentMarketData);
   setStatus('All contracts cleared.');
 });
 
