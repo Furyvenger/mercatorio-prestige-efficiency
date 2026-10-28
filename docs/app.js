@@ -1,5 +1,6 @@
 import { createChurchContracts } from './church-contracts.mjs';
 import { fetchRecipeConfiguration, fetchRecipeProfits } from './recipe-profit-ranking.mjs';
+import { calculatePrestigeEfficiency } from './prestige-efficiency.mjs';
 
 const statusEl = document.getElementById('status');
 const townInput = document.getElementById('townId');
@@ -174,10 +175,8 @@ async function computePrestigeCosts(){
     recipes = await fetchRecipes();
   }catch(e){ setStatus('Failed to load recipes: '+(e.message||e)); return; }
 
-  // Production recipe prestige from the API is already in actual prestige units.
-  recipes = recipes.filter(rcp => rcp.prestige && Number(rcp.prestige) != 0);
-  // Load household entries (if present) and normalize (robust parser)
-  let householdEntries = [];
+  let household = [];
+  let apprentices = 0;
   async function tryParseHouseholdText(text){
     if(!text) return null;
     try{ return JSON.parse(text); }catch(e){
@@ -208,24 +207,10 @@ async function computePrestigeCosts(){
         const txt = await res.text();
         const parsed = await tryParseHouseholdText(txt);
         if(parsed && Array.isArray(parsed)){
-          const apprentices = Number(document.getElementById('apprentices')?.value || 0);
+          household = parsed;
+          apprentices = Number(document.getElementById('apprentices')?.value || 0);
           const factor = 1 + 0.20 * Math.max(0, apprentices);
-          householdEntries = parsed.map(h => {
-            let amt = Number(h.volume||0);
-            // apprentices increase household consumption excluding gear and luxury
-            if(!h.category || !['gear','luxury'].includes(h.category)){
-              amt = amt * factor;
-            }
-            return {
-              name: (h.product || 'household') + (h.category ? ` (${h.category})` : ' (household)'),
-              inputs: [{ product: h.product, amount: amt }],
-              prestige: Number(h.prestige||0),
-              source: 'household',
-              category: h.category || null,
-              raw: h
-            };
-          });
-          setStatus('Loaded '+householdEntries.length+' household entries from '+url+(apprentices?(' (apprentices x'+apprentices+', factor '+factor.toFixed(2)+')') : ''));
+          setStatus('Loaded '+household.length+' household entries from '+url+(apprentices?(' (apprentices x'+apprentices+', factor '+factor.toFixed(2)+')') : ''));
           break;
         }
       }catch(e){ /* try next */ }
@@ -233,8 +218,7 @@ async function computePrestigeCosts(){
   }catch(e){ /* ignore */ }
 
   // Load buildings (if present) and normalize into entries
-  let buildingsAll = [];
-  let buildingEntries = [];
+  let buildings = [];
   try{
     const bCandidates = ['buildings.json','https://raw.githubusercontent.com/Furyvenger/mercatorio-prestige-efficiency/main/docs/buildings.json'];
     for(const url of bCandidates){
@@ -243,76 +227,25 @@ async function computePrestigeCosts(){
         if(!res.ok) continue;
         const arr = await res.json();
         if(!Array.isArray(arr)) continue;
-        // keep full buildings array for tax lookups
-        buildingsAll = arr;
-        // Expect each building to have type, construction.materials (object) or materials (object/array), prestige (optional)
-        buildingEntries = arr.filter(b => b.prestige && Number(b.prestige) != 0).map(b => {
-          // find materials object/array
-          const mats = b.materials || (b.construction && b.construction.materials) || {};
-          let inputs = [];
-          if(Array.isArray(mats)){
-            inputs = mats.map(m => ({ product: m.product, amount: Number(m.amount||0) }));
-          }else if(mats && typeof mats === 'object'){
-            inputs = Object.keys(mats).map(k => ({ product: k, amount: Number(mats[k]||0) }));
-          }
-          // buildings prestige must be multiplied by 100
-          const prestige = Number(b.prestige||0) * 100;
-          return {
-            name: b.type || b.name || 'building',
-            inputs,
-            prestige,
-            source: 'building',
-            raw: b
-          };
-        });
-        if(buildingEntries.length) {
-          console.log('Loaded '+buildingEntries.length+' building entries from '+url);
-          setStatus('Loaded '+buildingEntries.length+' building entries from '+url);
+        buildings = arr;
+        const buildingCount = buildings.filter(building => building.prestige && Number(building.prestige) !== 0).length;
+        if(buildingCount) {
+          console.log('Loaded '+buildingCount+' building entries from '+url);
+          setStatus('Loaded '+buildingCount+' building entries from '+url);
         }
         break;
       }catch(e){ console.warn('Building fetch failed from '+url, e); }
     }
   }catch(e){ console.warn('Building load error', e); }
 
-  const results = [];
-  // Combine recipe entries, household entries and building entries; mark source for recipes
-  const allEntries = [];
-  recipes.forEach(r=> allEntries.push(Object.assign({ source: 'recipe' }, r)));
-  householdEntries.forEach(h=> allEntries.push(h));
-  buildingEntries.forEach(b=> allEntries.push(b));
-
-  for(const rec of allEntries){
-    const inputs = rec.inputs || [];
-    let totalCost = 0;
-    const missing = [];
-    const breakdown = [];
-    for(const inp of inputs){
-      const amt = Number(inp.amount || 0);
-      const prod = inp.product;
-      const unitPrice = getUnitPrice(markets, prod);
-      if(unitPrice == null) missing.push(prod);
-      const cost = (unitPrice == null ? 0 : unitPrice * amt);
-      breakdown.push({ product: prod, amount: amt, unitPrice: unitPrice, cost });
-      totalCost += cost;
-    }
-    let prestige = Number(rec.prestige || 0);
-    // apply taxes for recipes: determine building site
-    if(rec.source === 'recipe'){
-      const site = rec.site || (rec.recipe && rec.recipe.site) || null;
-      let tax = 0.5;
-      if(typeof buildingsAll !== 'undefined' && site){
-        const bdef = buildingsAll.find(b=>b.type === site);
-        if(bdef && bdef.requires && bdef.requires.center === true) tax = 6;
-        else tax = 0.5;
-      }
-      totalCost += tax;
-    }
-    let costPerPrestige = null;
-    if(missing.length === 0 && prestige > 0){
-      costPerPrestige = totalCost / prestige;
-    }
-    results.push({ name: rec.name || rec.product || '', prestige, totalCost, costPerPrestige, missing, breakdown, recipe: rec, source: rec.source || 'recipe' });
-  }
+  const results = calculatePrestigeEfficiency({
+    recipes,
+    household,
+    buildings,
+    markets,
+    apprentices,
+    getUnitPrice
+  });
 
   // Load and restore saved contracts from localStorage
   const restored = churchContracts.restore(results, markets);

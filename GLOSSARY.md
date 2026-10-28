@@ -9,3 +9,6 @@ A user-added church contribution described by a product, amount, and prestige va
 
 **Recipe profit ranking**:
 A ranking of recipes by estimated profit at a town's market. Profit accounts for scaled input costs, the base operating cost, and proceeds from outputs that can be sold.
+
+**Prestige efficiency ranking**:
+A comparison of prestige-farming opportunities ordered by their market cost per prestige.
