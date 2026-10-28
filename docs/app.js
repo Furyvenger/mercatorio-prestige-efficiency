@@ -1,5 +1,5 @@
 import { createChurchContracts } from './church-contracts.mjs';
-import { rankRecipeProfits } from './recipe-profit-ranking.mjs';
+import { fetchRecipeConfiguration, fetchRecipeProfits } from './recipe-profit-ranking.mjs';
 
 const statusEl = document.getElementById('status');
 const townInput = document.getElementById('townId');
@@ -118,6 +118,14 @@ Warning: putting tokens in URLs or the page is insecure. Only do this for testin
   }
 }
 
+async function fetchRecipes(){
+  return fetchRecipeConfiguration({
+    apiBase: config.apiBase,
+    token: tokenInput?.value,
+    user: userInput?.value
+  });
+}
+
 function renderMarketOverview(data){
   // Minimal rendering - just show a status message
   if(data && data.fetched_at){
@@ -146,39 +154,6 @@ function getUnitPrice(markets, product){
   
   // If no volume and no ask price, consider it missing
   return null;
-}
-
-async function fetchRecipes(){
-  const recipeHeaders = { 'Accept': 'application/json' };
-  if(tokenInput && tokenInput.value){
-    recipeHeaders['Authorization'] = 'Bearer ' + tokenInput.value.trim();
-  }
-  if(userInput && userInput.value){
-    recipeHeaders['X-Merc-User'] = userInput.value.trim();
-  }
-  const r = await fetch(`${config.apiBase}/config/recipes`, {
-    headers: recipeHeaders,
-    cache: 'no-store'
-  });
-  if(!r.ok) throw new Error('HTTP '+r.status);
-  const recipesObj = await r.json();
-  const recipeData = Array.isArray(recipesObj) ? recipesObj : (recipesObj.recipes || recipesObj);
-  return Object.values(recipeData).filter(recipe => recipe && typeof recipe === 'object');
-}
-
-async function fetchSellOrders(townId, product){
-  const url = `${config.apiBase}/towns/${encodeURIComponent(townId)}/markets/${encodeURIComponent(product)}`;
-  const headers = { 'Accept': 'application/json' };
-  if(tokenInput && tokenInput.value){
-    headers['Authorization'] = 'Bearer ' + tokenInput.value.trim();
-  }
-  if(userInput && userInput.value){
-    headers['X-Merc-User'] = userInput.value.trim();
-  }
-  const response = await fetch(url, { headers, cache: 'no-store' });
-  if(!response.ok) throw new Error(`${product}: HTTP ${response.status}`);
-  const market = await response.json();
-  return Array.isArray(market.bids) ? market.bids : [];
 }
 
 let currentPrestigeResults = []; // store results so contracts can be added
@@ -352,35 +327,25 @@ async function computeRecipeProfits(){
   const container = document.getElementById('profitResults');
   container.innerHTML = '';
   setStatus('Computing recipe profits...');
-  const data = await fetchMarketData(townInput.value);
-  if(!data){ setStatus('No market data available'); return; }
-
-  let recipes;
+  saveUserPreferences();
+  let result;
   try{
-    recipes = await fetchRecipes();
+    result = await fetchRecipeProfits({
+      townId: townInput.value,
+      apiBase: config.apiBase,
+      token: tokenInput?.value,
+      user: userInput?.value,
+      getUnitPrice,
+      onProgress: setStatus,
+      onMarketData: renderMarketOverview,
+      pageUrl: window.location.origin + window.location.pathname
+    });
   }catch(e){
     setStatus('Failed to load recipes: '+(e.message||e));
     return;
   }
-
-  const markets = data.markets || {};
-  const townId = townInput.value.trim();
-  const outputProducts = [...new Set(recipes
-    .filter(recipe => Array.isArray(recipe.inputs) && Array.isArray(recipe.outputs) && recipe.outputs.length)
-    .flatMap(recipe => recipe.outputs.map(output => output.product))
-    .filter(product => String(product).trim().toLowerCase() !== 'money'))];
-  const sellOrders = new Map();
-  const failedProducts = [];
-  await Promise.all(outputProducts.map(async product => {
-    try{
-      sellOrders.set(product, await fetchSellOrders(townId, product));
-    }catch(e){
-      console.warn('Failed to load buy orders for '+product, e);
-      sellOrders.set(product, []);
-      failedProducts.push(product);
-    }
-  }));
-  const profits = rankRecipeProfits({ recipes, markets, sellOrders, getUnitPrice });
+  if(!result){ setStatus('No market data available'); return; }
+  const { profits, failedProducts } = result;
 
   if(!profits.length){
     container.textContent = 'No recipes with inputs and outputs were returned.';
