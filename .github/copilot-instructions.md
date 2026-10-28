@@ -9,16 +9,19 @@ The app is **frontend-only** (static JavaScript + HTML) deployed via GitHub Page
 ## Architecture
 
 ### Frontend (docs/)
-- **app.js**: Main logic for market data fetching and prestige efficiency computation
-  - `fetchMarketData()`: Attempts cache → direct fetch → CORS proxy → mock data fallback
-  - `computePrestigeCosts()`: Loads recipes/household/buildings, fetches market prices, calculates cost/prestige rankings
-  - `renderPrestigeResults()`: Displays results in HTML table with detail expansion
-- **index.html**: Simple UI for town ID input, credentials, and prestige results
+- **app.js**: Browser UI, market-data loading, and integration of prestige and recipe rankings
+- **church-contracts.mjs**: Church-contract creation, persistence, and restoration in the results
+- **recipe-profit-ranking.mjs**: Recipe profit ranking based on input costs and available sell orders
+- **index.html**: UI structure for town ID input, credentials, and results
 - **config.json**: API base URL and town IDs for caching
 - **Data files**:
   - `household.json`: Household consumption products/prestige
   - `buildings.json`: Building construction materials/prestige
   - `cache/town_*.json`: Cached market data (populated by GitHub Actions)
+
+### Tests
+- Run the Node.js test suite with `node --test`.
+- Tests for the extracted modules are in `tests/church-contracts.test.mjs` and `tests/recipe-profit-ranking.test.mjs`.
 
 ### GitHub Actions (.github/workflows/fetch_marketdata.yml)
 - **Trigger**: Hourly schedule + manual workflow dispatch
@@ -153,9 +156,9 @@ Household/buildings JSON parsing is lenient: attempts strict JSON first, then re
 
 Recipes are sourced live from the Mercatorio API and do not have a repository data file.
 
-### Changing prestige multiplier logic
-- Edit `computePrestigeCosts()` in `docs/app.js` (search for `prestige = prestige * 100`)
-- Rebuild UI rendering logic if output structure changes
+### Changing calculation behavior
+- Prestige-cost calculations, including building multipliers, remain in `docs/app.js`; follow the inline implementation details there.
+- Recipe profit ranking is in `docs/recipe-profit-ranking.mjs`, and church-contract behavior is in `docs/church-contracts.mjs`.
 
 ### Debugging a specific entry
 - Use `renderPrestigeResults()` details button to expand cost breakdown
