@@ -11,6 +11,7 @@ The app is **frontend-only** (static JavaScript + HTML) deployed via GitHub Page
 ### Frontend (docs/)
 - **app.js**: Browser UI, market-data loading, and integration of prestige and recipe rankings
 - **church-contracts.mjs**: Church-contract creation, persistence, and restoration in the results
+- **prestige-efficiency.mjs**: Prestige-entry normalization and cost-per-prestige calculation
 - **recipe-profit-ranking.mjs**: Recipe profit ranking based on input costs and available sell orders
 - **index.html**: UI structure for town ID input, credentials, and results
 - **config.json**: API base URL and town IDs for caching
@@ -21,7 +22,7 @@ The app is **frontend-only** (static JavaScript + HTML) deployed via GitHub Page
 
 ### Tests
 - Run the Node.js test suite with `node --test`.
-- Tests for the extracted modules are in `tests/church-contracts.test.mjs` and `tests/recipe-profit-ranking.test.mjs`.
+- Tests for the extracted modules are in `tests/church-contracts.test.mjs`, `tests/prestige-efficiency.test.mjs`, and `tests/recipe-profit-ranking.test.mjs`.
 
 ### GitHub Actions (.github/workflows/fetch_marketdata.yml)
 - **Trigger**: Hourly schedule + manual workflow dispatch
@@ -157,7 +158,7 @@ Household/buildings JSON parsing is lenient: attempts strict JSON first, then re
 Recipes are sourced live from the Mercatorio API and do not have a repository data file.
 
 ### Changing calculation behavior
-- Prestige-cost calculations, including building multipliers, remain in `docs/app.js`; follow the inline implementation details there.
+- Prestige-efficiency calculations, including building multipliers, are in `docs/prestige-efficiency.mjs`.
 - Recipe profit ranking is in `docs/recipe-profit-ranking.mjs`, and church-contract behavior is in `docs/church-contracts.mjs`.
 
 ### Debugging a specific entry

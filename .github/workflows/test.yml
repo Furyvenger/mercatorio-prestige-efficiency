@@ -16,5 +16,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
+      - name: Check browser entry syntax
+        run: node --input-type=module --check < docs/app.js
       - name: Run tests
         run: node --test tests/*.test.mjs
